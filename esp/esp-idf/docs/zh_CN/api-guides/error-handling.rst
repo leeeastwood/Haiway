@@ -1,1 +1,0 @@
-.. include:: ../../en/api-guides/error-handling.rst

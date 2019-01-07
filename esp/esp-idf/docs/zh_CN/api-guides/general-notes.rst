@@ -1,1 +1,0 @@
-.. include:: ../../en/api-guides/general-notes.rst

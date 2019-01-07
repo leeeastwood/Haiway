@@ -1,1 +1,0 @@
-.. include:: ../../en/get-started/macos-setup-scratch.rst
