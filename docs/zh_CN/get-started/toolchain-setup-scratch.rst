@@ -1,1 +1,0 @@
-.. include:: ../../en/get-started/toolchain-setup-scratch.rst

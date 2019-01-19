@@ -1,1 +1,0 @@
-.. include:: ../../../en/api-reference/storage/spiffs.rst

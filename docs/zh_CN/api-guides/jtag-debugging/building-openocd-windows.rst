@@ -1,1 +1,0 @@
-.. include:: ../../../en/api-guides/jtag-debugging/building-openocd-windows.rst

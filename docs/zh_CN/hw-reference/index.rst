@@ -1,1 +1,0 @@
-.. include:: ../../en/hw-reference/index.rst
