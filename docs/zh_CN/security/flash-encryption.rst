@@ -1,1 +1,0 @@
-.. include:: ../../en/security/flash-encryption.rst
