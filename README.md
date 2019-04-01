@@ -3,6 +3,7 @@ A draft version for haiway rtos!
 
 ### MacOS
 Add the following line to your ~/.bash_profile file:
+
 export HAIWAY_PATH=~/Haiway
 
 Flash HaiwayScript
