@@ -1,0 +1,1954 @@
+            Fix string index calculation when using some regexes (fix #1602)
+            Ensure Function.replaceWith puts scope after parameters (fix #1601)
+            Ensure Graphics.* return the Graphics instance, to allow call chaining (fix #1580)
+            Ensure DataView.byteOffset/byteLength is always set even if not specified (fix #1567)
+            Added HttpServerResponse.setHeader
+            HttpServerResponse now automatically sends `Connection:close` unless overridden (fix #1596)
+            Fix sign of RSSI reporting with setRSSIHandler
+            nRF52: Add docs for properties that weren't documented before
+            nRF52: Add ability to connect to device with passkey authentication
+            nRF52: Allow startNotifications to use Indicate if Notify doesn't exist (as per spec)
+            nRF52: Add option for static passkey pairing with NRF.setSecurity
+	    ESP32: update EspruinoBuildTools to esp-idf V3.1.2 - fix Wifi connect issues (multiple ssid)
+            Revert PR #1459 as it broke neopixel functionality that worked previously
+            nRF52: Disconnect RX pin after UART test at boot (saves power when in deep sleep)
+            Serial.unsetup now sets pin state to STATE_UNDEFINED, which disconnects the pins internally
+            Removed modulo on `new Date` h/m/s/ms arguments as it seems desktop JS is fine with out of range values
+            Added `active` option to NRF.setScan/findDevices/requestDevices to allow scan response packets to be requested
+            Add I2C/SPI baud rate checks (#1619)
+            STM32: Add `E.setRTCPrescaler` to allow the RTC to be calibrated on Espruino Pico (fix #1607)
+            nRF52: Fix slow Bluetooth connection if previously disconnected while using low power connection interval (fix #1605)
+            Allow `Graphics.clear(true)` to reset state (font, color, etc) to default as well as clearing the screen (fix #1615)
+            nRF52: Fix setScanResponse regression from 2v00
+            nRF5x: Execute SWI1_IRQHandler when radio turns off instead of on+off. More efficient, fixed multiple advertising.
+            Smartibot build added
+
+     2v01 : ESP32: update to esp-idf V3.1
+            Fix issues with Class Extends
+            Improve Tab Completions for extended classes
+            Fix Storage.readJSON/readArrayBuffer memory leak (fix #1532)
+            Fix potential out of bounds Graphics.scroll
+            Serial.setConsole now warns if not used on hardware Serial
+            ESP8266: implement hw_timer (fix #1511) to make soft serial and pwm work
+            Fix Storage write error when skipping pages (fix #1539)
+            nRF5x: When scanning, only use as much of IO queue as is needed
+            nRF5x: If BLE/NFC/etc data won't fit in IO queue, drop whole packet
+            Allow `a in b` to search 'fake' objects (#1534)
+            Improve fast path when iterating over Uint8Array/ArrayBuffer
+            Allow deletion of function properties (fix #1549)
+            Add `{callback:...}` option for `.write` style functions - improve docs.
+            ESP8266: deepSleep invalid microseconds (fix #1547)
+            ESP8266: ESP_FLASH_MAX for ESP8266_4MB is wrong (fix #1551, #1553)
+            Fix buffer overflow if bytesize/stopbits used in `Serial.setup` (fix #1510)
+            Ensure jsvNewFlatStringOfLength tries twice (even if GC doesn't release memory, it reorders the free list) (#1559)
+            ESP8266: Missing variable Flash Mode (--flash_mode, -fm) in ESP8266.make files (fix #1563)
+            ESP8266: Remove hack added to get around SDK 1.4 bug (fix #1568)
+            Reduce available hardware SPI/I2C instances to 1 on nRF52 (since this is all we implement atm)
+            Add E.dumpFragmentation to show memory fragmentation (only for debug builds)
+            Fix parsing of dates from before 1970
+            nRF52: Fix some regressions in requestDevice (flagged up by asserts in debug build)
+            Allow built-in objects to be created with `new X()`
+            nRF52: Ensure Bluetooth stack doesn't do a reboot for non-fatal errors (just report them to console)
+            BluetoothRemoteGATTServer.disconnect now returns a Promise
+            nRF52: Jump out of low power mode after less BLE activity (2 reads/writes in 10 radio packets) (#1546)
+            nRF5x: Fix NRF.setConnectionInterval when there's no connection (fix #1546)
+            Explicitly mention Espruino not supporting CASE after DEFAULT in error (fix #1570)
+            Ensure scope is saved for Class constructors (fix #1576)
+            Add setNBCellOn for RAK8211-NB (fix #1581)
+            Now escape chars <8 as octal, and add escape of vertical tab 
+            Add Graphics.createArrayBuffer(... {interleavex:true}) to allow faster support for P3 LED panels
+            Add Graphics.fill/drawEllipse and move fill/drawCircle to use the same code
+            CC3000-specific build removed on Original Espruino board (lack of space)
+
+     2v00 : Allow changeInterval with large (>32 bit) intervals (fix #1438)
+            changeInterval now changes the interval immediately when it's called inside the interval it is changing (fix #1440)
+            Fix parsing of try..catch when not executing (fix #1439)
+            Add extra ReferenceError checks, even if variable is not used
+            Allow Ctrl-C out of while...continue loop (fix #1441)
+            Fix bug if using an undefined member of an object for for..in (fix #1437)
+            Allow for..in to iterate over prototype chains down from Array and Object
+            Add for(var i of array) to iterate over elements
+            Added getter and setter support
+            Stop parsing blocks if not executing (fix #572)
+            Fix stack overflow if interpreting a file full of '{' (fix #1448)
+            Fix exception when performing record access on object from getter (fix #1454)
+            Switch to non-recursive StringExt copy (fix #1451)
+            Fix rounding errors in fillPoly -> improve vector font rendering
+            Fix issue that caused 'dump()' not to report variables/functions on Pixl.js
+            Add E.lookupNoCase to allow searching case-insensitively for Object keys
+            Fix HTTP Chunked transfers when the server uses lowercase headers (fix #1458)
+            Fix TypedArray.indexOf (fix #1468)
+            Allow require('Storage').write('a','',0,15) (zero length data) (fix #1465)
+            edit() now chooses the shortest way to describe the function
+            Fixed bug when RegExp.match/test called on non-strings
+            Added Global isFinite
+            Add missing ArrayBufferView.filter
+            Added Array.find and findIndex (also for ArrayBufferViews)
+            Fix unreliable ArrayBufferView.indexOf (#1468)
+            Added String.startsWith/endsWith/includes (#1302)
+            parseFloat(".s") now returns NaN
+            Fixed /\S+/.test(" ")
+            Added Storage.getFree() to return available space
+            Enable E.setTimeZone on boards with very little flash memory
+            Lower saved code area to 2k on micro:bit (from 3)
+            Remove RGB colour handling in setColor on devices with low flash
+            Reduce available variable count on STM32VL - we were too low on RAM
+            Added Graphics.asBMP/asURL/dump - allowing easy debugging of Graphics via IDE
+            Allow '.then' on already-resolved promise (fix #1476)
+            Stop atob adding trailing 0s when strings are not a multiple of 3 long
+            Reconstruct start and end newlines when dumping multi-line functions  
+            Fix regression parsing methods in classes on embedded (fix #1479)
+            nRF5x: Add options argument to NRF.connect and BluetoothDevice.gatt.connect, allowing a connection interval to be specified
+            nRF5x: Start renegotiating speed after 0.1ms, not 5s. Massively improves connect speed.
+            nRF5x: Now queue up to 5 UART TX packets per transmit interval (was 1 previously)
+            nRF52: Add Dynamic Interval Adjustment - default to 2x connection speed, but idle at 10x slower if not used for 2 minutes
+            nRF5x: Add NRF.setConnectionInterval() to allow connection speed to be set manually
+            RuuviTag: invert LED1, LED2 & BTN in software so LED.set() does what you'd expect
+            Console now doesn't print quotes around object keys if it's not needed
+            Added `E.toJS` to allow very compact JS data stringification (similar to `JSON.stringify`)
+            Output the current timer number as a comment in `dump()`
+            Don't print `=undefined` to console if line is empty
+            Added RAK8212 (and include SMS/GPRS code in RAK8211/2 builds)
+            Graphics.stringWidth now takes account of newlines
+            nRF52: NRF.requestDevice now resolves as soon as a device is found. Faster and better in congested areas
+            Replace use of obsolete 'usleep' function in Linux builds (fix #1455)
+            Add Ethernet.getIP/setIP callbacks for Wiznet to bring them in line with WiFi (fix #1482)
+            Fix Math.round for numbers > 32 bit (fix #1485)
+            Pixl.js menu now resets font alignment, and down arrow icon is fixed
+            Now check for ReferenceErrors in global scope
+            Fix Array.shift (returned a NAME, rather than the value)
+            Add sanity check for names returned from Functions and fix Array.pop
+            Stop characters getting dropped when pasting large amounts of data into Linux build
+            nRF5x increase JsSysTime accuracy to 2^-20 from 2^-16 - drastically improves Util Timer accuracy
+            Added support for Software Serial ports (for low baud rates, eg. 9600)
+            Fix JS state restoration issue (eg. Pixl.menu inside switch would cause errors)
+            Added Graphics.drawPoly
+            Add Graphics.asImage to turn a Graphics instance into an Image that can be used with drawImage
+            Add Graphics.createImage to allow creation of a 1 bit image direct from a string
+            Use 32 bit floats for E.FFT, not 64 (fix #1443)
+            Automatically shut down UART if both pin states are changed
+            Fix `setDeviceClockCmd: Unknown Device` when using `LoopbackB.setConsole()` on WiFi board
+            Fix non-UART serial regressions (after software serial additions)
+            Pixl.js: Add Pixl.setLCDPower to allow the LCD to be powered off, more than halving power consumption
+            nRF5x: Allow NRF.setScan and NRF.findDevices to take the same search filters NRF.requestDevice does (fix #1496)
+            Fix buffer overrun if we have to reallocate a pointer to argument lists when calling a function (fix #1491)
+            Fix stack overflow if executing regex full of hundreds of open brackets (fix #1487)
+            Fix issue where STM32F4 USB could lock up if TX during heavy RX
+            Improve `E.mapInPlace` docs, and allow it to work with no map (eg pass straight through)
+            Added non-standard Uint24Array, because it's very useful for RGB
+            ESP8266: add CFLAGs to shrink binaray files (fix #1499)
+            ESP8266: fully integration of analog pin A0 (fix #1495)
+            ESP32: update sdk to esp-idf 3.0.1, set Espruino build tools back to master branch
+            Allow btoa to work for arrays as well as Strings (fix #1509)
+            Allow E.mapInPlace to merge bits from multiple source elements, also add option for msb/lsb first
+            Remove Graphics.scroll/drawCircle/fillCircle on devices with low flash to allow builds to fit again
+            Remove BluetoothRemoteGATTCharacteristic.writeValue on NRF51 (accidental inclusion - it's not required)
+            Double IO buffer size to 256 (1k bytes) on boards with 96k of RAM or more (or NRF52)
+            nRF5x: allow arbirtary baud rates to be specified for UART
+            On devices with low flash, ensure atan2 uses the slower/smaller atan implementation
+            Move FFT back to 64 bit if low flash (it uses less memory!) and optimise for flash space
+            Remove new Graphics.createImage/asBML/asURL/dump on Original Espruino Board (not enough space) 
+            Remove Olimexino from build (too difficult to slim down build and very low usage)
+            Remove Software Serial from boards where we're low on flash
+            Increase size of saved code area from 3*4k to 10*4k on RAK821x boards
+            Fix 'Can't extend undefined' when using Object.setPrototypeOf on a function
+            nRF52: Added NRF.HID event for two-way BLE HID communications
+            nRF5x: Remove multiple writes per connection interval (more trouble than the speed improvement is worth)
+            Fixed hang if trying to allocate Storage greater than total storage size in a fully erased Storage area.
+            Pixl.js: Fix 30s pause when closing sockets on WIZnet W5100 (fix #1306)
+            Remove HASH/hashlib from all builds as it was confusingly in some and not others. Now use 'crypto'
+            require('crypto').SHA1 is now JS in Espruino Original to cut down on the flash required
+            Added 'heatshrink' library to expose built-in heatshrink compression to users
+            Fix assert fail when calling Function.apply with an Object with non-numeric keys
+            Fix issue when AT lib has to process multiple custom line handers in one packet
+            Espruino WiFi: Fix unreliable send when receiving lots of data on another socket
+            Espruino WiFi: Only rename `EspruinoWiFi` to `WiFi` if not found (allows easier debug)
+            Check Flash Storage for modules when using `require`
+            Add 'bits' option for Software SPI
+            STM32 reset pin IRQs before storing the state - makes lost setWatches far less likely
+            Ensure that setBusyIndicator updates output state after the very first initialisation.
+            MDBT42Q: Add LED2 var in the Espruino interpreter, but don't use it for the bootloader
+            ESP8266: release heap used by logDebug(true) (fix #1508)
+            ESP8266: remove SHA256 SHA512 (fix #1517)
+            Ensure `Date.getTimezoneOffset()` returns the correct timezone offset (fix #1515)
+            Search for and execute files '.boot0'/1/2/3 in Storage at boot time if they exist
+            Pixl.js: reduce saved code area to 9 x 4kb to allow for extra features
+            ESP8266: switch to SDK 2.2.1 (fix #1207)
+            Fix Serial port path regression on Linux, and add docs
+            microbit: remove line-by-line debug capability to free up some space
+            Added ES6 String.prototype.repeat
+
+     1v99 : Increase jslMatch error buffer size to handle "UNFINISHED TEMPLATE LITERAL" string (#1426)
+            nRF5x: Make FlashWrite cope with flash writes > 4k
+            Increase max size of native strings on platforms that support it - 16 bit to 32 bit (#1432)
+            Fix stack size detection on Linux (fix #1427)
+            Fix strncat/cpy bounding issues (fix #1425)
+            Promises now ignore a second resolve/reject (fix #1433)
+            Fix stack overflow if void void void... is repeated many times (fix #1434)
+            Fix font rendering issue caused by signed bit field handling by GCC on non-x86 platforms (fix #1436)
+            Added E.reboot() to allow hard reboots from software (fix #1429)
+            Added 'Graphics.getInstance()' for more platform independent graphics
+            Added VT100 'erase in Display' to Terminal
+            In REPL, use x.toString() for objects if we know their name and it is available
+            Pixl.js add BLE aerial test to self-test, now also start immediately on BTN4 at boot
+
+     1v98 : Allow Crypto SHA1 without SHA256/512 (for ESP8266 where flash is scarce)
+            Add better docs for the form of Wifi callback functions
+            Modify ESP8266/ESP32 callbacks to match the node.js style used elsewhere
+            nRF52: fix pin.toggle() on software-negated pins
+            Pixl.js: Reorder pins so 0..13 are also D0..13 for better Arduino compatibility
+            Fix dump() when used with code written using E.setBootCode(..), (fix #1398)
+            Allow parseInt/parseFloat to be used on very large strings if the number doesn't extend right to the end (fix #1397)
+            nRF5x: Fix memory leak on NRF.connect
+            Fix memory leak if an exception is thrown within a rejected promise
+            ESP8266: rewrite wifi.save and restore to use the storage lib (imp #1380)
+	    ESP8266: Add missing option ssid_hidden for Wifi.startAP() (imp #1358)
+            Fixed double-connect issue for TCP sockets
+            Pixl.js: Ensure Pixl.menu changes to bitmap fonts
+            Pixl.js: tweaked bias/contrast to improve display quality
+            ESP32: update esp-idf to v3.0. BLE support - thanks to @jumjum. Erase flash before flashing. vars now 2500
+            ESP8266: rearange rf_cal_sector (fix #1294)
+            ESP8266: Wifi.scan() now return authmode as text 
+            ESP32: Fix accidental initialisation of UART3 when switching to Telnet (fix #1362)
+            nRF52: Added `NRF.setAddress` to allow the MAC address to be changed
+            Added Graphics.setFontAlign for font alignment and rotation
+            Make software I2C bitrate and waveform more accurate
+            Move default I2C bitrate to 100kbit/sec
+            Linux: don't create a espruino.flash file if we're not writing to flash
+            Add height check for Graphics.createArrayBuffer(...vertical_byte:true) (fix #1421)
+            Add sanity check for debug trace print statement (fix #1420)
+            Fix handling of exceptions in switch statements (fix #1352)
+            Fix 'return when not in function' regression when returning inside a catch block (fix #1422)
+            Don't load saved firmware images from different firmware versions - saved JS code still loaded (fix #1174)
+            Remove Graphics.setFontAlign and Graphics.getModified on devices with low flash memory
+
+     1v97 : nRF52: fix NRF.on('connect',...) issue
+            STM32: Fix setDeviceClockCmd error for USB.setConsole()
+            nRF5x: Fix getPinMode, which fixes SW I2C after save()
+            Thingy52: Don't report contents of 'Thingy' in 'dump()'
+            Thingy52: Allow multiple sounds to play at once
+            nRF5x: Ensure Waveform triggers a finished event
+            Thingy52: Enable simple bootloader, add travis build for DFU
+            Add Serial.inject to allow data to be added as if it was received from that device
+            Fix UDP handling so that it copes with packets not all being received in one go
+            STM32L496: increase variables - use full 320kB of RAM as it is contiguous
+            Add a maximum time for setTimeout/setInterval (100 years)
+            Fix Storage.write when writing partial file of the same length and initial contents
+            Fix corrupted timer channels returned by Pin.getInfo
+            Add command history to debugger
+            Remove process.env.EXPORTS (EXPTR does the same but takes less space)
+            Thingy52: Add 9 axis MPU support
+            Errors now store message in 'message', not 'msg' (fix #1366)
+            Ensure 'in' operator checks the prototype chain (fix #1365)
+            Promise.resolve now handles promises/thenables as arguments (fix #1363)
+            try..catch now creates exception in its own scope (fix #1367)
+            Thingy52,Pixl.js: add default NFC URL of the Espruino IDE 
+            Add ArrayBuffer.byteLength property (fix #1374)
+            setWatch(..., {edge:"rising",debounce:25}) is now default for built-in buttons
+            Pixl.js: add Pixl.menu function for easy menus, build in graphical_menu.js
+            Fix regression in MDBT42Q advertised name
+            nRF52: Add E.getBattery as a more global battery percentage function, deprecate `Puck.getBatteryPercentage`
+            Fix '.buffer' regression in 'JSON.stringify(new Uint8Array([1,2,3,4]).buffer)'
+            Allow `typeof 123 .testing` without an exception (fix #1351)
+            Add crypto.AES to Puck.js and other nRF52 Espruino devices
+
+     1v96 : ESP8266: no callback if SSID is not available (fix #1297)
+            ESP8266: esp8266 wifi getStatus doesn't show savedMode (fix #752)
+            ESP8266: cleanup defines WIFI_DBG and NET_DBG for RELEASE
+            ESP8266: switch to single ld file eagle.app.v6.new.2048.ld for ESP8266_4MB board
+            Allow JS modules to be built-in by adding files to JSMODULESOURCES
+            Fix slow/hacky handling of 7 bit serial data for STM32
+            Add more stack checks so invalid code `typeof typeof typeof x100` can't break stack (fix #1310)
+            nRF5x: Fix PWM output via Waveform class
+            Fix free stack checking on ARM
+            nRF52: Make slightly more space available for stack
+            nRF5x: Move to SDK 12.3
+            Stop stack traces from being gathered in functions for Ctrl-C (fix #1313)
+            nRF5x: Fix crash if I2C is used before being initialised (fix #1301)
+            Internal printf can now pad with spaces
+            Add `E.dumpFreeList` in non-release builds to help with debugging
+            Fix mild memory leak in jsvMakeIntoVariableName that caused GC to run more often than normal
+            E.toString now tries harder to allocate a Flat String, and works with no-alloc for Uint8Array/FlatStrings
+            WIO_LTE fix SD card initialisation
+            Improve SD card reliability on all boards by trying to initialise multiple times before failing
+            Remove forced inlining in variable inspection functions (reduces flash usage by ~10k)
+            Remove un-needed DNS lookup for localhost
+            Add WIZnet UDP support
+            Tidying up build to avoid making un-needed bin, hex or lst files
+            Simplify flash save (and help debugging) by using the 'fake flash' implementation on Linux builds
+            Added Graphics.scroll command to scroll graphics contents
+            Added 'Terminal' class with built-in VT100 terminal
+            Tweak Espruino logo to be exactly 32 chars wide
+            Improved code for returning console device to the most useful place
+            Fix pinToString for devices with port A but no port B
+            Speed improvements for ArrayBuffer Graphics
+            Tidied up bootloader - devices with one LED now flash LED when button pressed
+            Simplify data returned by process.env
+            Add process.env.MODULES - to contain a list of the libraries provided in the firmware by require
+            Include WiFi and AT libraries inside Espruino WiFi builds
+            Add 'E.asm' placeholder to detect E.asm calls that haven't been replaced by the IDE
+            Add process.env.EXPTR to link to table of functions - will work better for compiled code over BLE
+            Added SAVE_ON_FLASH_EXTREME for HYSTM32_28, where we're now cutting out some Math.X functionality to keep builds going 
+            Added `jshFlashGetMemMapAddress` to allow remapping of addresses for ESP8266/ESP32 without loads of code duplication
+            Remap peek8/16/32 addresses on ESP32/ESP8266 so it can be used on flash memory
+            Swapped save/load/E.setBootCode to use the flash library
+            Allow STM32LL port to write 32 bits to flash at a time to bring it in line with other ports
+            Allow flash writes *from* unaligned addresses on nRF52 and ESP8266 (previously this crashed the ESP8266)
+            Update process.ENV.EXPORTS to bring it in line with what the compiler uses
+            Now set 'this' correctly for Arrow Functions
+            Add ES6 classes and 'super'
+            nRF5x: Move all bluetooth events to event queue (removing MEMORY_BUSY issues)
+            Fix potential issue where EV_TYPE_MASK enum could be set incorrectly  
+            setWatch's edge argument can also be an integer now
+            Add 'data' option to setWatch to allow clocked data to be decoded easily
+            nRF52: Increase flash available for stored code from 12kB for 40kB
+            Now store/display appreviated commit in process.env, remove build date
+  
+     1v95 : nRF5x: Swap to UART fifo to avoid overrun errors at high baud rates
+            Ensure Exceptions/errors are reported on a blank line
+            Internal: Added initialiser argument to jsvNewStringOfLength
+            Internal: Added jsvObjectSetChildVar/jsvObjectSetChildVar/jsvObjectSetChildVar
+            Internal: Fix jsvCopy if given a NAME_INT/etc
+            Added ES6's Object.assign
+            nRF5x: NRF.setScan now reads service data automatically
+            nRF5x: NRF.findDevices aggregates data from multiple advertising packets
+            nRF5x: Remove app_uart and use nrf_drv_uart with double buffering - fix uart overflow errors (fix #1238)
+            nRF5x: Fix issue with findDevices/setScan servicedata when all digits of service are numbers (eg "1809")
+            Fix memory leak in tab completion code
+            Add `E.errorFlag` event to allow JS to respond to internal errors
+            Use Esc[J VT100 code when cycling through command history (much faster REPL on low bandwidth connections)
+            ESP8266: Remove debugger again as it will never work on 8266
+            ESP8266: Enable unaligned reads for ESP8266_4MB (fix #1240,#837)
+            ESP8266: move code save section to fist partition for memory mapping for ESP8266_4MB (fix #1240)
+            ESP8266: Add GPIO16 as D16 without watch (#1206) but soft PWM/I2C/SPI/etc 
+            ESP8266: Remove osprintf for RELEASE=1 
+            Internal: Networkjs now forwards `socketType` - laying groundwork for UDP over AT command (#1232)
+            Added simple RegExp implemention (partial fix #256)
+            Speed up JSON.stringify for Arrays, and output non-numeric array elements in REPL (fix #64)
+            nRF5x: Bump nRF52-based boards variable count from 2000 to 2500 (fix #1215)
+            Ensure Ctrl-C doesn't redraw the input line if it's already empty
+            Added String.replace(regex, function) (fix #1256)
+            With E.setFlags({pretokenise:1}), ensure stack traces are not tokenised (fix #1258)
+            Allow digitalWrite/Read to take an object as an argument (calling .write and .read on it)
+            Add `E.getAddressOf` to allow embedded targets to get memory addresses for DMA/etc
+            nRF5x: Fix issue where doing a soft reset in the middle of some BLE ops could cause an assert in debug builds
+            nRF5x: Manufacturer Data is now decoded in advertising packets
+            Fix memory leak when allocating DataViews
+            nRF5x: Fix memory leak on BLE notifications
+            Ensure net/http .listen return the server instance (fix #1276)
+            nRF5x: Allow Manufacturer Data to be specified with setAdvertising
+            Internal: Fix memory leak in jsvArrayPushAll
+            nRF5x: jsvArrayPushAll memory leak fixes NRF.findDevices memory leak when services present
+            Internal: jsvNewIterator now has an option to iterate over sparse arrays as if they weren't sparse
+            Fixed some built-in functions that misbehaved when given sparse arrays
+            Puck.js: Allow flash memory protection to be overwridden with E.setFlags
+            Fix lexing of '/*/' as a complete block comment
+            nRF5x: Add support for negating pins in software (eg. buttons/LEDs)
+            Add `E.setFlags({unsyncFiles:1}` which doesn't sync the file to the SD card after each write - it's *much* faster
+            Filesystem API now uses flat strings (avoiding the 512 byte copy for each call)
+            Increase default internal SD card bitrate to 4MHz (from 100k)
+            nRF5x: Handle promise completions and advertising using IO queue, to avoid MEMORY_BUSY messages (#1277)
+            Allow E.HSBtoRGB to wrap 'hue' value, and allow it to return an array of [r,g,b] (fix #1283)
+            Remove spikes when changing pin state (fix #1274)
+            Changes to reduce code duplication in jswrapper.c
+            Fix `E.setBootCode` when no argument is supplied
+            Add WIZnet W5500 support to Espruino WiFi build
+
+     1v94 : Allow Espruino boards to reset straight out of the DFU Bootloader             
+            Improvements in handling errors in code running in IRQs
+             - if writing to disconnected Bluetooth device, throw data away immediately
+             - Drop chars if output buffer is full while waiting in an IRQ
+             - Handle out of memory errors in jsvCreateNewChild
+             - Do not garbage collect inside an IRQ
+            On nRF52 devices, allow button press at boot to clear out peer manager data
+            Work out length of typed array with offset correctly (fix #1204)
+            nRF5x: Add Watchdog timer handling
+            nRF52: start new connections on idle to ease memory allocation conflicts between code execution & IRQs
+            nRF52: Ignore INVALID_STATE from CONN_PARAM_UPDATE_REQUEST (it can happen if we disconnect and then SD requests an update)
+            Fix Date.toString for dates before 1970
+            STM32: Fix handling of months when setting the internal RTC
+            Move to a faster jsvNewFlatStringOfLength which avoids blocking memory allocation
+            nRF5x: If a task is in progress, report the task ID (BleTask enum)
+            nRF52: Report central mode promise errors correctly if returned by softdevice
+            Remove 'out of memory' warning messages (it's stored as a flag anyway)
+            nRF5x: Don't disable IRQs completely for some things - only disable Espruino ones
+            Fix tab complete for Pins (fix #1213)
+            ESP8266: Fix load() causes endless loops (fix #1037)
+            ESP8266: Wifi library doesn't handle {password: null} (fix #753)
+            ESP8266: make topstrings and topreadonly work on Mac OS X (fix #1210)
+            Change order of execution for init - E.on('init',...) now executed before onInit
+            Added Error flag to show if a UART overflow has occurred
+            Change more instances of jsWarn to jsException
+            Avoid printing error messages during execution, and report to console on idle when if errors were flagged (fix #766)
+            Increase HTTP server and client version from 1.0 to 1.1 (needed for Websockets on Safari)
+            Stop 'require' creating an undefined Module entry in the modules list (fix #1218)
+            Stop require dumping filesystem errors as well as 'module not found'
+            Now throw an exception when writing to a closed socket (fix #1220)
+            Set the internal 'conn' variable to false when a connection closes to avoid confusion
+            nRF5x: Fix typo so we wake every 4 min for RTC, not 0.25 sec!
+            process.memory() now reports time taken for GC and vars GC'd
+            Slightly more aggressive idle GC on most platforms (at 5% free)
+            Don't warn the user when we had to run a GC pass during execution
+            Fix issue drawing on right-hand side of rotated graphics where H>W (regression in 1v93) 
+            If >1 button, set pin state correctly at boot/reset
+            Add an argument to `reset`. `reset(true)` will now cause all Flash memory to be cleared as well.
+            Puck.js: Holding down the button while booting (past the the 5 LED flashes) will now cause data saved in Flash to be cleared
+            STM32: Remove the 'utility timer' from the list of available PWM pins, fixing A0/1/2 PWM on F4 (fix #1229)
+            Disable Graphics.createCallback on devices with small amounts of flash memory - rarely used on those devices and fixes HYSTM32_28 build
+
+     1v93 : Ensure that specifying too many advertising UUIDs causes an exception, not a reboot
+            nRF5x: Fix for time jump caused by reentrancy in jshGetSystemTime
+            Fix regression causing multiple end/close callbacks when using standard TCP/IP socket client/server
+            Ensure NetworkJS reports receive errors back correctly
+            nRF5x: Fix issue where connect and immediate disconnect could in some cases trigger an error from nordic's libraries that'd cause a reboot
+            Fix regression that caused Original Espruino to have lost Filesystem/hashlib/neopixel support in 1v92
+	    Re-add TV output to Original Espruino
+            Fix some stack overflow bugs on Linux found by fuzzing (#1147)
+            Remove un-needed code for parsing '.' in var statement (#1147)
+            Add autocomplete for pin names (fix #1124)
+            Add Array.indexOf fromIndex support (fix #162)
+            Puck.js: Add BluetoothRemoteGATTServer.startBonding to allow bonding to be initiated when Puck.js is a central
+            Fat FS: closedir after readdir, FS errors should be catchable (#1164), fs.statSync (#1163)
+            Allow hardware (CTS) flow control (fix #1165)
+            nRF52: Add AntiCat's patch to Nordic's NFC library to cope with malformed NFC requests
+            Puck.js: Fix increased battery drain after NFC usage (fix #1171)
+            Puck.js: Fix WS2811 output library that would output bad data after neopixel waveform (fix #1154)
+            nRF52: Seed random number generator at boot (fix #1166)
+            Stop trailing decimal point if there are no digits after it - which could cause issues in JSON
+            Don't enter debugger if we're in the middle of uploading (echo_off_for_line) (fix #644)
+            Added Date setters (fix #504)
+            Allow Timezone to be set for Date with E.setTimeZone(...) (fix #530)
+            Added RegEx lexing (part of #256)
+            Puck.js: fix error 8 from NRF.sleep during an active connection 
+            nRF5x: Fix `NRF.updateServices` when a 128 bit service shares the same 16 bit UUID
+            Add 'errors' option when using `Serial.setup` to enable error handling (and turn it off by default as it can fill the input queue)
+            nRF52: Re-initialise services and HID after a `save()` (fix #1185)
+            nRF5x: Add NRF.getAdvertisingData
+            nRF5x: Allow array of objects in NRF.setAdvertising (fix #1188)
+            Fix internal vcbprintf JSON dumping
+            nRF5x: NRF.findDevices will now throw an exception if no callback is supplied
+            nRF52: Added BluetoothRemoteGATTServer.getSecurityStatus to check the status of the link
+            nRF52: Disable auto-whitelisting by default, add with `NRF.setWhitelist` (fix #1187)
+            nRF52: Allow secure Bluetooth LE connections
+            Don't draw font characters that are off the edge of the screen
+            Make atob and btoa use flat string for larger amounts of data (faster & more memory efficient) (fix #1192)
+            nRF52: Pull in Nordic SDK13 code to crash caused by writing large characteristic (fix #1181)
+            Puck.js: Added Puck.magTemp() function to get the magnetometer's temperature as well
+            nRF5x: Fix issue where 'NRF.sleep()' called while a connection was active could cause Espruino to go into a high power draw mode
+            Fix Object.setPrototypeOf when called on undefined (fix #1194)
+            Fix dumping of an ArrayBuffer containing data (new ArrayBuffer([1,2,3]) isn't valid)
+            Fix setAdvertising regression where name would be lost after save() (fix #1193)
+            Add `E.set/getFlags` to allow interpreter state to be controlled from one place
+            Add `E.setFlags({pretokenise:1})` to dynamically turn on pretokenisation (fix #1178)
+
+     1v92 : nRF5x: Fix issue where Espruino could crash during save() if the flash got into a strange state
+            Added Pin.toggle() function
+            Fix implicit casting to bool/number on ArrayBuffers (fix #1030)
+            Fix jstExecuteTaskChecker bug, and allow jstExecuteFn to take a userdata argument
+            Puck.js: Reduce IR LED to 10% duty cycle
+            Puck.js: Allow Puck.IR to take pins for external IR LED (fix #927)
+            nRF52: Allow arbitrary NFC data to be specified (fix #1021)
+            nRF5x: Allow multiple advertising packets to be set at once with NRF.setAdvertising
+            nRF52: Add 'properties' object to BluetoothRemoteGATTCharacteristic
+            nRF52: Perform write without response if that is what is required 
+            Pico/WiFi: Allow USB HID to work on Windows (from @nailxx)
+            Allow Puck.js/nRF52 devices to drive Neopixel/WS281x/APA10x LEDs with require("neopixel").write (fix #1023)
+            Fix crash in JSON.stringify for zero-length typed arrays
+            Fix precedence of 'void' keyword (fix #1079)
+            nRF52: Add BluetoothRemoteGATTCharacteristic.startNotifications (fix #959)
+            nRF52: Added BluetoothDevice.gattserverdisconnected event
+            nRF5x: Report back reason codes for BLE disconnect
+            Added DataView class
+            nRF52: char.readValue now returns DataView to be more Web Bluetooth compliant (fix #1091)
+            nRF5x: Fix explicit disconnect being able to reboot Puck (fix #1088)
+            nRF5x: Respond to conn_params update request, fix puck-puck disconnection after ~65 sec (fix #1089)
+            nRF52: Change connection params for central mode so NRF.setLowPowerConnection affects connection speed
+            Un-inlining jsvGet*AndUnLock functions to give us a little more free flash
+	    ESP8266: RELEASE=1 sets WIFI_DBG and NET_DBG to 0 to shrink firmware size
+	    ESP8266: Add Wifi.setAPIP() and Wifi.setIP
+	    ESP8266: Add i2c clock stretch (#1097)
+	    Fix E.FFT output (enable magnitude when one array specified)
+            Puck.js: Correct reading if using analogWrite to red LED and *then* using Puck.light()
+            Improved build process for all boards
+            Pin.toggle now returns a boolean (fix #1111)
+            nRF52: Now use 'high drive' mode for GPIOs
+            Puck.js: tweak IR duty cycle, with high drive GPIO range is ~3x more
+            nRF52: switch compilation to size optimisation, not speed
+            nRF5x: Allow services to be advertised (fix #996)
+            JSON.parse now throws an exception if an incorrect value type is found (fix #1117)
+            Pipe close event handlers now use 'this' arg - solves auto-closing pipe when piping from HTTP
+            nRF5x: stop app_timer NRF_ERROR_INVALID_PARAM errors (trying to sleep for too little time)
+            Added flash emulation to Linux port
+            Increase max graphics size from 1023 to 32767
+	    Add Fat File System to boards with large Flash (ESP32)
+            nRF52: Don't get stuck in 'HID Busy' state if a HID send failed
+            Change name of socket close internal variable so it doesn't conflict with Pipe's close call
+            Stop pipe from causing errors if fields of the requested names exist but aren't functions
+            nRF52: Fix upgrade from older firmwares if saved code is in flash, reduce virtual pages to 2
+            Fix segfault detected by fuzzing (#1133)
+            Fix File.read so that end of file triggers pipe.end event
+            ESP8266: Add BOARD ESP8266_4M with 1600 vars, 64K save area and GRAPHICS (#1110)
+            ESP8266: Add ESP8266.deepSleep(micros, option) (#1102)
+
+     1v91 : Fix recent regression if no Boot Code defined at startup
+            Fix handling of return of rejected promise within a promise
+            Fix regression where HTTPS without cert/ca or key failed
+            nRF52: Making NRF.getPrimaryService/etc more robust
+            nRF5x: Add NRF.getAddress() - fix #1001
+            Fix bug that caused load() not to clear memory if only E.setBootCode was used
+            microbit: Update Espruino with pin polarity, so saved code gets loaded without BTN1 pressed
+            Fix bug that caused Bluetooth/TV/USB objects to be added in devices that didn't support them (fix #832)
+            nRF52: Increase custom UUID count from 3 to 10
+            Adding Global built-in objects like SPI1/Serial1 and Bluetooth to the docs
+            Puck.js: Tweak battery percentage calculation to try and make it more linear
+            Puck.js: Adjust Puck.light() levels based on battery percentage (and add comments)
+            nRF5x: Fix E.hwRand() (fix #1010)
+            Ensure tab complete/others include the Object proto even on functions/strings
+            nRF5x: Add NRF.restart() to force the restart of the Bluetooth Softdevice if required
+            nRF5x: Add E.setLowPowerConnection(bool) to allow continuous connections to Puck.js (fix #995)
+            Allow implicit conversion of hexadecimal strings to numbers (fix #1016)
+            Allow arrow functions inside nonexecuting functions (fix #1011)
+
+     1v90 : Fixes for Promise.all (passing in non-promises, pre-resolved, and ordering) (fix #976)
+            Fix arrow function bug when parsing multiple arguments
+            Added more helpful error messages for TLS
+            Allow `Modules.addCached` to take a function (makes module loading more memory efficient)
+            Re-add Espruino's old `rand` function (so no malloc, and ~1kB RAM, ~3kB ROM saved)
+            nRF5x: Ensure 'NRF.sleep' works even when connected
+            Fix bug when using >32 bit integers as array indices (fix #984)
+            Fix bug when parsing '.catch' while not executing (fix #989)
+            Stop PWM 'glitching' when moving from a nonzero value down to 0 (partial #991)
+            nRF5x: Add multi-channel hardware PWM (fix #991, fix #972)
+            'dump()' now outputs code written with E.setBootCode as well (fix #999)
+            nRF5x: Remember advertising information even after softdevice reboot  (fix #997)
+            nRF51: Remove heap placeholder on nRF51 as not needed since no malloc. Increase nRF51 var count (fix #985)
+            nRF5x: 'connect' event now contains address of device that has connected, and fix docs
+            nRF5x: Add a 'NRF.disconnect' function to disconnect a client that has connected to Puck.js
+            nRF5x: Fix timing accuracy problems with setWatch
+
+     1v89 : Allow entering of multi-line Templated Literals on the command-line (fix #970)
+            Make lexer fail when parsing non-templated strings with newlines in 
+            Add 'let' and 'const' keywords - treat them like 'var' for now
+            Increased findDevices timeout to 2 seconds
+            Allowed 16 bit UUIDs to be specified as simply "ABCD" (no "0x")
+            Improved BLE error messages (especially from Promises)
+            Fix STM32F1 regression caused by F4 LSE fixes
+            Fix comma operator regression caused by recent arrow functions addition
+            Remove RTC changes for STM32F1
+            nRF5x: Make sure that updateServices(notify) on a non-notifyable service will just error, rather than reset (fix #973)
+            nRF5x: Ensure setWatch doesn't reset pin state
+            nRF5x: Reset pin states to default on 'reset()'
+            nRF5x: Move advertising back to 375ms (more reliable connections)
+            Puck: allow Puck.mag to work while magnetometer is on
+
+     1v88 : jshSetEventCallback callbacks now get an argument with the channel number
+            Tab complete now offers a much better set of completions (fix #926)
+            Fix emitting of events with long names (fix #906)
+            Ensure 'af_opendrain' pin mode gets remembered when saving (fix #890)
+            Add second Promise.then argument (fix #869)
+            Fix 'chained' promises (fix #894)
+            Fixed memory leak when automatically converting a simple object to a String
+            Added ES6 Template Literals
+            Initial commit of ES6 arrow functions
+            Add 'opendrain_pullup' pinMode (including emulation on STM32F1)
+            Make OneWire use opendrain_pullup (no resistor needed for short runs now)
+            Add Software I2C (with opendrain_pullup) (ref #549, fix #29)
+            Cope with new escape codes for home and end on Ubuntu 16.04 (27,91,70/72)
+            Tweak VGA output back porch to 2ms (so leftmost pixels always on screen)
+            Fix regression with 2 concurrent waveforms on different pins (fix #930)
+            nRF5x: add updateServices, and allow setServices to be called multiple times (partial #936)
+            Added Puck.getBatteryPercentage() utility function
+            nRF5x: setServices can now uninitialise SD in order to remove added services
+            Added E.lockConsole() for use with E.setPassword()
+            Calling jsvRemoveChild at end of array now updates the length (fix #946)
+            Allow padding to be specified as 3rd argument of JSON.stringify
+            JSON.stringify now dumps typed arrays as arrays (fix #489)
+            nRF52: BLE HID support and switchable Nordic UART
+            Fix STM32 regression where pinMode was set when it shouldn't have been
+            Add Third option to pinMode to allow the pin mode to be set while keeping it 'unforced'
+            Save and dump now keep track of whether pin mode had been forced or not
+            readFile (and File.read) now uses Flat Strings to allow more memory efficient reads (fix #932)
+            nRF5x: Add ability to get RSSI of current connection (fix #928)
+            More STM32 changes to LSI->LSE clock switchover to fix RTC misconfiguration on Espruino WiFi
+            Move LED + BTN definitions to Symbol Table (allows autocomplete)
+            When moving console before printing has started, move all buffer contents as well
+            Fix regression where replacing a function starting with 'return' with another would cause errors
+            Fix potential issues with Telnet server and return values from netCreateSocket/netAccept on some platforms (fix #931)
+            nRF5x: Add Puck.js self-test code, fix issue where analogRead reset pin state
+            nRF5x: Change central mode API to mirror Web Bluetooth
+            Fix switch fall-through to default (fix #964)
+            Started using jsvObjectRemoveChild to remove some internal object properties that are undefined (frees some variables)
+            Added E.dumpLockedVars() in non-release builds to help debug memory leaks in libraries
+            nRF5x: Added NRF.findDevices as a helper function to easily list BT devices in range
+            Console now prints the type of Objects if their constructor is in the root scope
+            nRF5x: setScan/findDevices now parses advertising data
+            nRF5x: Added Web Bluetooth style requestDevice function
+            Add spaces between large tab completes
+            Correct the handling of exceptions in promises
+            Ensure that exceptions have a 'stack' attribute if they can have children
+            nRF5x: Added list of free flash areas
+            Make sure Puck.js users can't overwrite bootloader/softdevice (doing so would brick the board)
+            Fix micro:bit/nRF51 ctrl-c behaviour (fix #905)
+            Simplified process.env on devices with little memory
+            nRF5x: fixed serial number reporting
+            Move button state setup to jshResetDevices
+            Had to remove 'dump()' and SW I2C on devices with very little flash memory (Olimexino/Micro:bit)
+
+     1v87 : Add support for compiling with float-abi=hard (even if it doesn't give us real-world benefits)
+            Add shortcut for quick execution of common call types
+            Fix BBC micro:bit save() regression from 1v86
+            Fix 'lock overflow' when calling methods with 'this' bound (fix #870, fix #885)
+            Fix jsvStringIteratorGetCharOrMinusOne for zero-length strings
+            Allow tab-completion straight after '.'
+            Make sure execution stops for native functions if there's an error when parsing arguments
+            NRF5x: remove setName and add functionality to setAdvertising, along with advertising interval
+            NRF5x: allow raw advertising data in setAdvertising
+            Add E.setPassword - allows Espruino console to be locked
+            Fix pin header numbering for BBC micro:bit (it changed for the production version) (fix #896)
+            Allow Magnetometer speed to be specified for Puck.js
+            Fix out of memory when appending a string to itself
+            Allow members of the same name as function arguments to be added to a function (fix #913)
+            Fix STM32F4 RTC stopping if reset during first 1 sec of boot, also fix Espruino WiFi board clock startup
+            Fix issue where native functions couldn't be replaced by non-native fns (fix #879)
+            If statements now return values (fix #909)
+            Fix >8 bit SPI when sending single elements with SPI.send (fix #897)
+            Sockets now fire 'end' events (fix #886)
+            Added Graphics.draw/fillCircle (fix #920)
+
+     1v86 : Compile Telnet server into linux by default, Add '--telnet' command-line option to enable it
+            Fix lock 'leak' in Telnet when Telnet is turned off
+            Add Telnet serial device to allow redirection
+            Create errors for unterminated expressions (fix #814)
+            Remove Espruino's built-in strcpy/etc
+            Remove Espruino's built-in maths
+            Add basic Taylor series sin and atan for when we're trying to save memory
+            Refactoring to use global var for lexer - save some memory and increase parse speed
+            Add .removeListener (fix #30)
+            Added better micro:bit `show()` that works well with Graphics
+            Add `require("Flash").getFree()` as multiplatform way to find free flash pages (fix #815)
+            Add the ability to set clock frequencies on STM32F4 chips (like Pico) with E.setClock (fix #52)
+            `jsvEvaluate` now uses memory area for execution of JS strings (fix #817)
+            Add `E.setBootCode` to allow JS scripts to be run without being in RAM (fix #740)
+            'Expecting a number or something iterable, got X' changed to exception rather than warning (gives stack trace)
+            Drop '.init' and '.fini' symbols, allowing GCC 5.x compilation on STM32
+            Ensure that pinMode/digitalWrite is re-constituted properly by dump() and save() (fix #833)
+            ESP8266: add stack dump on fatal exception, ./targets/esp8266/printstack can extract a backtrace
+            ESP8266: move JswSymPtr and JswSymList to flash to free up gobs of RAM, bump jsvars to 1600
+            Fix write to flash when BLE connected on nRF51/2
+            Fix potential variable corruption issue when copying objects/arrays containing packed ints
+            Fix ESP8266 printLog memory leak (fix #852)
+            When parsing from a Native String (E.memoryArea), use Native String for function code too.
+            Added built-in Promise implementation
+            Fix broken Object.keys/getOwnPropertyNames caused by ESP8266 RAM saving tweaks
+            Add Object.g/setPrototypeOf (fix #856)
+            Fix memory leak when executing bound function with 'this'
+            Fix missing PBKDF2 & AES libs on Pico + Linux caused by an untested ESP8266 commit
+            Fix negative Date to string code (fix #854)
+            Convert type warnings to exceptions (to provide stack traces for problems)
+            Add uncaughtException event (fix #846)
+            Stop eval in a switch statement from confusing parsing (Fix #845)
+            Fix regression in 'mode' argument of SPI.setup (allows custom CC3000 pins to work)
+            Fix '.on' with long event names
+            Enable F4Discovery button pull-down. Newer boards don't seem to have one fitted
+            Add 'force' to 'Serial.setConsole' - you can force the console to stay in one place
+            Fix micro:bit compass problems (fix #864)
+            Ensure that Pico can properly enter deep sleep even if USB is never used
+            Only inline the very basic variable iterator functions (save enough space to allow Espruino board build again)
+            Don't include Promises on devices where flash memory of Scarce (fix Olimexino compile)
+            Fix glitches in PWM output when updating Software PWM quickly (fix #865)
+            Added `E.kickWatchdog()` to allow you to keep your JavaScript running - not just the interpreter (fix #859)
+            Ensure all pins set to AIN on startup
+            Fix regression where setWatch would remove pulldown from button if called after reset()
+            Reduce amount of flash available for saved code on Original Espruino (until we can get code size down)
+
+     1v85 : Ensure HttpServerResponse.writeHead actually sends the header right away
+             - enables WebSocket Server support from JS
+            Fix issue where GC'd objects referencing non-GC'd data wouldn't unreference it
+            Add E.memoryArea to allow memory addresses to be treated as variables
+            Fix STM32F4 LSI clock frequency - should make the Pico's RTC a lot more accurate (fix #776)
+            Added HeatShrink compression to saved code (instead of RLE)
+            If saving fails, delete command history and try again.
+            Make sure `reset()` resets the sleep and busy indicator pins
+            Now escape characters >=127 as well (fix #780)
+            Add decodeURIComponent (fix #779)
+            Allow reset();save() on one line
+            Fix potential issue parsing HTTP headers when more data is sent after the header (fix #783)
+            Fix broken storage of floating point values when <255 variables
+            Fix regression where DACs didn't work on Original Espruino Board
+            Improve tab complete's memopry usage
+            Added Tab complete and Debug to low-end Nordic uCs
+            Limit the number of events processed each time around the idle loop to the number that were in it at the start
+             - helps to fix issues with out of memory when receiving big files over ESP8266 serial connection
+            Allow different types of network to have different buffer sizes - enlarge JS, Linux and WIZnet buffers
+            Fix bug where clearInterval() and setWatch with debounce could cause setWatch to momentarily stop working
+            Make HTTP server only close connection after Content-Length bytes received
+            Speed up jsvNewFlatStringOfLength by combining it with updating the free var list
+            Update the free var list when garbage collecting (makes allocation at the start of memory more likely)
+            Don't zero the contents of memory when freeing - speeds up deallocation
+            Removal of un-needed zero initialisations for variables
+            Only garbage collect on idle if we're low on memory (fix #767)
+            Improve malloc behaviour for crypto lib (try and free all command history is first alloc fails)
+            Improve HTTPS error messages
+            Add READ_FLASH_UINT8, allowing ESP8266 to read&exec strings stored in Flash with E.memoryArea
+            Start the RTC up running off LSI, and switch after a few seconds if the LSE has started correctly
+            Allow JSV_GET_AS_CHAR_ARRAY to get a pointer to memory in ArrayBuffers or memoryAreas
+            Reset PinStateIsManual in reset (fix #765)
+
+     1v84 : Fix device initialisation flags not working when the device number is above 32 (fix #751, #748)
+             - this fixes broken SPI when not on standard pins
+
+     1v83 : Moved to size optimisation for Pico (needed to get HTTPS into 384kB)
+            Ensure Modules.addCached doesn't reset parse state (fix #723)
+            dump() in Espruino Pico now ignored the pull-down for the button (fix #731)
+            Warn when "compiled" functions gets into Espruiono (fix #707)
+            Fix lost character on Espruino Startup (fix #704)
+            Fix duplicated characters when USB+USART IRQs fire at the same time  (fix #635)
+            Fixed Serial.find(...)
+            Detect UART framing and parity errors and emit them as events on the Serial object
+            Fix [] instanceof Object (fix #737)
+            Fix regression in jsvCopyNameOnly (Object.getOwnPropertyNames when names are >8 characters long)
+            HTTP requests (and sockets) can now emit 'error' event (fix #706)
+            Add optional `ca`,`key`, and `cert` for server public key when using HTTPS or TLS (fix #736)
+
+     1v82 : Fix debugger regression (where quit/reset/etc don't exit properly)
+            Fix wakeup when setDeepSleep used at startup (fix #645)
+            Add `shiftOut` function (fix #631)
+            Store line numbers for functions (via `Esc [ 1234 d` escape code before decl) and use in debug + stack traces
+            Allow Ctrl-C to break out of tight loops with function calls in
+            Add tab -> autocomplete in Console (fix #677)
+            Fix I2C repeated start (#390)
+            Fix regression in Math.random() - now back between 0 and 1 (fix #656)
+            Fix `var a=0;typeof a -> "undefined"` (fix #683)
+            Don't store brackets in functions (fix #204)
+            Store functions as 'flat strings' if long enough (fix #467)
+            Move most functions out of jsvar.h header file - improves code size on devices where they're not inlined
+            Fix parse error for switch statements which meant that `switch (a,b)` caused an error
+            Fix error message when `LoopbackA.setConsole()` called
+            Move SPI/I2C/Serial initialisers to jsvReadConfigObject, will now error on invalid args (fix #413)
+            Fix issue where double-buffered waveforms would use the wrong buffer in the callback
+            Fix memory leak in tab autocomplete on objects
+            Added AES crypto library (Pico only)
+            Fix `typeof (new Uint8Array([1, 2, 3, 4]))`
+            Store `function(){return ...}` without the return (fix #700)
+            Increased simple string usage from 4 chars up to 8
+            Swap order of JsVar internals, string usage up to 10 chars
+            Add handling for uint32_t,uint64_t,uint32_t case for Raspberry Pi
+            Add startup sanity checks for jsnative.c (in non-release builds)
+            Added fix for returning floats on Raspberry Pi
+            When <1024 JsVars, `lastChild`'s top bits are stored in `flags`, and pack
+               is moved such that we get 1 extra character in StringExts
+            Allow events of >12 characters length
+            Fix regression in flash memory write (introduced via AES merge)
+            Fixed instability when resetting after using SD card on non-standard pins
+            HTTPS support on Pico (when compiled in)
+            Rename USE_HTTPS to USE_TLS, and enable by default for Pico + Linux
+            Add 'tls' module with 'connect' - for TLS Socket connections
+
+     1v81 : Fix regression on UART4/5 (bug #559)
+            Fix Serial3 on C10/C11 for F103 boards (fix #409)
+            Remove Graphics.setColorHSV, add E.HSBtoRGB (fix #554)
+            Make jsiDumpState/jsiAppendHardwareInitialisation use callbacks (fix #398)
+            Add `E.dumpStr()` to dump current state of interpreter as a string
+            Add ReferenceError, and ensure that TypeError gets converted to a string properly
+            Actually create ReferenceError for undefined variables
+            Fix Object constructor behaviour (fix #561)
+            Now remove intervals/watches if they occur within 0.1s of a Ctrl-C on a blank line
+            Fix parsing of trailing commas [,,1,,,]
+            Treat vertical tab as whitespace
+            Make sure we ReferenceError on '+='/etc
+            Allow reserved words in record access and structure definitions
+            Add Object.defineProperty/defineProperties (even if they ignore most args)
+            Fix value returned when redefining an existing function
+            Ensure Pico powers down USB in deep sleep - now down to 20uA!
+            Fix Exception throw within catch block (fix #566)
+            Fix issue where new Array(3.0) wouldn't produce a 3 element array
+            Keep track of modified area in Graphics (so modules with `.flip()` can be speeded up)
+            Fix `new Date('December 17, 1995 03:24:00')` - check only first 3 chars of month
+            Allow Software PWM via `analogWrite(..., {soft:true})`
+            Add `encodeURIComponent`
+            Make sure `typeof unknown` doesn't ReferenceError
+            Fix isNaN behaviour for 2 element array
+            Fix jshPopIOEventOfType when element is at the top of queue anyway
+            Produce more reasonable behaviour when converting very long strings to ints/floats
+            Added built-in JavaScript debugger! See espruino.com/Debugger for details (fix #37)
+            Fix crash when using E.getSizeOf() in some cases
+            Make sure a TCPIP connection closes even if no data sent
+            Make `flash.erasePage` safe if called without arguments (fix #586)
+            Add `Pin.getInfo` to see what a Pin can do (for #93)
+            Move Pin function code out of jshardware
+            Add `E.on('init', ...)` - like `onInit` but allows multiple handlers
+            Make sure `dump()` and `E.dumpStr()` dump the contents of Serial as well as events for other objects
+            `E.getSizeOf(.., 1)` can now recurse into objects showing the sizes of all their children (fix #579)
+            Fix bug when appending to a flat string (fix #614)
+            Add `Serial/SPI/I2C.find(pin)` - so we can figure out what device to use based on the pin
+            Ensure that when uploading, each command gets checked for errors (rather than right at the end)
+            Fix writes on HTTP requests after a timeout, and add chunked encoding if the header is set.
+            Added pin info for bit-banded pin addresses (and jshGetPinAddress).
+
+     1v80 : Fix SD card IO that can corrupt SD card on file append since 1v73 (fix #536)
+            Fix some potential pointer issues in hashlib
+            Make debounced setWatch output state+time information (regression fix #537)
+            Shorten some internal property names (faster/less mem is 4 chars or under)
+            Change 'internal property' prefix from '>' (fix #540)
+            Duplicate properties in an object defn. now cause second to be used (fix #495)
+            Make sure `E.unmountSD` doesn't forget custom SD card configs from `E.connectSDCard`
+            Added support for USB CK pin (fix #544)
+            ES5 parseInt behaviour - don't treat numbers beginning with 0 as octals (fix #538)
+            SPI.send now returns Uint8Array when passed an array. Also takes `{data:X, count:Y}` as argument (fix #485)
+            Fix `parseFloat(Infinity)` (fix #314)
+            Speed up jsvIterateCallback for arraybuffers
+            SPI speed improvements, esp for SPI.write (fix #547)
+            TV out tidyup, and VGA output can now do line doubling
+            Merge in USB HID support for STM32F4 (keeping old USB for the F1)
+            Add built-in 'Flash' module to allow Flash memory to be accessed from user code
+            Pulled load/save code out of jshardware into jswrap_flash.c
+            Remove jsiOneSecondAfterStartup from Linux builds (fix #551)
+            Add RLE compression when saving to flash, increase Pico RAM from 3000 to 5000 vars (fix #543)
+            Fix `JSON.parse` when not given strings (fix #546)
+            Tweak Olimexino board - 700->1k vars, but lowered code flash to 6k
+            Disable flash prefetch on Pico (~1% slower, but less power and way more accurate ADC readings) (fix #545)
+            Now throw errors when 'in' is used on an invalid datatype (fix #550)
+            Updated (inaccurate) docs for Serial.write/print and removed duplicated code
+            Changed Pico's device class to 0x02 - now works on older Mac OS 10.6.8
+            Change reported USB HID type to 0, from 2 (mouse)
+            Improve digitalWrite/etc documentation
+            Add `pin.mode` and `pin.getMode` functions (mirroring `pinMode`)
+            `Serial.setup` now remembers options if none specified (fix #557)
+
+     1v79 : Fix Mac address parsing for top nibbles
+            Make bind reference function internals not copy them. Fix scoped vars in bind (fix #533)
+            Use jsvUnlockMany to tidy up code and save some space
+            jsiExecuteEventCallback can now take an arbitrary number of arguments
+            Allow setTimeout/setInterval to take extra arguments (fix #532)
+            Ensure HTTP is closed even when no data handler (fix #535)
+            Seed random number from analog input, add W.hwRand and E.srand (fix #534)
+            Fix timing bug when setting timeouts from intervals in Deep Sleep
+            Reduce timeout for IO (eg. I2C write) on F401 and F4
+            Tweaks to keep code size low enough for Olimexino
+
+     1v78 : Fix regression where SPI2/3 weren't working on most pins (fix #525)
+            Allow MAC address to be set for WIZnet (fix #527)
+            Ensure res.on('close') is called for empty HTTP requests (fix #528)
+            Ensure that A9 is never the default pin for USART1 output (fix #526)
+
+     1v77 : Add E.mapInPlace
+            Allowed ArrayBuffer Graphics to store pixels MSB-first
+            Added faster software SPI path for simple writes
+            Make sure filesystem support gets compiled into Espruino Pico
+            Fix jsvGetFlatStringPointer to return the correct address
+            Fix I2C2/I2C3 on Pico
+            Fix issue where garbage collect of a Flat String corrupted the free variable list
+            Fix issue where Array.sort on big array with identical elements failed (#515)
+            Add 'modules' variable, and set 'this' to 'exports' when parsing a module (fix #520)
+            Fix instanceof implementation (and fix mem leak) (fix #523)
+
+     1v76 : Merged in NetworkJS library (for JS networking implementations)
+            Ensure that 'wrapped' libraries are killed before timers/watches
+            Made 'Field or method doesn't exist' report back the field that doesn't exist
+            Added quick and dirty scripts/test262.js runner script
+            Fix propogation of Errors and Exceptions through function calls
+            Allow parsing of integers > base 16
+            Now allow functions with >16 arguments (fix #490)
+            Fix assert fail for syntax error in do or while loop
+            Maths operations now call Object.valueOf if it's needed
+            Fix assert fail when jswrap_object_getOwnPropertyDescriptor called with non-string
+            Fix Array.indexOf when array contains non-basic values
+            valueOf returns a type error when called on undefined
+            Make sure analogRead doesn't overwrite pin state if it was set previously with pinMode
+            Make sure pinMode works with ADC input mode
+            Tweak event handling - events such as `Serial.on('data'` now set `this` to `Serial`
+            Add Function.bind (fix #318)
+            Fix SPI.setup memory leak (fix #496)
+            Fix assert fail on debug builds on Waveform output (fix #511)
+            Added more allowed types of whitespace
+            Added String.prototype.trim() (fix #507)
+            Allow argument lists in Function() (fix #505)
+            Propagate `this` into eval (fix #513)
+
+     1v75 : Fixed issue with Pins/Bools as Array indices
+            Fix crash when out of memory while creating built-in object
+            Fix continue statement in nested loops (fix #501)
+            On Linux, Exit nonzero when an error occurs (fix #499)
+            Ensure that pipes 'complete' if the source closes (was previously only the destination)
+            Make HTTP/Sockets throttle reads so internal buffers don't get full when piping
+            Added http statusCode, statusMessage, and httpVersion
+
+     1v74 : On Espruino Board, allow setTime to use full 64 bits so setTime(Date.parse("...")/1000) works
+            Fixed issues with Waveform after 1v72 update to flat strings
+            Added 'global' built-in value
+            Fix inaccuracy of 'Date.now()' on STM32
+            Improve jsvIteratorGetIntegerValue speed for arrays (fix #493)
+            Change process.env.EXPORTS to something more useful for compiler
+            Fix issue with graphics fill on PCD8544 LCD
+            Add TypedArray.slice (from ES6) to help modules that use I2C
+
+     1v73 : Add Uint8ClampedArray, remove code duplication in ArrayBuffer (fix #486)
+            Fix regression where accessing certain member names of an undefined variable would cause a crash (fix #488)
+            Fix behaviour of char code 16 at beginning of the line (it now doesn't re-add the prompt after processing the line)
+            Added jspGetNamedVariable for use in compiled JS
+            Fix glitchy time values on the Espruino Board (fix #394)
+            Fix getTime()==0 in onInit, which could break timeouts in onInit after a reset (fix #462)
+            Refactor Software SPI code into jsspi.c
+            Allow filesystem to work on user-defined pins (fix #427)
+
+     1v72 : Stop RTC being reset by hard reset (getTime will now be time since power first applied) (fix #412)
+            Allow Function.apply to take typed arrays (fix #442)
+            Allow arrays to be passed to digitalPulse so square waves can be created easily
+            Force inlining of jsvLock/UnLock on most systems - improves performance a lot
+            Fix issues with SPI.write, CS, and out of sync receive bytes
+            Fix do..while without trailing semi-colon
+            Ensure that &,|,^,etc all have different precedences (without extra recursion)
+            Used new semi-recursive parse for expressions
+            Fix filled column when fillpoly is off the end of the screen
+            Fixed reporting of Serial RX pullup in `dump()`
+            Add input thread on Linux, and fix idle and Ctrl+C behaviour (fix #451)
+            Stop huge amounts of input events blocking Espruino's timers (fix #452)
+            Add ability to use serial ports on Linux with Serial1.setup({path:"/dev/ttyUSB0"})
+            Started ability to use SPI from Linux
+            Added 'net' library with support for sockets
+            Fix JSON parse of negative numbers (fix #456)
+            Only keep RTC settings if the relevant oscillator is running (fix #444)
+            Finally fixed sporadic compilation problems with '-Os'
+            Fixed issues with intervals in onInit (#462)
+            Remove libraries from root scope (fix #463)
+            Fix pin namings on Nucleo boards
+            Fix addition of stdlib's exit on Nucleo debug
+            Allow setWatch to execute native functions inside the IRQ
+            When dumping typed arrays, use the size if all elements are 0 (fix #448)
+            eval() can now access local variables and function arguments (fix #460)
+            Added 'flat strings' for typed arrays.
+              - these use a continuous chunk of memory so are much faster
+            Ensure that we only create as many Serial/I2C/etc items in Symbol table as we need (fix #453)
+            Allow modules to return whatever was assigned to exports - not just the original object
+            Allowed E.nativeCall (assembler/compiled functions) to execute directly from a flat string
+            Working F401 USB VCP bootloader
+            Make Press-poweron-release-press boot back into Espruino (this may confuse your OS)
+            Assert failures (in non-release builds) now reboot the system on ARM
+            Fix issues with freeing of variables not clearing the lock flags (fix #474)
+            Make Uint32Array actually return uints (even if they're so big they have to be represented as doubles)
+            Allow peek/poke to read and write arrays of values
+            Add Boolean constructor (fix #311)
+            Fix difference between String() and String(undefined) (fix #312)
+            Fix I2C/SPI on F401/F411-based boards (fix #470, fix #473)
+            Improved ArrayBuffer write performance
+            Massively improved ArrayBuffer Graphics fill performance for bpp<8
+            Fix issues with floating point on devices with <1024 vars (using 12 byte JsVar)
+            Add ability to change I2C bit rate from I2C.setup
+            Added VGA TV output
+            Added E.toString (for converting anything into a string)
+            Pulled Typed Array creation into its own function
+            Added E.toString and E.toUint8Array
+            Made I2C.readFrom return a Uint8Array (fix #479)
+            Allow multiple byte OneWire reads and writes
+            Fix setWatch on F3Discovery (fix #183)
+            Ensure that E.getSizeOf() works for ArrayBuffers (fix #484)
+            Don't allocate Flat Strings if we can get away with 2 normal string blocks
+              - it's actually faster to allocate and uses less memory
+
+     1v71 : Allowed WIZnet + CC3000 to be instantiated on any pins
+            Fix break inside loop inside case inside function (fix 428)
+            Added fs.stat and File.seek (fix #429, fix #430)
+            Allow use of DLE (char 16) on an empty line to turn echo off for *just that line*
+            Add XON/XOFF flow control on Serial + USB. This is enabled by default for Serial (fix #20)
+            Fix irregular timing on Espruino boards with clock crystal (inc rev 1v4)
+            Sort out 'Number()' constructor not being picky enough - parseFloat now parses 'Infinity' (Fix #325, mostly fix #322)
+            Stop iterator in FOR loop being called once more after a break
+            Fix bug allObjects found with iterating over undefined
+            Fix ArrayBuffer.sort issue with element size >1
+            Fix network de-initialisation on Linux
+            Fix reference count issue caused by removing a timer that had already been removed
+            Power up SYSCFG on F2/3/4 parts, allowing watch to work on ports other than A
+            Wait after setting the RTC time, to allow registers to update (fix #438, fix #441)
+            Now using gcc-arm-none-eabi-4_8-2014q3 for compilation - CodeSourcery stopped being supported
+
+     1v70 : Make pipe remove its drain/close listeners. Stops out of memory for repeated piping.
+            Fix parseInt for values too large to go in an int (#406)
+            Fix integer maths when result is too large for an integer
+            Fix mod operator with NaN/Infinity (fix #315)
+            Fix signed array values in PACKED_BIT devices
+            Drop JsVar size from 20 bytes to 16, increase Espruino variable count accordingly
+            Fix Array.fill on sparse arrays (fix #410)
+            Allow I2C repeated start (fixes some odd I2C devices, fix #390)
+            Refactoring to use iterators wherever possible
+            Merge fs_kill and file_kill to ensure that files always die before the filesystem
+            Add `E.unmountSD()` to allow SD cards to be removed once they have been used
+            Stop String.split("") adding an empty elementy to the array
+            Tidy up linker script, allow F401 to use 3x16kB pages for storing program data
+            Fix regression in long timeouts (fix #416)
+            Use 'interval' var to specify if we're an interval or not (don't use 'recur' var)
+            Stop while/for/etc resetting exception state (fix #419)
+            Add  E.getSizeOf (fix #421)
+            Fix jsvCountJsVarsUsed for names with values
+            Make hidden names smaller to save a few JsVars
+            If there's only one function scope, don't define an array and save 2 JsVars
+            Fix setInterval on non-F1 boards (fix #415)
+            Fix issue where large doubles (> +/- 2^31) were converted to -1 rather than truncated ints
+            Fix E.getSizeOf (fix #424)
+            Fixed JSON indentation issue
+            Made 'pretty' JSON output look a bit better
+
+     1v69 : Fix 1v67's regression of digitalPulse when doing lots of pulses
+            Add configurable OneWire search command (for finding DS18B20s with alarm set)
+
+     1v68 : Fix memory leak in String.split
+            Fix references to `this` - you can now write `this["LED1"]`
+            Fix memory leak when calling toString on a normal object
+            Fix memory leak in Graphics.createArrayBuffer
+            Fix memory leak when joining arrays containing null
+            Fix memory leak when syntax error while getting function arguments
+            Fix memory leak test when running on Linux
+            Fix memory leak in filesystem file open (when failure)
+            Fix memory leak on Syntax error
+            Stop multiple exceptions from being reported (eg. Syntax Errors)
+            Fix parsing of '!!' when not executing
+            Improve Error.toString, and fix bug when an exception was thrown from a function
+            Improve jsvObjectGetChild when out of memory
+            Switch native function decls from 32 bits to 16
+            Swap HY2.4 board to software LCD driver as well, work out pin mappings from PY file
+            Fix inaccuracy in setInterval, which had started since 32 bit switch in 1v65
+            Store JSWAT_EXECUTE_IMMEDIATELY in a way that will fit in 16 bit function decls
+            Allow bit-packing of refs for low memory boards (fix #145)
+            Now dump 'debounce' for setWatch
+            Make sure that dump() outputs correct JS for undefined variables
+            Allow pin counts per port of >31 on Linux-based systems
+            Fix issue with lost high-speed events when using setWatch with small debounce
+            Fix HTTP client regression
+            Fix Date constructor issue (uninitialised variable) (fix #408)
+            Fix invalid conversion of large ints to floats on ARM
+            Fix reset behaviour for non-standard default Serial ports
+
+     1v67 : Lower size of timer task array of devices with little RAM (fix #401)
+            Move hidden lists out of the root scope (fix #357)
+            Fixed exception catching
+            Fix Serial1 initialisation after 'reset()'
+            Fix parsing of try..catch when a serious error (not an exception) occurred
+            Stop the utility timer queue filling with WAKEUP tasks if Espruino gets woken up early
+            Add ability to specify default Serial TX and RX pins in BOARD.py
+            Reduce how many digits of floating point values are normally displayed
+            Fixed PWM output on B4 + B5
+            Fix regression when using pins as array indices
+            Remove negation for CHxN outputs - it seems they don't negate after all. Fixes PWM polarity on A7,B1,B13,B14,B15
+            Add pullup to USART RX. Reduces wakeups and random characters on Serial1.
+            Add error flags and E.getErrorFlags to report possible issues like buffer overflows and low memory (fix #136)
+            I2C timeouts now throw exceptions (fix #403)
+            Fix String.prototype.split with non-string args
+            Add fake digital pins D0..D7 under linux (helps with testing)
+            Rewrite ff_wtoupper and save 650 bytes \o/ (fix #368)
+            Update Makefile to make it easier to cross-compile RPi->Espruino board
+            Fix HYSTM32_32 LCD at the expense of a bit of speed (fix #137, fix #327)
+
+     1v66 : Ensure that analogWrite(pin,1) works on negated outputs
+            Allow multiple Waveform playback on one pin (+ wave fixes)
+            Improve dump() for objects and Serial.on('data') (part of #397)
+            Fix Date.getSeconds,Milliseconds, and documentation on getMonth (#399)
+            Fix memory leak on Serial receive
+            Fix all Serial receive characters being 0 if no bytesize is specified
+
+     1v65 : SPI.send/I2C.write/Serial.write can now take variable number of arguments (fix #370)
+            Don't check for token matches where we already know what it should be (fix #280)
+            Improve file read speed for large reads
+            Waveform stability improvements
+            Fix Float32Array.set (and improve speed for non-float arrays)
+            OneWire library now uses hex strings for addresses rather than 64 bit ints
+            Fix issue with uninitialised function arguments (fix #391)
+            Fix parseURL for numeric keys in query string (fix #388)
+            When running JS files under Linux, do two parses to ensure that Functions are 'hoisted'
+            Add Object.create()
+            Add Function constructor
+            Add Object.getOwnPropertyDescriptor (although it won't return spec-compliant values)
+            Add some Stubs for inbuilt Date and Error classes
+            Added throw and try..catch..finally (see #40)
+            Fixed overriding of builtins with other Builtins
+            Added Date.valueOf
+            Stop warning about break at the end of 'default' in switch statement
+            Switch to 32 bit ints (fix #324)
+            Added Array.prototype.reverse, and also for ArrayBuffers (fix #389)
+            Swap JsVar fields around so everything is aligned on the correct boundaries
+            Merge jsvNewWithFlags and jsvNew - making variable allocation a bit faster
+            Fix changeInterval regression after int32 changes
+            Remove JSV_NAME flag - paving the way for more efficient variable storage
+            Store only 32 bit time for events (work out full 64 bits in event loop)
+            Increase event buffer size to 128 (from 64)
+            Enabled Graphics + CC3k support in the F3Discovery
+            Make `Serial.onData` call back with >1 char (#383)
+            Move `Serial.onData(...)` to `Serial.on('data',...)`
+            Add Serial.read/available/pipe (fix #383)
+            Add HTTP client/server read/available/pipe
+            Add documentation for events (and tidy it up for constructors)
+            Stop HTTP server closing before all data has been read
+            Fixed parsing of multiple shifts
+            setWatch now reports the pin back (fix #275)
+            Fixed memory leak in g.getPixel with arraybuffers
+            Fixed memory leak in "".indexOf(".")
+            Fixed ArrayBuffer Graphics where width*height*bpp&7!=0
+            Converted parse errors to throw exceptions
+            Added Date.parse and Date.toString
+            Fix parsing of integers that are too big to fit in an int32 (they're stored as doubles)
+            Fix Linux Espruino when no tty is present
+            Shave a few bytes off size of jsiDumpState using printf
+            url.parse now unescapes the query string (fix #227)
+
+     1v64 : Fix 'a=[2,3,4];delete a[1];'
+            Make sure parseInt("0x01",16)==1 and parseInt("0x01")==1 but parseInt("0b01",16)==0
+            Fix equality check used in switch, so false !== 0
+            Improve Math.pow accuracy for small integer powers (fix #374)
+            Make Ctrl-C only interrupt code if it has been running for too long (fix Ctrl-C -> CC3000 restart issues)
+            Removed duplication in symbol lookup (fix #372, fix #323, fix #343)
+            Fix JSON.stringify with circular references (fix #378)
+            Fix String.indexOf when search string is bigger than the string being searched (fix #377)
+            Add String.prototype.slice() (fix #376)
+            Changed to more compact binary search symbol table (fix #278)
+            hasOwnProperty now doesn't check prototypes #24
+            Added Object.getOwnPropertyNames (fix #79, fix #158)
+            Move 'constructor' into the correct place, be more aware of builtins in prototypes (helps #380)
+            Handle __proto__ on builtin object types (eg. [].__proto__) (fix #381)
+            Remove indirection of __proto__ (fix #102)
+            Properly fix Object.getOwnPropertyNames (fix #380)
+            Remove jsvFindChild*Ref (fix #375)
+            Added LoopbackA/LoopbackB serial ports (fix #61)
+            Fix slowdown when lexing long strings
+            Remove Lock/UnLock in jslGetNextCh - should speed it up
+            fs.appendFile() now works even if the file doesn't exist (fix #385)
+            Support unicode escape sequence (\uXXXX) but crop to 8 bits (fix #386)
+            Stop setInterval/etc increasing index numbers (fix #382)
+            Clear existing digitalWrites on reset() (fix #231)
+            Stop setWatch getting invalid data on load/save/reset (fix #254)
+
+     1v63 : Memory leak when defining functions (fix #359)
+            Fix Instance properties overwrite prototype (fix #360)
+            Fix `edit(functionName)` without quotes (fix #356)
+            Fix 'Uint32Array is not unsigned' (fix #330)
+            Ensure Object.keys([9,,undefined,9])==[0,2,3] (partial #349)
+            Store array length in the array root node rather than the last element (fix #351 #361)
+            Object.keys on array now returns strings (fix #348)
+            Remove jsvArrayGetLast (fix #363)
+            Fix issue parsing `function() { return }`
+            Stop jspNewObject creating a new object name if one already exists
+            startup_stm32f10x_hd.s now explicitly sets the stack pointer. Allows Espruino images to use more RAM
+            Add BusFault hander, to allow peek and poke to unmapped addresses without HardFaulting the ARM
+            Fix edit(...) so that functions themselves (not just the variable) are updated (fix #366)
+            Crop lines in errors when > 60 chars (fix #364)
+            Improve when stack traces happen for error reporting
+            Better error messages, and more efficient handler
+            Improving Util Timer rescheduling to try and avoid 64 bit divisions
+            Fix a lot of WIZnet W5500 issues (thanks @mgg1010!)
+            Add E.reverseByte
+            Add HIGH and LOW (fix #371)
+            Improve docs for SPI/I2C/Serial.setup
+            Force reconnect on CC3000 disconnect (fix #373)
+            Added cephdon's streaming file API (fix #12)
+            More WIZnet W5500 stability fixes - try and ensure that HTTP server never goes down
+            Fix HTTP client Host header when accessing ports!=80
+
+     1v62 : Added ArrayBufferView functions as per ES6 spec (fix #310)
+            Added Graphics.setRotation (fix #321)
+            Added Graphics.drawImage (fix #198)
+            Added E.toArrayBuffer for fast string->array conversion
+            Accessing an undefined array/object element now doesn't create it (fix #63)
+            Fix fs.unlink returns true if the file does not exist (fix #331)
+            Try and improve timer overlays by reordering the alternate function list
+            Ensure that PWM output doesn't enable negated/non-negated outputs when it doesn't have to
+            Improve console performance when sending long strings
+            Initialise Graphics flags Graphics.createCallback - could have caused all kinds of issues
+            Now make setInterval > 5s less accurate when setDeepSleep is on (saves ~0.5 sec of non-sleep time)
+            Fixed problem when accessing an array with a string in a variable
+            Fix issues with `"0" in {0:1}` (and hasOwnProperty)
+            Improved interpolate function, and moved it out of ArrayBufferView into E
+            Fix Problem with Object.keys on a string (fix #347)
+            Fix assert fail when deleting a property that doesn't exist (fix #344)
+            Ensure that dump remembers function names if they were in the root scope (fix #338)
+            Fix memory leak in fs.readdir
+            Ensure that abbreviations in console's '=...' output appear on newline if needed
+            Add String.replace (fix #334)
+            Make Graphics.drawImage draw bottom line of pixels (fix #329)
+            Add Array.shift/unshift (fix #342)
+            Fix Defining function after return causes error (fix #326)
+            Fix deleting the last element in array (fix #346)
+            More helpful I2C error messages (fix #10)
+            Fix overriding built-in functions (fix #202)
+            Add ES6 Array.prototype.fill (fix #317)
+            Modified jsiQueueObjectCallbacks (and Object.emit) to support >2 args
+            Added support for SPI LSB-first
+            WIZnet improvements (specifically on HTTP server)
+            Added WLAN.setIP for CC3000
+            Fix String.split issue with last element (fix #352)
+            Remove order warning for SPI if no order given (fix #353)
+            process.env will now contain the git commit
+            Move setInterval/Timeout implementations into jswrap_interactive (makes more sense)
+            Add setWatch warning if it's not possible (fix #337)
+
+     1v61 : Fix toString crash for large numbers
+            Support floating-point literals without a leading 0 - eg '.5' (fix #296)
+            Fix array access with booleans (fix #290)
+            Fix "==" issues where only one argument is an array (fix #283)
+            Make Array.join ignore null values (fix #289)
+            Callback graphics now works even without a fillRect implementation (fix #295)
+            ArrayBuffer Graphics now supports 2 and 4 bits as well as 1,8,16,24,32 (fix #301)
+            Allowed array.splice to as many arguments as needed
+            Make Array.sort() use string compare by default (fix #291, fix #292)
+            Allow [,] and [1,2,,4] - (fix #287)
+            Stop JSON.stringify using 'undefined' (fix #286)
+            function.call can now have more than 4 arguments
+            Rewrite native function caller (fix #277)
+            Fix conversion of floats to booleans (fix #307)
+            Fix parseInt of NaN/Infinity (fix #309)
+            Add extra escape codes in strings (fix #304)
+            Ensure String.charAt returns empty string for out of range (fix #305)
+            Make REPL faster when receiving large amounts of data (fix #303)
+            Improved jspeFunctionCall speed, added Named functions (fix #77)
+            Allow Array.map.forEach to be applied to Strings and ArrayBuffers (for #310)
+            Tweaks to make more Array functions work on non-arrays
+            Added Array.reduce
+            Allow commas in expressions at end of for loop - `for (;;i++,j++)`
+            Fix SPI send with a single number
+
+     1v60 : Fix unary plug on variable not working (fix #268)
+            Added DNS with eth.setIP() for W5500
+            Fix lock 'leak' when creating Graphics with callbacks
+            Small fixes for trigger/timer
+            Make dump() + console aware of built-in SPI/I2C/etc
+            Add Pin constructor for converting numbers into a pin object
+            Added getPinMode
+            Fixed I2C saving state (fix #270)
+            Add JTAG to ignore list for some boards
+            Fix LCD FSMC formatting and report if LCD is unknown
+            You can now reference built-in functions. eg. [1,2,3].map(Math.sqrt)
+            Add Object.valueOf - help with #187
+            Add Object.hasOwnProperty (although it does have some false positives) - #24
+            Add software SPI - fix #41
+            Fix issue when constructing an ArrayBuffer with a floating point length
+            Fix Math.round regression and add checks to ensure it can't happen again
+            Fix DEVICE_IS_XXX defines (fix SW SPI regression)
+            Fix hardware SPI regression (getting out of sync after ArrayBuffer write)
+            Removed non-standard Integer.valueOf - use "A".charCodeAt(0)
+            Fix non-standard ArrayBuffer behaviour when constructing an ArrayBuffer from an ArrayBufferView
+            Fix `1 in [2,3,4]` behaviour - it searches keys, not values
+            Make parseInt(..., >36) return NaN
+            Make Number.toString() use lowercase chars for hex
+            Fix issues with NaN, negative zero, and Math.round
+            Fix equality checks with null
+            Fix comparison of integers with empty string/whitespace+number
+            Added nativeCall, which allows C/Assembler to be called from JavaScript
+            Fix custom font memory leak
+
+     1v59 : (function(){})?1:0 should == 1 (fix #261)
+            Fix Math.pow (Fix #260)
+            Fix String.split() (Fix #259)
+            Added Array.concat (Fix #262)
+            Increase RTC/getTime reliability by ensuring overflow can't happen
+            Added Math.min/max
+            Allow jswrapper to wrap objects with a name >8 characters long (fix #264)
+            dump() now doesn't print 'var X = undefined;' - just 'var X;'
+
+     1v58 : Fix Serial.parity
+            Fix glitches in jshGetSystemTime
+            Added Graphics.setFontCustom for custom fonts
+            Added String.lastIndexOf, and made String.indexOf with fromIndex work
+            Used non-bold vector font, improve alignment, and make curves lower quality
+            I2C can now write any size (as long as it fits on the stack!)
+            Try and enlarge fillRects caused by polygons
+            Fix === issues, fix #257
+            Add Graphics.getColor/getBgColor for Juergen
+            Added E.convolve for doing fast calculations with Waveforms
+            Allow String.fromCharCode with multiple arguments
+            Add builtin_modules to board's JSON
+            Added E.FFT for Fast Fourier Transforms
+            Added 16 bit read/write to Waveform (and speed up utility timer)
+            Fix utility timer - now interrupts just in time
+
+     1v57 : Tweak IRQ priorities to try and make SPI RX more reliable
+            Make http default to port 80 if no port is specified in options
+            Try and stop issue with System Time suddenly jumping forwards
+            Fix assert fail when clearing and adding timeouts from within a timeout
+            Fix modulo (actually remainder) operator for floating point values :/
+
+     1v56 : Added atob and btoa (for base64 encode/decode) - fix #244
+            Added Array.sort() - fix #220
+            fs.writeFile/appendFile now return false if they fail for some reason
+            Move Graphics init and idle functions out of jsinterface.c
+            Add HttpServer.close
+            Ensure that Linux command-line tests keep running if there's something to do
+            Epic networking refactor - it should now be possible to support multiple network devices in a single binary
+            Now only remove the interval/timeout/watch that's causing the error - not every one
+            Change names of functions in callback-based Graphics so they don't conflict with the real ones
+            More CC300 reliability - now range check the return value from send+recv, because if there's a timeout it can be wrong
+            Fix memory leak in setWatch with debounce
+            Fix 'repeat:false' in debounced setWatch
+            Make sure 'repeat:false' disables the hardware watch
+            Initialise RTC roughly 1 sec after reset, and use external 32kHz oscillator if it exists
+            Added E.enableWatchdog (fix #252)
+            Fix negative start value for String.substr()
+            Fix problem where the RTC's full 32 bits weren't combined properly
+
+     1v55 : Add String.toUpperCase/LowerCase
+            Fix E.getAnalogVRef() regression
+            Add Math.tan()
+            Ensure Double/Integer have Number as a prototype (fixes: Number.prototype.n=function();(5.0).n() )
+            ||/&& now doesn't use booleans (fix #251)
+            More resilient parseInt behaviour
+            Allow data listener for HTTP POST (fix #226)
+            Stop JSON.parse using eval (fix #249, fix #208)
+            `.toString` is now called when a String is needed from an Object (fix #57)
+            Fixed reference count error when looking for functions in an Object's prototype
+            Fix issues with Numbers as Strings in maths (eg. '-5'|0)
+            Make sure NaN|0 == 0 (and not some huge number)
+            Ensure that [1.23]*1.0 == 1.23 (fix #91)
+            Don't pull in cos (use sin(x+PI/2))
+            Try and save flash memory on Olimexino board
+
+     1v54 : Add 4x6 font (instead of 8x8)
+            Fix occasional instability with Waveform read/write
+            Refactor JSON to improve speed and code size (using cbprintf)
+            Now print special 'short' JSON for console.log (and the REPL) (fix #47)
+            JSON.stringify now doesn't print functions (fix #207)
+            Refectoring jsparse.c to name functions after their JS Grammar names
+            IF statement now accepts commas
+            Ensure that undefined+0 == NaN (only worked for floats previously)
+            Fix assert fail (issue unlocking when executing built-in functions)
+            Fix setInterval regression in dump (and tidy up code)
+            FS lib now resets when issuing the reset() command (fix #200)
+
+     1v53 : Attempt to deal with the case where CC3000 crashes on initialization
+            Fix regression with setInterval/timeout and saving
+            Fix issue with saving Serial baud rates
+            Added ArrayBuffer.set
+            Use jswrapper.c for executing idle/init/kill events for libraries (cleans up jsinteractive.c)
+            Added beta 'Waveform' API to allow simple audio output
+            Improved non-deep-sleep power draw by allowing Espruino to wake itself on the Utility timer (rather than SysTick)
+            Allowed Waveform API to output on both DAC and PWM
+            Improve auto-generated documentation
+            Speed up ArrayBuffer.set and allow Strings to be used properly
+            Fix jsvArrayJoin if memory runs out
+            Added E.sum and E.variance array operations
+            Added Waveform Analog Input
+
+     1v52 : Fix memory leak in Array.slice
+            Fix broken Serial initialisation (partial fix for #241)
+            Add fs.unlink (for deleting files)
+            Fix url parsing when there are two slashes
+            Fix recent changeInterval regression
+            Making CC3000 recover properly in the case of repeated HTTP GET
+            Add alternate function remapping for Serial and improve Serial.setup error reporting, fix #241
+            Added preliminary WIZnet W5500 support (see http://www.espruino.com/WIZnet)
+            Alt Enter (27 + 10) now always inserts a newline: (eg. for `if (X) \n Y`)
+            Fix digitalPulse with not a number
+            Make digitalPulse(... 0) wait until the last pulse is complete
+            Stop Espruino sending out so many carriage return characters (fix #243)
+            Added 'delete' keyword (fix #39)
+
+     1v51 : Added debounce to setWatch (fix #14)
+            Tidy up timeout/watch code and now store an integer for interval
+            Fix crash in url.parse (string free)
+            Fix Modules.addCached bug which means that Modules.removeAllModules created a memory leak
+            Fix regression introducted by fix for #199
+            Added 'Esc,[,2,K' escape sequence for clearing lines. Much safer than Ctrl+C which tends to break out of execution.
+            Fix bootloader (broken by LTO in 1v49)
+            Added Number.toFixed
+            Make number.toString(base) work for floating point (fix #232)
+            Fix Linux jshSleep so that timeouts are handled at <10ms if required (fixes test056)
+            Now use jshardware's SPI for SD filesystems - more multiplatform
+            Now ref thisVar, which stops it being repurposed into a Name for array accesses (fix #233)
+            Fix Linux halting when there is one long timeout but no other activity
+            fs.readFile returns 'undefined' if file is not found. Also make readdir return undefined on failure (fix #229)
+            Remove disk_timerproc in SD card implementation
+            Upgrade fatfs to R0.10a
+            Tweak jsinteractive.c to help reduce code size
+            Finally added Long filename support for FatFS (fix #78)
+            Epic refactor to remove JsParse (fix #17)
+            Implement faster Graphics ArrayBuffer fill (affects vector fonts + clear)
+            Stop repeated analogWrite with messing up PWM waveform (fix #56)
+            Swap open and close brackets in bitmap font (fix #191)
+            Graphics arraybuffer/callback now accepts 16bpp
+            Added ability to specify a JS function for Graphics fillRect
+            Graphics setPixel(x,y,undefined) to use foreground colour (fix #215)
+            Make sure that interruptions are handled better while drawing to graphics
+            Make sure that stack overflow errors are handled more tidily (and increase limit for warning)
+            Increase available stack on Espruino Board
+            Stop FatFS using insane amounts of RAM
+            High res timer (now to 1/2^23) using SysTick with RTC as a base (fix #168)
+            Added 'Infinity' constant
+            Fixed type equality check between int and float (should treat them as the same)
+            Fix parsing of '018' - it's not Octal after all (but 017 is)
+            More accurate values for PI and E
+            Fix charCodeAt being signed (should be unsigned)
+            When casting Strings to booleans, so s.length!=0
+            Guess initial values for average SysTick time - means that getTime is more accurate for the first 1-2 seconds after startup
+            setWatch now reports lastTime - time of last state change #238
+            analogWrite now respects pinMode (fix #234)
+            Add Open Drain support to pinMode (fix #225)
+            Fix calling Number([value]) always returns undefined (fix #186)
+            When disconnected from the net, make sure we free all HTTP clients/servers
+            Completely remove IRQs from CC3k code
+            Speed up CC3k code, try and make it automatically power cycle it on timeouts
+            Fix SPI MISO on F4 board
+            Move CC3000 to SPI3 (same pins) so SPI1 can be used for other things
+            Compile CC3000 support in for the F4 (untested)
+            Process.env now reports board serial # and current console device (se we can throttle for Bluetooth) (fix #219)
+            General bugfixing for low memory situations
+            Make string free non-recursive
+            Fix issue where fs.readFile of a big file would cause Espruino to crash
+            Fix memory test harness
+
+     1v50 : Fix broken Web IDE caused by change to printing JSON for console.log (part of #206)
+            Fix bug when trying to stringify {5:5}
+            Allow {1:2} to be parsed (fix #199)
+            Added SPI RX IRQ. Caved in and used a few bytes for buffers, made SPI significantly more reliable
+
+     1v49 : Change compiler flags to allow link-time optimisation
+            Increase buffer sizes on Linux
+            Increase buffer sizes on boards with >= 20kB RAM
+            Made Startup banner smaller
+            Less printing when loading from flash
+            Don't display startup banner if loading from flash (an easy way to fix #213)
+            Fix HTTP response code of 0 (fix #212)
+            Add timeouts to TI's CC3000 driver
+            Add timeouts for SPI, and other timeouts now interrupt execution
+            Lower USB interrupt priority, remove pesky PriorityGroupConfig that was breaking other IRQ priorities
+            Until we sort out SPI RX and IRQs, lower default SPI baud rate to stop timeouts
+            console.log and print output JSON now (part of #206)
+            Added handling of query in url.parse - still not fully compatible though (fix #205)
+
+     1v48 : Fix issue where the size of command history is being reported wrong and so process.memory().free is reported wrong too
+            We now loop without a seek to position inside the string (much faster if loop is not near the start of a fn) (fix #53)
+            Faster string iteration which doesn't involve incrementing it->index
+            Swapped to jumptable to lexer (should be a bit faster)
+            Added the 'E' class, with getAnalogVRef and getTemperature (fix #60)
+            Deprecated Math.clip (not in spec) and introduced E.clip
+            Fixed bug in common.py that meant that ifndefs in JSON were sometimes not obeyed (better mem usage on small chips)
+            Fix deep sleep breaking ADCs
+
+     1v47 : Fix issue with dump() and input_pullup not being quoted
+            Fix regression that broke OneWire in Espruino Board (#197)
+            Fix clock speed issue on SPI1 (https://github.com/espruino/EspruinoDocs/issues/18)
+            Don't interrupt on USB ESOF or ERR  - allows 'normal' sleep without interrupting every 1ms (fix #195)
+            Remove pointless KickStarter line printed on startup
+            Added bootloader hack to Python bootloader
+
+     1v46 : Fix parseFloat("") not returning NaN, and parseFloat(" \t 5 £$%^&(*$") returning NaN
+            Added isNaN() function (fix #184)
+            Fix parse order for 'typeof' (fix #172)
+            Added Number object (fix #165)
+            Bounded ftoa (stops crash when printing Number.MAX_VALUE) - helps with #185
+            Added Array.isArray() (fix #160)
+            Add do...while (fix #151)
+            Stop Espruino board from crashing if you try to create a web server without a connected CC3k (fix #182)
+            Remove Array.contains as it's not in the spec (use indexOf instead if you need it) (fix #161)
+            Fix nasty bug where adding/removing intervals/timeouts while in one could cause issues
+            Fix bug when printing 1.999999999 and similar (fix #190)
+            Remove need for pow for exponentiation. Not great but it fixes some tests that failed on FP inaccuracies
+            Change polarity of setSleepIndicator (fix #194)
+            Allow array.push with multiple arguments (fix #189)
+            Speed up array access by searching from the end backwards if we think the number is in the last half (fix #46)
+
+     1v45 : Fix parseFloat("foo") not returning NaN (and assert) - fix #149
+            Remove Integer.parseInt
+            Fix parseInt("bar") - fix #150
+            Ensure that maths ops with null do treat it as 0 rather than a string - fix #156
+            Fix digitalPulse length (properly!) - fix #154
+            Making sure that undefined gets cast to NaN
+            Fix Array.indexOf() returns undefined instead of -1 - fix #155
+            Moved memory() to process.memory() - added more info too
+            Try and improve handling of PWM timer speeds
+            Fixed varying SPI baud rates depending on device
+            Makefile changes for OSX compile
+
+     1v44 : Modified build system to store binary names in the python definition
+            Fix nasty regression involving losing code at the end of Strings
+            Fix segfault when pinMode is called on an invalid pin
+            Now disable interrupts during 4 bit SPI send - it's just too much otherwise
+            Detect unfinished block comments in console (fix #138)
+            Fix flash write on most 10XxB boards
+            Fix PWM output on all STM32 boards
+            General hardware tidy in prep for more intelligent device management
+            Run initialisation code before setWatch, to make sure pullup/down is set beforehand
+            Change 'Pin' datatype to be an unsigned char - makes tests easier
+            Now use the hardware RTC for keeping system time. Allows proper deep sleep on Espruino board
+            FINALLY - fix the USB VCP lost characters issue (#94)
+
+     1v43 : Added 'Modules' object with support for adding/removing cached modules
+            Allow product ID to be changed via Makefile
+            Fix documentation (and old-fashined Parsing style) for JSON
+            build_jswrapper now outputs errors to stderr (more compatible with default (silent) build process)
+            Fix issue when parsing quotes in strings
+            Added void operator for closure minification compatibility
+            Ensure that return takes the comma operator
+            Fix issue where printing Infinity would crash Espruino (fix #129)
+            Finally some working (extremely beta) cc3000 code
+            Added jsvObjectGet/SetChild to simplify some wrappers
+            'http' now uses JsVars for storage (so is suitable for non-linux devices)
+            Turned 'http' into a library
+            Added process.version and process.env (fix #131)
+            Changed handling of 2nd arg of << so that precedence is correct
+            Fixed handling of 'for (;;)'
+            Fix lock leak in Module handling
+            Update ST's library for the STM32F1
+            Update ST's VCP implementation
+            Added prefix operator (fix #130)
+            Allow espruino for linux to be run with '#!' in scripts
+            Fix indexOf on final element of strings (fix #133)
+            Remove JSV_PARENTINFO, as it turns out JS doesn't keep track of function scopes anyway (fix #109)
+            Make 'this' a keyword (now faster, more memory efficient)
+            Make 'Hardware' (root) the default value of 'this'
+            Add jsvArrayPushAndUnLock and modified code to use it (fix #135)
+            Now remember I2C state (partial fix for #13)
+            Replace 'pow' function with a smaller version - save ~2kb
+            Shaved another 1200 bytes off jslTokenAsString
+            Now store Pin state (fix for #13 on F1 parts, F4 still looks broken)
+            Added Graphics.stringWidth
+            Added internal Printf function
+	           Misc speed and code size improvements
+            This version has gone to Seeed for use on the KickStarter boards
+
+     1v42 : [ebirger] allowing 'new' with no brackets
+            Allow built-in functions with variable numbers of arguments (fix #83)
+            Implement 'String' constructor in the normal way (fix #110)
+            Fix regression with parsing constructors while not executing
+            Allow multiple arguments to print and console.log (fix #92)
+            Make 'arguments' array available in functions (fix #100)
+            Fix an assert fail, and handle some potential memory leaks
+            Don't show __proto__ and constructor with for..in, keys(), or JSON.stringify
+            Make 'trace()' output more readable debug data for complex structures
+            Fix memory leak whe parsing functions iwht variable numbers of arguments - fix #115
+            Defined NaN
+            Stop 'new undefined()' crashing Espruino - fix #120
+            Get A13/A14 working on Espruino board (these were JTAG)
+            Get bootloader size direct from Python (remove hard-coding)
+	           Fix '~' operator when acting on variables
+            Made bootloader a bit more error tolerate (CRC on write)
+            Added %=, /=, and *= operators (fix #121)
+            Allowed Object.toString() to take a radix argument for integers (fix #125)
+            Fix error message issue - broken strncat (fix #124)
+            Add comma operator (fix #122)
+            Added some basic code for STM32F429IDISCOVERY - not currently working though
+            This version is the one sent off on the Test Harness (so will probably appear on boards)
+
+     1v41 : Fix Olimexino compile (https://github.com/espruino/Espruino/issues/6)
+            [ebirger] Member constructors (eg. new a.b() )
+            [ebirger] Ensuring integers with radix specifiers can still be parsed if a radix is specified
+            Fix for tests/test_json_arraybuffer_001.js - iteration of arraybuffers of length==1
+            Add Object.keys(...)
+            More arraybuffer iteration fixes
+            On linux, use built-in stringToFloat to aid debugging. Handle exponentials, fix #31
+            'make serialflash' is now works correctly for Espruino Boards with bootloader
+            setWatch(..A0);setWatch(..A0);clearWatch(1) does not now kill the other watch, fix #25
+            One-based setTimeout/setWatch, fix #3
+            Added Function.call and Function.apply, fix #54
+            'http' and 'fs' are now libraries that need to be 'require'd, fix #8
+            Updated pin info for STM32F103xC/D/E chips, fix #84
+            Fixed linker script for STM32F4 (discovery board now works)
+            Object prototypes are now Objects, fix #101
+            Board docs now specify '3.3v' only pins fix #104
+            Add Array.forEach
+            Fix searching down >1 prototype to find functions (one more issue posted in #99)
+            Fix "12345"/5 type issues (fix #90)
+            'Consting' some string functions
+            Fixing arrays with string indices that are actually numbers \o/ (fix #19)
+            Released onto website
+
+     1v40 : Ensure that LCD.prototype.setPixel = function actually works
+            Refactor LCD driver code to allow lcdInit (and start of making it non-platform-specific)
+            Built 'LCD' support into linux/raspi/carambola
+            Add initial SPI.send(ArrayBuffer) support - even if NO VALUES RETURNED
+            Start of built-in Nokia 5110 LCD support
+            Remove GPIO clock removal on sleep for now (it kills setWatch)
+            Fix (sub)ArrayBuffer problems (test100.js)
+            Added setDeepSleep - still beta put power consumption drops to 1mA
+            Fix broken name for httpCRq.write
+            Changed LCD to Graphics - added ability to render to ArrayBuffer
+            Fix 8 char built-in class names
+            Adding preliminary Sony SmartWatch support
+            Adding preliminary support for completely bare 36 pin chip
+            Fixing pin defs for Espruino board rev 1v1
+            Added proper SDL/ArrayBuffer and JS Callback graphics support
+            Added "ifdef" ability in build_jswrapper
+            Take JSVAR_CACHE_SIZE out of jsutils and put it in the board config file
+            Added JSV_PARENTINFO which will allow us to do things like setTimeout(foo.bar,10)
+            Fixed arrays in non-executes streams - 'if (0) print([1,2,3]);'
+            Added 'require' function loading modules from node_modules on SD card
+            Added module cache to stop modules being re-loaded
+            Renamed internal vars to start with '>' - much easier to distinguish for 'dump'/etc
+            Only use parentInfo on functions
+            Load all tests in test dir - don't do them by number
+            Added 'zigzag' ordering for ArrayBuffer Graphics
+            Added 'vertical_byte' ordering for ArrayBuffer Graphics
+            toJSON now ignores 'hidden' object elements
+            Special-case jsvArrayBufferIteratorSetIntegerValue
+            Make SPI output an ArrayBuffer
+            Use best out of 3 for DelayMicroseconds calibration - something seems flaky right after bootup
+	           Lines now drawn from p1 to p2 inclusive
+	           Events now use jshPushIOWatchEvent (should cut down on code) also fixed bug with watching pin #11
+	           Now remember if pinMode was set or not
+       	    Transform ```code``` in JSON into a code tag in the documentation
+            Graphics now supports FSMC for HY boards again
+            Drawing vector fonts is now roughly the right size and position (still not 100%)
+            Remove registration code
+            Adding MPL licence
+            Remove Arduino bit manipulation functions - nobody seems to use them anyway
+            # of flash pages/etc now comes from board info
+            [ebirger] Supply the correct arguments to Array.map
+            [ebirger] Method calls and membership evaluation should be done on all factors (ee. [1,2,3].foo())
+            [ebirger] When running multiple tests, only set up terminal once or it breaks the terminal window on exit
+            Added STM32-style USB CDC bootloader for Espruino Boards
+            Added scripts/create_espruino_image.sh to package up bootloader and espruino into one binary
+            SHIPPED on Impatient developer boards
+
+     1v39 : Added Bitwise NOT operator
+            Added Raspberry Pi version to ZIP (with HTTP support)
+            Fixed load/save on Linux Devices
+            Added pinMode function (to allow pull-ups/pull-downs to be turned on)
+            SPI.send4bit/send8bit will now not mess up the final element
+            changeInterval now clears up stored up callbacks (eg, setInterval(.., 0.01)...wait...changeInterval(...,20)
+            Ctrl-C no longer prints anything, which avoids lockups
+            No longer print "Execution Interrupted" if nothing was interrupted!
+            Added >>>= >>= and <<=
+            When entering text interactively, ensure that there are no trailing spaces
+
+     1v38 : Tweaks for Arduino IDE compile
+            Removed '(char #)' from stack trace, as a bit pointless now
+            Added better reporting of execution location when Ctrl-C pressed
+            Urgent fix for non-working Olimexino since 1v33
+            Fix string comparison when strings contain "\0"
+            Added LED1/2/OSC/SD/etc to Olimexino Board docs
+
+     1v37 : Urgent fix - power saving code made it difficult to re-flash Espruino (now only apply this to Espruino Board)
+
+     1v36 : Fix documentation for Array.pop()
+            Added some much better board documentation
+            Fixed DAC output on F3
+            Fixed DAC output on devices where PWM is also available and the alternate function is less than the DAC's
+
+     1v35 : Attempt to reduce power consumption when sleeping by turning off GPIO, and setting GPIOs to AIN on reset
+            Fix F3 issue where ADC/DAC weren't picked up properly
+            Tidy up register text and add KickStarter mention
+            var a = {}; a[LED1]=0; - not converted to String
+            JSON (and hence dump()) now dumps ArrayBuffer correctly
+
+     1v34 : Faster jshFromDeviceString
+            Preliminary support for flow control on Serial receive
+            Speed improvements by removing jsvGetRef from jsvUnLock
+            fast 4 byte pre-check in jsvFindChildFromString
+            Skip lock/unlock in FindChildFromString to help increase speed
+            When we unplug USB, only go to the default console device IF that is the device we're currently on
+            Support for custom Espruino board
+            Added ArrayBufferView.interpolate
+            16 bit SPI send for send4bit/sevrnd8bit (better reliability on low-end chips)
+            Fix JSON dump of typed array
+            Added Math.clip(x, min, max)
+            When saving on flash, don't do jslTokenAsString properly
+            B3/B4 move from alternate fn
+            Fix incorrect reporting of analog pins
+            Fix I2C.readFrom on STM32F1/4
+            Make 1/2 == 0.5 (was being sensible before, but now follow JS spec)
+            Ctrl-C while in timer fn clears timers (but not outside it)
+            Fixed broken clearInterval from within setInterval
+            Hopefully fixed issue on SSD1289 LCD controller
+            Trigger wheel handler to use interrupts
+            2D arraybuffer interpolation
+            Added Math.wrap, fixed a lot of trigger issues
+            Fixed SysTick priority/preempt problems
+            Slowed the SysTick timer back down for everything
+            Fix Int8Array signedness on F4 boards
+            Refactored source code tree
+
+     1v33 : fix character encoding issue of "\16"+"1" != "\161"
+            Refactoring of ArrayBuffer into iterator, and addition of a general purpose iterator
+            Fancier assert for debugging
+            jsvArrayJoin to use new iterator
+            for (i in ...) to use new iterator
+            I2C and SPI use new iterator
+            Serial.write() - to allow single ints to easily be written
+            changeInterval assert fail when given a function by accident
+            added peek8/poke8/peek16/poke16
+            memory() now takes account of command history size
+            memory() on ARM reports the end address of the stack - so it can be used as a scratchpad with peek and poke
+            Try and reduce code size by not inlining several functions
+            No refs for StringExts - so we get one more byte per JsVar (~5%) more storage efficiency
+            Move from jsvIsBuiltInFunction to computer-generated jswIsBuiltInFunction
+            When creating Objects, check for built-in function BEFORE creating an Object class for it
+            Built process now checks that flash usage is under the allowed value
+            Added short compare to jswHandleFunctionCall to reduce code size
+            Added 3 byte compare (4 byte read and AND off top byte) - faster, less code
+            Auto-generate jsvGetBasicObjectName from docs
+            No longer using refs for storing whether free or not - use flags with JSV_UNUSED and get one extra var with 8 bit refs
+            Switch to using STRING_0...STRING_MAX in flags, rather than specific bits in JsVarFlags - allows more that 15 chars to be used per JsVar
+            Make ArrayBuffers actually be ArrayBufferViews - saves on extra string-handling code at expense of one var
+            Make sure Uint8Array,etc inherits from ArrayBufferView
+            Fix issue where a '\0' coming in from serial was not put in e.data properly
+            Don't inline some functions when we're trying to save on flash
+            Re-use sin for cos, pow for sqrt to reduce code size
+
+     1v32 : Fixed embarassing issue with 0.999=="0.A"
+            Added and checked Pin.writeAtTime on STM32
+            Now don't allocate events array - just allocate directly, which saves memory and is faster (although slighty out of order)
+            Docs: now Alphabetically sorted, and class instances not listed by accident
+            Fix issue where Ctrl-C on ANY Serial port caused execution to be interrupted
+            Updated busy indicator to cope with recent change to not allocate events in an array
+            Fixed I2C on HY 2.4 board - I2C needed hard reset
+            Added basic ArrayBuffers/TypedArray support
+            Fix memory leak when error created with [] on a non-array/object
+            Improved hyperlinking in documentation
+            Fix I2C receive bug on F4
+            Increased VL board's input buffer size
+
+     1v31 : Fix PWM output on TIMER1/8 pins of the STM32F4
+            Fix PWM output for negated timers
+            memory() now runs a GC pass
+            Fixed multiple occurrence of functions in reference
+
+     1v30 : STM32F1: fixed AF issue meant peripherals would never return from AF mode
+            STM32F1: When given an invalid pin, now reports if pins are 'af' or not
+            Updated SPI.setup docs to mention that you can't mix AF and non-AF
+            If one SPI pin is specified but others aren't, only that pin will be set up
+            Added Olimexino hack so SPI1.setup works as expected
+            Allow using [] on a function
+            Fix precedence issue, so var a = function() { return 1; }(); works
+            Update SPI documentation
+            for (i in f) can now iterate over functions
+            Optional argument to trace() for object to start tracing from
+            Small steps towards ArrayBuffers
+            Added smart edit that checks for internal functions, and uses Function.replaceWith
+            Added Function.replaceWith to replace the internals of a function while keeping the scope
+
+     1v29 : Some hacky sysfs-based IO for running on Linux
+            HTTP Callbacks are now stored as names so they can be changed on the fly (Linux only)
+            Successful compile for Carambola
+            Filesystem support on Linux
+            Switch to variable size ref counter (marginally more efficient on very small devices, safe on Linux)
+            Linux now has unlimited memory available
+            Added linux/sysfs 'setWatch' (non-irq driven, so very noddy)
+            Checked jswrapper check from using multi-char constants to a #define
+            Improve pin suggestions for SPI/I2C/USART
+            Auto-initialise USART with default values when setConsole is used
+            Support for new Graphics LCD types
+            3.2" VCT6 board support
+
+     1v28 : Faster LCD fillrect for HY 2.8
+            Fix for multi-byte SPI writes on HY board at 1Mhz (touchscreen control bug)
+            Fix issue with delayMicrosecond calibration on HY (and hence OneWire)
+            Fixed digitalPulse on STM32VLDISCOVERY
+
+     1v27 : Fixed problem with OneWire constructor execution
+            Added |=, &= and ^=
+            Added Array.splice()
+            Faster, more ROM-efficient built-in symbol table
+            Fix for potential issue when using field accessor on an undefined var
+
+     1v26 : I2C Support on STM32F1 and STM32F4 boards too
+            Emergency cut in variables for Olimexino with bootloader (as flash usage has got too high for save to flash!)
+
+     1v25 : http.writeHead to accept an empty header
+            Fixed issue finding methods on built in classes (0 termination)
+            make sure http server with no data still sends headers...
+            Start of MINI-HY-2.8" support (all ok, but no SD card yet)
+            Reduce RAM usage by consting some arrays that are not modified
+            Vector fonts now use polys - 8kb less ROM, and faster rendering
+            Start of LCD 'driver' code
+            Standard way of handling events, Object.on/emit/removeAllListeners - like Node.js's EventEmitter
+            Self-calibrating Microsecond delay (for intermal OneWire/etc)
+            OneWire class
+            Correct handling of built-in class constructors
+            Fix error when parsing a zero-argument function that has been given arguments
+            I2C support - currently ONLY tested on STM32F3 board
+
+     1v24 : SDIO-based fat driver on the HY STM32 board
+            Added DAC to the HY boards (103xE-based)
+            Re-named the fileSystem functions to make them more compatible with node.js (readFile/writeFile/etc)
+            Added fs.appendFile
+            Removed HTTP from the reference until it is included in some boards
+
+     1v23 : Fix 'ERROR: INTERNAL: stmADCChannel' on STM32VLDISCOVERY/F1 boards when accessing PA0
+            Reference now mentions which Espruino version it is for
+
+     1v22 : Important fix - Events got executed in the wrong order if they got queued up
+
+     1v21 : Ensure SPI clock does not stop between bytes
+            Added SPI.send4bit and SPI.send8bit
+            Made sure the VL board's code fits into available flash
+            Smart += that can append to a string rather than cloning it
+            dump() prints functions properly, rather than 'var f = function() {}'
+            Pageup/down move the cursor to the beginning/end of input
+            LCD draw/fill with negative x and y
+
+     1v20 : Add console.log
+            Fix automatic usleep for Linux
+            Added node.js-style HTTP server for Linux version
+            Fixed null-pointer issue when accessing something that doesn't exist on an object
+            Added node.js-style HTTP client for Linux version
+            Start of bit bashing functionality
+            for (i in "ABCD") console.log(i) -> 0,1,2,3
+            String array access (but not for writing - doesn't work in JS anyway)
+            String String.fromCharCode / charCodeAt
+            Added SPI baud rate setting
+            Vector font chars 'a' and '4' now work ok
+            Fix numeric exception when rendering a poly that has some identical points
+            Better digitalPulse (uses timer + interrupts)
+            analogWrite can now take an object with a 'frequency' argument for PWM
+
+     1v19 : Fixed issue where var M=Math;M.random() failed
+            Fixed issue with var U=USB;U.print("Hello");
+            Remove loop iteration limit
+            Fix memory leak when a syntax error is in for '(i in arr)'
+            Save state of pin on setWatch interrupt (e.state)
+            Change setWatch to allow only on rise or fall as an option
+            clearWatch() clears all watches
+
+     1v18 : DAC support on F3/F4
+            Serial.setup() can also take a second parameter of an object {tx,rx}
+            Better support for dump() with echo/setBusyIndicator/etc
+            Better dumping of prototypes on built-in vars
+            Don't add chars<32 (Except tab) to the input line
+            SPI1/2/3/4.setup() to take an object {baud,sck,miso,mosi}
+            Better hardware initialisation code (not UARTS auto-init if they are used)
+            Fix issues with prototypes
+            Peek/poke instructions
+            Start of I2C support (not usable yet)
+            Added Math. ceil/floor/exp/log
+
+     1v17 : Support for running alongside the Maple bootloader
+            Fix parsing of numbers beginning with 0 when forceRadix!=8
+            Fixed USART1 on Maple/Olimexino devices
+
+     1v16 : Inlining of jsvLock/UnLock in jsvar.h to improve speed
+            Move non-hardware-dependent stuff into jsdevices
+            Move jshardware.c into targets/stm32/jshardware.c, create 'targets/linux' and use a single makefile
+            For + While loops work without reallocating lex
+            Fix AddNativeFunction when function already exists (and tests + saved state)
+            Change jsvFindChildFromX to use JsVar* from JsVarRef - saves a lot of lock/unlock
+            Handle new Foo() as per spec (return value + init of this+prototype) - still does not cope with non-object prototype
+            Beginning of SD card support (works on Olimexino, but not very flexible)
+            Fix for parse/eval when given non-strings
+            Strings can now contain '\0'
+            Jumptable-friendly reserved word check
+            Jumptable-friendly builtin functions (massive refactor)
+            SPI support
+            HY board support, and graphics LCD
+            Added fillPoly, and Vector fonts
+            Added Registration code
+            Fixed some undefined function/array warnings
+            Much better HTML function documentation
+            Fixed edit() function
+            STM32F3 support, and now peripheral stuff is done with a script
+            explain what pins are available if a pin is not capable of requested fn
+            power on ADCs only when needed
+            LCD fillPoly speed improvements, + drawLine
+            Add datatype for Pin, so pins written to console by pin name rather than integer value.
+            Added Pin.set/Pin.reset
+            Change warning about 'undefined.' into an error (foo.reset() had unexpected consequences!)
+            Fix parsing of '1.0/-3'!
+            Add typeof and instanceof operators
+            Ensure that Serial1/SPI1/etc are objects of type 'Serial'/'SPI' - so prototypes can be added
+
+     1v15 : Escaping JSON strings
+            Fix parsing of octal numbers in strings (so don't have to be 3 chars long)
+            Drastically improved stack usage using small stub functions (at expense of a bit of speed)
+            dump() also dumps out prototypes for functions
+
+     1v14 : Fix complaint about pins during setBusyIndicator()
+            Increase available memory on OLIMEXINO
+            Added function memory() to return memory usage
+            setWatch now links to function names (rather than just functions)
+            dump() also handles Serial.onData(...)
+            Fix issue with JSON printing functions with arguments to console
+            prefix builtin variables with '_'
+            fix ArrayIndexOf when array contains undefineds
+            move all devices into one git repository
+            USB on F4
+            call onInit function/string if it exists when Espruino powers on
+            Compile F4 with -O2 - as we have the program memory for it
+            Serial3/4/5/6 on F4
+            Serial3 on Olimexino
+            Make Serial.onData() clear onData handler
+
+     1v13 : Operations like + on Object/Array convert them to strings rather than error
+            var now doesn't error if there is no semi-colon
+            Allow new line or line delete in multi-line editing
+            add edit(functionName) - which copies function definition into inputline so it can be updated
+            When printing lines, delete current inputline and then put it back in idle loop (only if echo=1)
+            Support *,/ etc on numpad
+
+     1v12 : Issue when printing lots of data and then disconnect USB
+            Hide USB/Serial in Dump()
+            add Array.map(fn(x), thisArg)
+            For newline, count [] and () (as well as {}) - also knows about comments/strings/etc
+            Fix assert fail is setTimeout with non-function
+            If space at end of input line, enter still executes
+            Removed some hard-coded arrays in favour of JsVar strings
+            Fix confusion with jsvIsName/jsvIsString
+            Handle numpad end key
+            Add code to check stack and stop stack overflow if too much recursion
+            Ensure that setTimeout/setWatch store the link to a function, not the function
+            Fix nasty ref loop in ref loop GC issue
+            Add dotty output
+            Fix memory leak when error in jspParseSingleFunction
+            Now run Garbage collection if we're idle, and we know we have a few ms spare
+            Added setSleepIndicator
+            Fix line/col indicator in errors/warnings
+            Fix JSON parsing and printing when 'undefined' encountered
+            Rewritten object handling code to be way more standard JavaScript compliant
+            Array initialisation with 'new Array()', also for Strings
+            Added a few more built in functions
+            Nice error reporting with line + pointer
+            fixed Math.random
+            Binary style ops on doubles now work - they are just converted to ints
+            Added boolean datatype
+
+     1v11 : Add Math functions
+            Add command history (and dynamic history free if low memory)
+            Fix broken jsvArrayPop
+            Add tests for and fix Array.indexOf
+            In-line editing for commands
+            Fix bug in basicVarEquals for big strings
+            More fixes for low memory conditions
+            Multi-line edit for commands (but no newline or line delete yet)
+            Handle Home, End + reverse delete keys
+            Fix nested for loops not handling interrupts correctly
+            Fix AppendString issue when given start value greater than string
+            Add 'changeInterval' to allow things created with setInterval to have the frequency changed (eg. stepper motor control)
+            Now puts itself to sleep to save power, when it knows nothing is required and it'll be woken up by SysTick before
+            Change Math library to avoid putting constants in RAM
+
+     1v10 : Increase FIFO size for VL
+            Marginally decrease amount of F4 vars to ensure they all fit in one flash sector
+            Allow strings to be longer than the max token size
+            '"key" in obj' syntax
+            Detect if in FOR or WHILE loop, and if not, disallow break and continue
+            Change min setInterval time to 0.1ms - F4 can get close to this
+            Better analog pin error message
+            USB support on Olimexino/Maple
+            Start of multiple COM port support (ioEvent queue)
+            Ctrl-C now clears the input line
+            Save state of 'echo' into flash with save()
+            Add 'setBusyIndicator(pin)' to set pin high when Espruino is busy
+            Inbuilt function handling speed improvements
+            Allow Serial comms via other UARTS. Serial1/2.onData and print/println
+            now inserts elements into arrays in the correct order (GetLength can be (is) now much faster)
+            Faster code to work out pins from strings
+            Automatically convert IDs in form A#,A##,B#,B## etc into numbers.
+            Built-in constants for LED1/BTN/etc.
+
+     1v09 : Enabled 'abs' by default
+            Added flash programming to STM32F4
+            analogWrite now working!
+
+     1v08 : Add preliminary STM32F4 support
+            Allowed test cases to test timers - eg. code in jsinteractive.c
+            Fix memory leak for timer
+            Fix memory leak for digitalWrite
+
+     1v07 : Fix string charAt
+            Fix watch on different pin
+            Pass arguments to event handlers - eg. time
+            digitalWrite/Read to take arrays of pins, and int for value
+
+     1v06 : Add break + continue
+            Add switch statement
+            Handle /r, /r/n or just /n for newlines - phone compatible
+            Handle different type of delete
+
+     1v05 : Allow setWatch/setTimeout/setInterval with a string
+            Handle adding Open bracket then deleting it
+            When calling a NAMED function, zero the scopes - this stops scope table overflow
+
+     1v04 : Renamed to Espruino
+            Fixed issue with event add when out of memory
+            If out of memory happens during a timer, kill all timers

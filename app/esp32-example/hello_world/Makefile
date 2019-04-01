@@ -11,7 +11,7 @@ export IDF_PATH := $(HAIWAY_PATH)/lib/ThirdParty/ESP32/esp-idf
 endif
 
 PROJECT_NAME := hello-world
-EXTRA_COMPONENT_DIRS := $(HAIWAY_PATH)/lib/ThirdParty/ESP32/esp32_haiway
+#EXTRA_COMPONENT_DIRS := $(HAIWAY_PATH)/lib/ThirdParty/ESP32/esp32_haiway
 include $(IDF_PATH)/make/project.mk
 
 

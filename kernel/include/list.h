@@ -1,5 +1,5 @@
 /*
- * FreeRTOS Kernel V10.1.0
+ * FreeRTOS Kernel V10.1.1
  * Copyright (C) 2018 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -128,7 +128,7 @@ use of FreeRTOS.*/
 
 	/* Define macros that will assert if one of the structure members does not
 	contain its expected value. */
-	#define listTEST_LIST_ITEM_INTEGRITY( pxItem )		configAS SERT( ( ( pxItem )->xListItemIntegrityValue1 == pdINTEGRITY_CHECK_VALUE ) && ( ( pxItem )->xListItemIntegrityValue2 == pdINTEGRITY_CHECK_VALUE ) )
+	#define listTEST_LIST_ITEM_INTEGRITY( pxItem )		configASSERT( ( ( pxItem )->xListItemIntegrityValue1 == pdINTEGRITY_CHECK_VALUE ) && ( ( pxItem )->xListItemIntegrityValue2 == pdINTEGRITY_CHECK_VALUE ) )
 	#define listTEST_LIST_INTEGRITY( pxList )			configASSERT( ( ( pxList )->xListIntegrityValue1 == pdINTEGRITY_CHECK_VALUE ) && ( ( pxList )->xListIntegrityValue2 == pdINTEGRITY_CHECK_VALUE ) )
 #endif /* configUSE_LIST_DATA_INTEGRITY_CHECK_BYTES */
 
@@ -250,13 +250,6 @@ typedef struct xLIST
 #define listLIST_IS_EMPTY( pxList )	( ( ( pxList )->uxNumberOfItems == ( UBaseType_t ) 0 ) ? pdTRUE : pdFALSE )
 
 /*
-MOD.
-
-#define listLIST_IS_EMPTY( pxList )	( ( ( pxList )->uxNumberOfItems > ( UBaseType_t ) 0 ) ? pdFALSE : pdTRUE )
-
-*/
-
-/*
  * Access macro to return the number of items in the list.
  */
 #define listCURRENT_LIST_LENGTH( pxList )	( ( pxList )->uxNumberOfItems )
@@ -294,23 +287,6 @@ List_t * const pxConstList = ( pxList );													\
 	( pxTCB ) = ( pxConstList )->pxIndex->pvOwner;											\
 }
 
-/*
-MOD.
-
-#define listGET_OWNER_OF_NEXT_ENTRY( pxTCB, pxList )											\
-{																								\														\
-	if( (void * ) ( pxList )->pxIndex->pxNext != ( void * ) &( ( pxList )->xListEnd ) )			\
-	{																							\
-		( pxTCB ) = ( ( pxList )->pxIndex->pxNext )->pvOwner;									\
-	}																							\
-	// 如果下一项是链表标记项，则跳过该项									   						  \
-	else																						\
-	{																							\
-		( pxTCB ) = ( ( ( pxList )->pxIndex->pxNext )->pxNext )->pvOwner;						\
-	}																							\
-}																								\
-
-*/
 
 /*
  * Access function to obtain the owner of the first entry in a list.  Lists
@@ -331,13 +307,6 @@ MOD.
 #define listGET_OWNER_OF_HEAD_ENTRY( pxList )  ( (&( ( pxList )->xListEnd ))->pxNext->pvOwner )
 
 /*
-Modifeid version.
-
-#define listGET_OWNER_OF_HEAD_ENTRY( pxList )  ( ( ( ( pxList )->xListEnd ).pxNext )->pvOwner )
-
-*/
-
-/*
  * Check to see if a list item is within a list.  The list item maintains a
  * "container" pointer that points to the list it is in.  All this macro does
  * is check to see if the container and the list match.
@@ -347,13 +316,6 @@ Modifeid version.
  * @return pdTRUE if the list item is in the list, otherwise pdFALSE.
  */
 #define listIS_CONTAINED_WITHIN( pxList, pxListItem ) ( ( ( pxListItem )->pxContainer == ( pxList ) ) ? ( pdTRUE ) : ( pdFALSE ) )
-
-/* 
-MOD.
-
-#define listIS_CONTAINED_WITHIN( pxList, pxListItem ) ( ( ( pxList ) != ( pxListItem )->pxContainer ) ? ( pdFALSE ) : ( pdTRUE ) )
-
-*/
 
 /*
  * Return the list a list item is contained within (referenced from).
@@ -369,13 +331,6 @@ MOD.
  * function.
  */
 #define listLIST_IS_INITIALISED( pxList ) ( ( pxList )->xListEnd.xItemValue == portMAX_DELAY )
-
-/*
-MOD.
-
-#define listLIST_IS_INITIALISED( pxList ) ( ( ( &( ( pxList )->xListEnd ) )->xItemValue ) == portMAX_DELAY ? ( pdTRUE ) : ( pdFALSE ) )
-
-*/
 
 /*
  * Must be called before a list is used!  This initialises all the members
