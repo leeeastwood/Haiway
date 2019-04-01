@@ -1,5 +1,5 @@
-/* 
- * FreeRTOS Kernel V10.1.0
+/*
+ * FreeRTOS Kernel V10.1.1
  * Copyright (C) 2018 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -24,7 +24,7 @@
  *
  * 1 tab == 4 spaces!
  */
- 
+
 /* Standard includes. */
 #include <stdlib.h>
 #include <string.h>
@@ -145,14 +145,6 @@ configIDLE_TASK_NAME in FreeRTOSConfig.h. */
 		}																								\
 	} /* taskRECORD_READY_PRIORITY */
 
-	/*
-	MOD.
-
-	#define taskRECORD_READY_PRIORITY( uxPriority )														\
-	( uxTopReadyPriority = ( uxPriority > uxTopReadyPriority ) ? uxPriority : uxTopReadyPriority )													\
-
-	*/
-
 	/*-----------------------------------------------------------*/
 
 	#define taskSELECT_HIGHEST_PRIORITY_TASK()															\
@@ -172,25 +164,8 @@ configIDLE_TASK_NAME in FreeRTOSConfig.h. */
 		uxTopReadyPriority = uxTopPriority;																\
 	} /* taskSELECT_HIGHEST_PRIORITY_TASK */
 
-	/*
-	MOD.
-
-	#define taskSELECT_HIGHEST_PRIORITY_TASK()															\
-	{																									\
-	UBaseType_t uxTempTopReadyPriority = uxTopReadyPriority;											\			
-																										\
-		for( ; listLIST_IS_EMPTY( &( pxReadyTasksLists[ uxTempTopReadyPriority ] ) ) 					\
-		&& uxTempTopReadyPriority > 0; --uxTempTopReadyPriority );										\
-																										\
-		configASSERT( uxTempTopReadyPriority );															\
-		uxTopReadyPriority = uxTempTopReadyPriority;													\
-		listGET_OWNER_OF_NEXT_ENTRY( pxCurrentTCB, &( pxReadyTasksLists[ uxTopPriority ] ) );			\
-	}
-
-	*/
-
 	/*-----------------------------------------------------------*/
-	
+
 	/* Define away taskRESET_READY_PRIORITY() and portRESET_READY_PRIORITY() as
 	they are only required when a port optimised method of task selection is
 	being used. */
@@ -272,13 +247,6 @@ count overflows. */
  */
 #define prvGetTCBFromHandle( pxHandle ) ( ( ( pxHandle ) == NULL ) ? pxCurrentTCB : ( pxHandle ) )
 
-/*
-MOD.
-
-#define prvGetTCBFromHandle( pxHandle ) ( ( ( pxHandle ) != NULL ) ? ( pxHandle ) : pxCurrentTCB )
-
-*/
-
 /* The item value of the event list item is normally used to hold the priority
 of the task to which it belongs (coded to allow it to be held in reverse
 priority order).  However, it is occasionally borrowed for other purposes.  It
@@ -298,7 +266,7 @@ to its original value when it is released. */
  * and stores task state information, including a pointer to the task's context
  * (the task's run time environment, including register values)
  */
-typedef struct TaskControlBlock_t
+typedef struct tskTaskControlBlock /* The old naming convention is used to prevent breaking kernel aware debuggers. */
 {
 	volatile StackType_t	*pxTopOfStack;	/*< Points to the location of the last item placed on the tasks stack.  THIS MUST BE THE FIRST MEMBER OF THE TCB STRUCT. */
 
@@ -382,8 +350,13 @@ typedef tskTCB TCB_t;
 which static variables must be declared volatile. */
 PRIVILEGED_DATA TCB_t * volatile pxCurrentTCB = NULL;
 
-/* Lists for ready and blocked tasks. --------------------*/
+/* Lists for ready and blocked tasks. --------------------
+xDelayedTaskList1 and xDelayedTaskList2 could be move to function scople but
+doing so breaks some kernel aware debuggers and debuggers that rely on removing
+the static qualifier. */
 PRIVILEGED_DATA static List_t pxReadyTasksLists[ configMAX_PRIORITIES ];/*< Prioritised ready tasks. */
+PRIVILEGED_DATA static List_t xDelayedTaskList1;						/*< Delayed tasks. */
+PRIVILEGED_DATA static List_t xDelayedTaskList2;						/*< Delayed tasks (two lists are used - one for delays that have overflowed the current tick count. */
 PRIVILEGED_DATA static List_t * volatile pxDelayedTaskList;				/*< Points to the delayed task list currently being used. */
 PRIVILEGED_DATA static List_t * volatile pxOverflowDelayedTaskList;		/*< Points to the delayed task list currently being used to hold tasks that have overflowed the current tick count. */
 PRIVILEGED_DATA static List_t xPendingReadyList;						/*< Tasks that have been readied while the scheduler was suspended.  They will be moved to the ready list when the scheduler is resumed. */
@@ -428,6 +401,15 @@ kernel to move the task from the pending ready list into the real ready list
 when the scheduler is unsuspended.  The pending ready list itself can only be
 accessed from a critical section. */
 PRIVILEGED_DATA static volatile UBaseType_t uxSchedulerSuspended	= ( UBaseType_t ) pdFALSE;
+
+#if ( configGENERATE_RUN_TIME_STATS == 1 )
+
+	/* Do not move these variables to function scope as doing so prevents the
+	code working with debuggers that need to remove the static qualifier. */
+	PRIVILEGED_DATA static uint32_t ulTaskSwitchedInTime = 0UL;	/*< Holds the value of a timer/counter the last time a task was switched in. */
+	PRIVILEGED_DATA static uint32_t ulTotalRunTime = 0UL;		/*< Holds the total amount of execution time as defined by the run time counter clock. */
+
+#endif
 
 /*lint -restore */
 
@@ -557,7 +539,7 @@ static void prvAddCurrentTaskToDelayedList( TickType_t xTicksToWait, const BaseT
 #if ( configUSE_TICKLESS_IDLE != 0 )
 
 	static TickType_t prvGetExpectedIdleTime( void ) PRIVILEGED_FUNCTION;
-	
+
 #endif
 
 /*
@@ -851,85 +833,6 @@ static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB ) PRIVILEGED_FUNCTION;
 	}
 
 #endif /* configSUPPORT_DYNAMIC_ALLOCATION */
-
-/*
-MOD.
-
-#if( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
-
-	BaseType_t xTaskCreate(	TaskFunction_t pxTaskCode,
-							const char * const pcName,		
-							const configSTACK_DEPTH_TYPE usStackDepth,
-							void * const pvParameters,
-							UBaseType_t uxPriority,
-							TaskHandle_t * const pxCreatedTask )
-	{
-	TCB_t *pxNewTCB;
-	BaseType_t xReturn;
-	const size_t xSizeOfStack = ( ( size_t ) usStackDepth ) * sizeof( StackType_t );
-	const size_t xSizeOfTCB_t = sizeof( TCB_t );
-
-		#if( portSTACK_GROWTH > 0 )
-		{
-
-			if( ( pxNewTCB = ( TCB_t * ) pvPortMalloc( xSizeOfTCB_t ) ) != NULL && 
-				( pxNewTCB->pxStack = ( StackType_t * ) pvPortMalloc( xSizeOfStack ) ) == NULL )
-			{
-				vPortFree( pxNewTCB );
-				pxNewTCB = NULL;
-			}
-			else
-			{
-				mtCOVERAGE_TEST_MARKER();
-			}
-		}
-		#else 
-		{
-		StackType_t *pxStack;
-
-			if( ( pxStack = pvPortMalloc( xSizeOfStack ) ) != NULL &&
-				( pxNewTCB = ( TCB_t * ) pvPortMalloc( sizeof( TCB_t ) ) ) != NULL )
-			{
-				pxNewTCB->pxStack = pxStack;
-			}
-			else
-			{
-				if( pxStack == NULL )
-				{
-					pxNewTCB = NULL;
-				}	
-				else
-				{
-					vPortFree( pxStack );
-				}
-			}
-		}
-		#endif 
-
-		if( pxNewTCB != NULL )
-		{
-			#if( tskSTATIC_AND_DYNAMIC_ALLOCATION_POSSIBLE != 0 ) 
-			{
-				pxNewTCB->ucStaticallyAllocated = tskDYNAMICALLY_ALLOCATED_STACK_AND_TCB;
-			}
-			#endif 
-
-			prvInitialiseNewTask( pxTaskCode, pcName, ( uint32_t ) usStackDepth, pvParameters, uxPriority, pxCreatedTask, pxNewTCB, NULL );
-			prvAddNewTaskToReadyList( pxNewTCB );
-			xReturn = pdPASS;
-		}
-		else
-		{
-			xReturn = errCOULD_NOT_ALLOCATE_REQUIRED_MEMORY;
-		}
-
-		return xReturn;
-	}
-
-#if( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
-
-*/
-
 /*-----------------------------------------------------------*/
 
 static void prvInitialiseNewTask( 	TaskFunction_t pxTaskCode,
@@ -1136,175 +1039,6 @@ UBaseType_t x;
 		mtCOVERAGE_TEST_MARKER();
 	}
 }
-
-/*
-MOD.
-
-static void prvInitialiseNewTask( 	TaskFunction_t pxTaskCode,
-									const char * const pcName,		
-									const uint32_t ulStackDepth,
-									void * const pvParameters,
-									UBaseType_t uxPriority,
-									TaskHandle_t * const pxCreatedTask,
-									TCB_t *pxNewTCB,
-									const MemoryRegion_t * const xRegions )
-{
-StackType_t *pxTopOfStack;
-UBaseType_t x;
-
-	#if( portUSING_MPU_WRAPPERS == 1 )
-		BaseType_t xRunPrivileged;
-		if( ( uxPriority & portPRIVILEGE_BIT ) == 0U )
-		{
-			xRunPrivileged = pdFALSE;
-		}
-		else
-		{	xRunPrivileged = pdTRUE;
-			uxPriority &= ~portPRIVILEGE_BIT;
-		}
-	#endif 
-
-	configASSERT( pcName );
-
-	#if( tskSET_NEW_STACKS_TO_KNOWN_VALUE == 1 )
-	{
-		( void ) memset( pxNewTCB->pxStack, ( int ) tskSTACK_FILL_BYTE, ( size_t ) ulStackDepth * sizeof( StackType_t ) );
-	}
-	#endif 
-
-	#if( portSTACK_GROWTH < 0 )
-	{
-		pxNewTCB->pxEndOfStack = pxNewTCB->pxStack + ( ulStackDepth - ( uint32_t ) 1 );
-		pxTopOfStack = ( StackType_t * ) ( ( ( portPOINTER_SIZE_TYPE ) pxTopOfStack ) & ( ~( ( portPOINTER_SIZE_TYPE ) portBYTE_ALIGNMENT_MASK ) ) ); 
-
-		configASSERT( ( ( ( portPOINTER_SIZE_TYPE ) pxTopOfStack & ( portPOINTER_SIZE_TYPE ) portBYTE_ALIGNMENT_MASK ) == 0UL ) );
-
-		#if( configRECORD_STACK_HIGH_ADDRESS == 1 )
-		{
-			pxNewTCB->pxEndOfStack = pxTopOfStack;
-		}
-		#endif 
-	}
-	#else 
-	{
-		pxTopOfStack = pxNewTCB->pxStack;
-
-		configASSERT( ( ( ( portPOINTER_SIZE_TYPE ) pxTopOfStack & ( portPOINTER_SIZE_TYPE ) portBYTE_ALIGNMENT_MASK ) == 0UL ) );
-
-		pxNewTCB->pxEndOfStack = pxNewTCB->pxStack + ( ulStackDepth - ( uint32_t ) 1 );
-	}
-	#endif 
-
-	for( x = ( UBaseType_t ) 0; x < ( UBaseType_t ) configMAX_TASK_NAME_LEN && pcName[ x ] != ( char ) 0x00 ; x++ )
-	{
-		pxNewTCB->pcTaskName[ x ] = pcName[ x ];
-	}
-
-	pxNewTCB->pcTaskName[ configMAX_TASK_NAME_LEN - 1 ] = '\0';
-
-	if( uxPriority >= ( UBaseType_t ) configMAX_PRIORITIES )
-	{
-		uxPriority = ( UBaseType_t ) configMAX_PRIORITIES - ( UBaseType_t ) 1U;
-	}
-	else
-	{
-		mtCOVERAGE_TEST_MARKER();
-	}
-
-	pxNewTCB->uxPriority = uxPriority;
-	#if ( configUSE_MUTEXES == 1 )
-	{
-		pxNewTCB->uxBasePriority = pxNewTCB->uxPriority;
-		pxNewTCB->uxMutexesHeld = 0;
-	}
-	#endif 
-
-	vListInitialiseItem( &( pxNewTCB->xStateListItem ) );
-	vListInitialiseItem( &( pxNewTCB->xEventListItem ) );
-
-	listSET_LIST_ITEM_OWNER( &( pxNewTCB->xStateListItem ), pxNewTCB );
-
-	listSET_LIST_ITEM_VALUE( &( pxNewTCB->xEventListItem ), ( TickType_t ) configMAX_PRIORITIES - ( TickType_t ) uxPriority ); 
-	listSET_LIST_ITEM_OWNER( &( pxNewTCB->xEventListItem ), pxNewTCB );
-
-	#if ( portCRITICAL_NESTING_IN_TCB == 1 )
-	{
-		pxNewTCB->uxCriticalNesting = ( UBaseType_t ) 0U;
-	}
-	#endif 
-
-	#if ( configUSE_APPLICATION_TASK_TAG == 1 )
-	{
-		pxNewTCB->pxTaskTag = NULL;
-	}
-	#endif 
-
-	#if ( configGENERATE_RUN_TIME_STATS == 1 )
-	{
-		pxNewTCB->ulRunTimeCounter = 0UL;
-	}
-	#endif 
-
-	#if ( portUSING_MPU_WRAPPERS == 1 )
-	{
-		vPortStoreTaskMPUSettings( &( pxNewTCB->xMPUSettings ), xRegions, pxNewTCB->pxStack, ulStackDepth );
-	}
-	#else
-	{
-		( void ) xRegions;
-	}
-	#endif
-
-	#if( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 )
-	{
-		for( x = 0; x < ( UBaseType_t ) configNUM_THREAD_LOCAL_STORAGE_POINTERS; x++ )
-		{
-			pxNewTCB->pvThreadLocalStoragePointers[ x ] = NULL;
-		}
-	}
-	#endif
-
-	#if ( configUSE_TASK_NOTIFICATIONS == 1 )
-	{
-		pxNewTCB->ulNotifiedValue = 0;
-		pxNewTCB->ucNotifyState = taskNOT_WAITING_NOTIFICATION;
-	}
-	#endif
-
-	#if ( configUSE_NEWLIB_REENTRANT == 1 )
-	{
-		_REENT_INIT_PTR( ( &( pxNewTCB->xNewLib_reent ) ) );
-	}
-	#endif
-
-	#if( INCLUDE_xTaskAbortDelay == 1 )
-	{
-		pxNewTCB->ucDelayAborted = pdFALSE;
-	}
-	#endif
-
-	#if( portUSING_MPU_WRAPPERS == 1 )
-	{
-		pxNewTCB->pxTopOfStack = pxPortInitialiseStack( pxTopOfStack, pxTaskCode, pvParameters, xRunPrivileged );
-	}
-	#else 
-	{
-		pxNewTCB->pxTopOfStack = pxPortInitialiseStack( pxTopOfStack, pxTaskCode, pvParameters );
-	}
-	#endif 
-
-	if( pxCreatedTask != NULL )
-	{
-		*pxCreatedTask = ( TaskHandle_t ) pxNewTCB;
-	}
-	else
-	{
-		mtCOVERAGE_TEST_MARKER();
-	}
-}
-
-*/
-
 /*-----------------------------------------------------------*/
 
 static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB )
@@ -1388,61 +1122,6 @@ static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB )
 		mtCOVERAGE_TEST_MARKER();
 	}
 }
-
-/*
-MOD.
-
-static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB )
-{
-	taskENTER_CRITICAL();
-	{
-		uxCurrentNumberOfTasks++;
-		if( pxCurrentTCB == NULL || pxNewTCB->uxPriority >= pxCurrentTCB->uxPriority )
-		{
-			pxCurrentTCB = pxNewTCB;
-
-			if( pxCurrentTCB == NULL && uxCurrentNumberOfTasks == ( UBaseType_t ) 1 )
-			{
-				prvInitialiseTaskLists();
-			}
-			else
-			{
-				mtCOVERAGE_TEST_MARKER();
-			}
-		}
-		else
-		{
-			mtCOVERAGE_TEST_MARKER();
-		}
-
-		uxTaskNumber++;
-
-		#if ( configUSE_TRACE_FACILITY == 1 )
-		{
-			pxNewTCB->uxTCBNumber = uxTaskNumber;
-		}
-		#endif
-
-		traceTASK_CREATE( pxNewTCB );
-
-		prvAddTaskToReadyList( pxNewTCB );
-
-		portSETUP_TCB( pxNewTCB );
-	}
-	taskEXIT_CRITICAL();
-
-	if( xSchedulerRunning == pdTRUE && pxNewTCB->uxPriority > pxCurrentTCB->uxPriority )
-	{
-		taskYIELD_IF_USING_PREEMPTION();
-	}
-	else
-	{
-		mtCOVERAGE_TEST_MARKER();
-	}
-}
-
-*/
-
 /*-----------------------------------------------------------*/
 
 #if ( INCLUDE_vTaskDelete == 1 )
@@ -1827,7 +1506,7 @@ static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB )
 	TCB_t *pxTCB;
 	UBaseType_t uxCurrentBasePriority, uxPriorityUsedOnEntry;
 	BaseType_t xYieldRequired = pdFALSE;
-	
+
 		configASSERT( ( uxNewPriority < configMAX_PRIORITIES ) );
 
 		/* Ensure the new priority is valid. */
@@ -1982,118 +1661,6 @@ static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB )
 	}
 
 #endif /* INCLUDE_vTaskPrioritySet */
-
-/*
-
-MOD.
-
-#if ( INCLUDE_vTaskPrioritySet == 1 )
-
-	void vTaskPrioritySet( TaskHandle_t xTask, UBaseType_t uxNewPriority )
-	{
-	TCB_t *pxTCB;
-	UBaseType_t uxCurrentBasePriority, uxPriorityUsedOnEntry;
-	BaseType_t xYieldRequired = pdFALSE;
-	
-		configASSERT( ( uxNewPriority < configMAX_PRIORITIES ) );
-
-		uxNewPriority = ( uxNewPriority >= ( UBaseType_t ) configMAX_PRIORITIES ) ?
-		( ( UBaseType_t ) configMAX_PRIORITIES - ( UBaseType_t ) 1U ):
-		( uxNewPriority );	
-
-		taskENTER_CRITICAL();
-		{
-			pxTCB = prvGetTCBFromHandle( xTask );
-
-			traceTASK_PRIORITY_SET( pxTCB, uxNewPriority );
-
-			#if ( configUSE_MUTEXES == 1 )
-			{
-				uxCurrentBasePriority = pxTCB->uxBasePriority;
-			}
-			#else
-			{
-				uxCurrentBasePriority = pxTCB->uxPriority;
-			}
-			#endif
-
-			if( uxCurrentBasePriority != uxNewPriority )
-			{
-				if( ( uxCurrentBasePriority < uxNewPriority && pxTCB != pxCurrentTCB &&
-				uxNewPriority >= pxCurrentTCB->uxPriority ) || ( uxCurrentBasePriority < uxNewPriority &&
-						pxTCB == pxCurrentTCB ) )
-				{
-					xYieldRequired = pdTRUE;
-				}
-				else
-				{
-					mtCOVERAGE_TEST_MARKER();	
-				}
-
-				uxPriorityUsedOnEntry = pxTCB->uxPriority;
-
-				#if ( configUSE_MUTEXES == 1 )
-				{
-					if( pxTCB->uxBasePriority == pxTCB->uxPriority )
-					{
-						pxTCB->uxBasePriority = pxTCB->uxPriority = uxNewPriority;
-					}
-					else
-					{
-						pxTCB->uxBasePriority = uxNewPriority;
-					}
-				}
-				#else
-				{
-					pxTCB->uxPriority = uxNewPriority;
-				}
-				#endif
-
-				if( ( listGET_LIST_ITEM_VALUE( &( pxTCB->xEventListItem ) ) & taskEVENT_LIST_ITEM_VALUE_IN_USE ) == 0UL )
-				{
-					listSET_LIST_ITEM_VALUE( &( pxTCB->xEventListItem ), ( ( TickType_t )configMAX_PRIORITIES - ( TickType_t ) uxNewPriority ) ); 
-				}
-				else
-				{
-					mtCOVERAGE_TEST_MARKER();
-				}
-
-				if( listIS_CONTAINED_WITHIN( &( pxReadyTasksLists[ uxPriorityUsedOnEntry ] ), &( pxTCB->xStateListItem ) ) == pdTRUE )
-				{
-					if( uxListRemove( &( pxTCB->xStateListItem ) ) == ( UBaseType_t ) 0 )
-					{
-						portRESET_READY_PRIORITY( uxPriorityUsedOnEntry, uxTopReadyPriority );
-					}
-					else
-					{
-						mtCOVERAGE_TEST_MARKER();
-					}
-					prvAddTaskToReadyList( pxTCB );
-				}
-				else
-				{
-					mtCOVERAGE_TEST_MARKER();
-				}
-
-				if( xYieldRequired == pdTRUE )
-				{
-					taskYIELD_IF_USING_PREEMPTION();
-				}
-				else
-				{
-					mtCOVERAGE_TEST_MARKER();
-				}
-
-				( void ) uxPriorityUsedOnEntry;
-			}
-		}
-		taskEXIT_CRITICAL();
-	}
-
-#endif 
-
-*/
-
 /*-----------------------------------------------------------*/
 
 #if ( INCLUDE_vTaskSuspend == 1 )
@@ -2241,34 +1808,6 @@ MOD.
 	} /*lint !e818 xTask cannot be a pointer to const because it is a typedef. */
 
 #endif /* INCLUDE_vTaskSuspend */
-
-/*
-
-#if ( INCLUDE_vTaskSuspend == 1 )
-
-	static BaseType_t prvTaskIsTaskSuspended( const TaskHandle_t xTask )
-	{
-	BaseType_t xReturn = pdFALSE;
-	const TCB_t * const pxTCB = xTask;
-
-		configASSERT( xTask );
-
-		if( listIS_CONTAINED_WITHIN( &xSuspendedTaskList, &( pxTCB->xStateListItem ) ) == pdTRUE &&  listIS_CONTAINED_WITHIN( &xPendingReadyList, &( pxTCB->xEventListItem ) ) == pdFALSE && listIS_CONTAINED_WITHIN( NULL, &( pxTCB->xEventListItem ) ) == pdTRUE )
-		{
-			xReturn = pdTRUE;
-		}
-		else
-		{
-			mtCOVERAGE_TEST_MARKER();
-		}
-
-		return xReturn;
-	} 
-
-#endif 
-
-*/
-
 /*-----------------------------------------------------------*/
 
 #if ( INCLUDE_vTaskSuspend == 1 )
@@ -3373,9 +2912,6 @@ void vTaskSwitchContext( void )
 
 		#if ( configGENERATE_RUN_TIME_STATS == 1 )
 		{
-			PRIVILEGED_DATA static uint32_t ulTaskSwitchedInTime = 0UL;	/*< Holds the value of a timer/counter the last time a task was switched in. */
-			PRIVILEGED_DATA static uint32_t ulTotalRunTime = 0UL;		/*< Holds the total amount of execution time as defined by the run time counter clock. */
-
 				#ifdef portALT_GET_RUN_TIME_COUNTER_VALUE
 					portALT_GET_RUN_TIME_COUNTER_VALUE( ulTotalRunTime );
 				#else
@@ -3963,8 +3499,6 @@ static portTASK_FUNCTION( prvIdleTask, pvParameters )
 static void prvInitialiseTaskLists( void )
 {
 UBaseType_t uxPriority;
-PRIVILEGED_DATA static List_t xDelayedTaskList1;	/*< Delayed tasks. */
-PRIVILEGED_DATA static List_t xDelayedTaskList2;	/*< Delayed tasks (two lists are used - one for delays that have overflowed the current tick count. */
 
 	for( uxPriority = ( UBaseType_t ) 0U; uxPriority < ( UBaseType_t ) configMAX_PRIORITIES; uxPriority++ )
 	{
@@ -4278,19 +3812,6 @@ TCB_t *pxTCB;
 		xNextTaskUnblockTime = listGET_LIST_ITEM_VALUE( &( ( pxTCB )->xStateListItem ) );
 	}
 }
-
-/*
-
-MOD.
-
-static void prvResetNextTaskUnblockTime( void )
-{
-	listLIST_IS_EMPTY( pxDelayedTaskList ) == pdTRUE ? ( xNextTaskUnblockTime = portMAX_DELAY ) : 
-		( xNextTaskUnblockTime = listGET_LIST_ITEM_VALUE( &( ( listGET_OWNER_OF_HEAD_ENTRY( pxDelayedTaskList ) )->xStateListItem ) ) );
-}
-
-*/
-
 /*-----------------------------------------------------------*/
 
 #if ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_MUTEXES == 1 ) )
@@ -4616,7 +4137,7 @@ static void prvResetNextTaskUnblockTime( void )
 		if( xSchedulerRunning != pdFALSE )
 		{
 			( pxCurrentTCB->uxCriticalNesting )++;
-			
+
 			/* This is not the interrupt safe version of the enter critical
 			function so	assert() if it is being called from an interrupt
 			context.  Only API functions that end in "FromISR" can be used in an
@@ -4633,25 +4154,6 @@ static void prvResetNextTaskUnblockTime( void )
 			mtCOVERAGE_TEST_MARKER();
 		}
 	}
-
-	/*
-	MOD.
-
-	void vTaskEnterCritical( void )
-	{
-		portDISABLE_INTERRUPTS();
-
-		if( xSchedulerRunning == pdTRUE && ( ++( pxCurrentTCB->uxCriticalNesting ) ) == 1 )
-		{
-			portASSERT_IF_IN_ISR();
-		}
-		else
-		{
-			mtCOVERAGE_TEST_MARKER();
-		}
-	}
-
-	*/
 
 #endif /* portCRITICAL_NESTING_IN_TCB */
 /*-----------------------------------------------------------*/
@@ -4685,31 +4187,6 @@ static void prvResetNextTaskUnblockTime( void )
 			mtCOVERAGE_TEST_MARKER();
 		}
 	}
-
-	/*
-	MOD.
-
-	void vTaskExitCritical( void )
-	{
-		if( xSchedulerRunning == pdTRUE )
-		{
-			if( pxCurrentTCB->uxCriticalNesting > 0U && ( --( pxCurrentTCB->uxCriticalNesting ) ) == 0U )
-			{
-				portENABLE_INTERRUPTS();
-			}
-			else
-			{
-				mtCOVERAGE_TEST_MARKER();
-			}
-		}
-		else
-		{
-			mtCOVERAGE_TEST_MARKER();
-		}
-	}
-
-	*/
-
 
 #endif /* portCRITICAL_NESTING_IN_TCB */
 /*-----------------------------------------------------------*/

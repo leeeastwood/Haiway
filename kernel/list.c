@@ -1,5 +1,5 @@
 /*
- * FreeRTOS Kernel V10.1.0
+ * FreeRTOS Kernel V10.1.1
  * Copyright (C) 2018 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -59,24 +59,6 @@ void vListInitialise( List_t * const pxList )
 }
 /*-----------------------------------------------------------*/
 
-/*
-
-MOD.
-
-void vListInitialise( List_t * const pxList )
-{
-	pxList->uxNumberOfItems = ( UBaseType_t ) 0U;
-	
-	pxList->xListEnd.pxNext = pxList->xListEnd.pxPrevious = pxList->pxIndex = ( ListItem_t * ) &( pxList->xListEnd );
-
-	pxList->xListEnd.xItemValue = portMAX_DELAY;
-
-	listSET_LIST_INTEGRITY_CHECK_1_VALUE( pxList );
-	listSET_LIST_INTEGRITY_CHECK_2_VALUE( pxList );
-}
-
-*/
-
 void vListInitialiseItem( ListItem_t * const pxItem )
 {
 	/* Make sure the list item is not recorded as being on a list. */
@@ -117,30 +99,6 @@ ListItem_t * const pxIndex = pxList->pxIndex;
 	( pxList->uxNumberOfItems )++;
 }
 /*-----------------------------------------------------------*/
-
-/*
-
-MOD.
-
-void vListInsertEnd( List_t * const pxList, ListItem_t * const pxNewListItem )
-{
-ListItem_t * const pxCurrentIndex = pxList->pxIndex;
-
-	listTEST_LIST_INTEGRITY( pxList );
-	listTEST_LIST_ITEM_INTEGRITY( pxNewListItem );
-
-	( pxList->uxNumberOfItems )++;
-
-	pxNewListItem->pxContainer = pxList;
-
-	pxCurrentIndex->pxPrevious->pxNext = pxNewListItem;
-	pxNewListItem->pxNext = pxCurrentIndex;
-	pxNewListItem->pxPrevious =  pxCurrentIndex->pxPrevious;
-	pxCurrentIndex->pxPrevious = pxNewListItem;
-
-}
-
-*/
 
 void vListInsert( List_t * const pxList, ListItem_t * const pxNewListItem )
 {
@@ -209,36 +167,6 @@ const TickType_t xValueOfInsertion = pxNewListItem->xItemValue;
 }
 /*-----------------------------------------------------------*/
 
-/*
-
-MOD.
-
-void vListInsert( List_t * const pxList, ListItem_t * const pxNewListItem )
-{
-const TickType_t xNewListItemValue = pxNewListItem->xItemValue;
-ListItem_t *pxIterator = ( ListItem_t * ) &( pxList->xListEnd );
-
-	listTEST_LIST_INTEGRITY( pxList );
-	listTEST_LIST_ITEM_INTEGRITY( pxNewListItem );
-
-	if( xNewListItemValue != portMAX_DELAY )
-	{
-		while(pxIterator->pxPrevious->xItemValue > xNewListItemValue) {
-			pxIterator = pxIterator->pxPrevious;
-		}
-	}
-	else
-	{
-		mtCOVERAGE_TEST_MARKER();
-	}
-
-	vListInsertEnd( pxList, pxNewListItem );
-
-}
-
-*/
-
-
 UBaseType_t uxListRemove( ListItem_t * const pxItemToRemove )
 {
 /* The list item knows which list it is in.  Obtain the list from the list
@@ -268,34 +196,3 @@ List_t * const pxList = pxItemToRemove->pxContainer;
 }
 /*-----------------------------------------------------------*/
 
-/*
-
-MOD.
-
-UBaseType_t uxListRemove( ListItem_t * const pxItemToRemove )
-{
-List_t * const pxCurrentList = pxItemToRemove->pxContainer;
-ListItem_t * const pxCurrentItemPrevious = pxItemToRemove->pxPrevious;
-ListItem_t * const pxCurrentItemNext = pxItemToRemove->pxNext;
-ListItem_t * const pxCurrentListIndex = pxCurrentList->pxIndex;
-
-	pxItemToRemove->pxContainer = NULL;
-	( pxCurrentList->uxNumberOfItems )--;	
-	
-	if( pxCurrentListIndex == pxItemToRemove )
-	{
-		pxCurrentListIndex = pxCurrentItemPrevious;
-	}
-	else
-	{
-		mtCOVERAGE_TEST_MARKER();
-	}
-
-	pxCurrentItemPrevious->pxNext = pxCurrentItemNext;
-	pxCurrentItemNext->pxPrevious = pxCurrentItemPrevious;
-	
-
-	return pxCurrentList->uxNumberOfItems;
-}
-
-*/

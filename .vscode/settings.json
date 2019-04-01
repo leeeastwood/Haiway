@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "croutine.h": "c",
+        "portmacro.h": "c"
+    }
+}

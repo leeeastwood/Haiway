@@ -352,7 +352,7 @@ LOAD /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/li
 END GROUP
 
 .iram_loader.text
-                0x0000000040078000     0x1e0c
+                0x0000000040078000     0x1e58
                 0x0000000040078000                . = ALIGN (0x10)
                 0x0000000040078000                _stext = .
                 0x0000000040078000                _text_start = ABSOLUTE (.)
@@ -374,260 +374,261 @@ END GROUP
                 0x0000000040078084        0x4 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
                                          0x14 (size before relaxing)
  .literal.set_cache_and_start_app
-                0x0000000040078088       0x24 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
-                                         0x30 (size before relaxing)
+                0x0000000040078088       0x38 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                                         0x60 (size before relaxing)
  .literal.unpack_load_app
-                0x00000000400780ac       0x1c /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                0x00000000400780c0       0x1c /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
                                          0x34 (size before relaxing)
  .literal.load_image
-                0x00000000400780c8        0x4 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                0x00000000400780dc        0x4 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
                                          0x18 (size before relaxing)
  .literal.bootloader_utility_load_partition_table
-                0x00000000400780cc       0x44 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                0x00000000400780e0       0x44 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
                                          0x84 (size before relaxing)
  .literal.bootloader_utility_get_selected_boot_partition
-                0x0000000040078110       0x1c /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                0x0000000040078124       0x1c /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
                                          0x70 (size before relaxing)
  .literal.bootloader_utility_load_boot_image
-                0x000000004007812c       0x10 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                0x0000000040078140       0x10 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
                                          0x5c (size before relaxing)
  .literal.should_map
-                0x000000004007813c        0x0 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x0000000040078150        0x0 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
                                          0x10 (size before relaxing)
  .literal.verify_image_header
-                0x000000004007813c       0x14 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x0000000040078150       0x14 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
                                          0x2c (size before relaxing)
  .literal.verify_segment_header
-                0x0000000040078150        0xc /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x0000000040078164        0xc /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
                                          0x28 (size before relaxing)
  .literal.verify_checksum
-                0x000000004007815c        0x4 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x0000000040078170        0x4 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
                                          0x1c (size before relaxing)
  .literal.process_segment_data
-                0x0000000040078160        0x8 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x0000000040078174        0x8 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
                                          0x24 (size before relaxing)
  .literal.verify_simple_hash
-                0x0000000040078168        0x8 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x000000004007817c        0x8 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
                                          0x2c (size before relaxing)
  .literal.should_load
-                0x0000000040078170       0x10 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x0000000040078184       0x10 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
                                          0x18 (size before relaxing)
  .literal.process_segment
-                0x0000000040078180       0x20 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x0000000040078194       0x20 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
                                          0x60 (size before relaxing)
  .literal.esp_image_load
-                0x00000000400781a0       0x14 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x00000000400781b4       0x14 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
                                          0x7c (size before relaxing)
  .literal.bootloader_fill_random
-                0x00000000400781b4        0x8 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+                0x00000000400781c8        0x8 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
  .literal.bootloader_random_enable
-                0x00000000400781bc       0x70 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+                0x00000000400781d0       0x70 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
                                          0x78 (size before relaxing)
  .literal.bootloader_random_disable
-                0x000000004007822c       0x1c /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+                0x0000000040078240       0x1c /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
                                          0x4c (size before relaxing)
  .literal.spi_to_esp_err
-                0x0000000040078248        0x8 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+                0x000000004007825c        0x8 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
  .literal.bootloader_flash_read_allow_decrypt
-                0x0000000040078250       0x10 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+                0x0000000040078264       0x10 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
                                          0x30 (size before relaxing)
  .literal.bootloader_flash_read_no_decrypt
-                0x0000000040078260        0x0 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+                0x0000000040078274        0x0 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
                                          0x14 (size before relaxing)
  .literal.bootloader_mmap
-                0x0000000040078260       0x14 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+                0x0000000040078274       0x14 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
                                          0x50 (size before relaxing)
  .literal.bootloader_munmap
-                0x0000000040078274        0x4 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+                0x0000000040078288        0x4 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
                                          0x14 (size before relaxing)
  .literal.bootloader_flash_read
-                0x0000000040078278        0xc /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+                0x000000004007828c        0xc /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
                                          0x30 (size before relaxing)
  .literal.esp_partition_table_basic_verify
-                0x0000000040078284       0x30 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+                0x0000000040078298       0x30 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
                                          0x5c (size before relaxing)
  .literal.bootloader_sha256_start
-                0x00000000400782b4        0x8 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+                0x00000000400782c8        0x8 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
  .literal.bootloader_sha256_data
-                0x00000000400782bc       0x20 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+                0x00000000400782d0       0x20 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
                                          0x30 (size before relaxing)
  .literal.bootloader_sha256_finish
-                0x00000000400782dc       0x18 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+                0x00000000400782f0       0x18 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
                                          0x4c (size before relaxing)
- .iram1         0x00000000400782f4      0x22b /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
- *fill*         0x000000004007851f        0x1 
- .iram1         0x0000000040078520      0x11a /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(cpu_util.o)
-                0x0000000040078520                esp_cpu_stall
-                0x00000000400785b4                esp_cpu_unstall
-                0x0000000040078608                esp_cpu_reset
-                0x000000004007862c                esp_cpu_in_ocd_debug_mode
- *fill*         0x000000004007863a        0x0 
+ .iram1         0x0000000040078308      0x22b /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
+ *fill*         0x0000000040078533        0x1 
+ .iram1         0x0000000040078534      0x11a /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(cpu_util.o)
+                0x0000000040078534                esp_cpu_stall
+                0x00000000400785c8                esp_cpu_unstall
+                0x000000004007861c                esp_cpu_reset
+                0x0000000040078640                esp_cpu_in_ocd_debug_mode
+ *fill*         0x000000004007864e        0x0 
  *liblog.a:(.literal .text .literal.* .text.*)
- *fill*         0x000000004007863a        0x2 
+ *fill*         0x000000004007864e        0x2 
  .text.esp_log_early_timestamp
-                0x000000004007863c       0x1f /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/log/liblog.a(log.o)
-                0x000000004007863c                esp_log_timestamp
-                0x000000004007863c                esp_log_early_timestamp
- *fill*         0x000000004007865b        0x0 
+                0x0000000040078650       0x1f /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/log/liblog.a(log.o)
+                0x0000000040078650                esp_log_timestamp
+                0x0000000040078650                esp_log_early_timestamp
+ *fill*         0x000000004007866f        0x0 
  *libgcc.a:(.literal .text .literal.* .text.*)
- *fill*         0x000000004007865b        0x1 
- .text          0x000000004007865c       0x26 /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_bswapsi2.o)
-                0x000000004007865c                __bswapsi2
- *fill*         0x0000000040078682        0x0 
- *fill*         0x0000000040078682        0x2 
- .text          0x0000000040078684      0x281 /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_udivdi3.o)
-                0x0000000040078684                __udivdi3
+ *fill*         0x000000004007866f        0x1 
+ .text          0x0000000040078670       0x26 /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_bswapsi2.o)
+                0x0000000040078670                __bswapsi2
+ *fill*         0x0000000040078696        0x0 
+ *fill*         0x0000000040078696        0x2 
+ .text          0x0000000040078698      0x281 /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_udivdi3.o)
+                0x0000000040078698                __udivdi3
  *libbootloader_support.a:bootloader_utility.o(.literal .text .literal.* .text.*)
- *fill*         0x0000000040078905        0x3 
+ *fill*         0x0000000040078919        0x3 
  .text.log_invalid_app_partition
-                0x0000000040078908       0x57 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                0x000000004007891c       0x57 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
                                          0x5b (size before relaxing)
- *fill*         0x000000004007895f        0x1 
+ *fill*         0x0000000040078973        0x1 
  .text.try_load_partition
-                0x0000000040078960       0x34 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                0x0000000040078974       0x34 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
                                          0x38 (size before relaxing)
  .text.set_cache_and_start_app
-                0x0000000040078994       0xce /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- *fill*         0x0000000040078a62        0x2 
+                0x00000000400789a8      0x105 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                                        0x115 (size before relaxing)
+ *fill*         0x0000000040078aad        0x3 
  .text.unpack_load_app
-                0x0000000040078a64       0xb5 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- *fill*         0x0000000040078b19        0x3 
+                0x0000000040078ab0       0xb5 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ *fill*         0x0000000040078b65        0x3 
  .text.load_image
-                0x0000000040078b1c       0x1e /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                0x0000000040078b68       0x1e /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
                                          0x26 (size before relaxing)
- *fill*         0x0000000040078b3a        0x2 
+ *fill*         0x0000000040078b86        0x2 
  .text.bootloader_utility_load_partition_table
-                0x0000000040078b3c      0x160 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                0x0000000040078b88      0x160 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
                                         0x17c (size before relaxing)
-                0x0000000040078b3c                bootloader_utility_load_partition_table
+                0x0000000040078b88                bootloader_utility_load_partition_table
  .text.bootloader_utility_get_selected_boot_partition
-                0x0000000040078c9c      0x140 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                0x0000000040078ce8      0x140 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
                                         0x14c (size before relaxing)
-                0x0000000040078c9c                bootloader_utility_get_selected_boot_partition
+                0x0000000040078ce8                bootloader_utility_get_selected_boot_partition
  .text.bootloader_utility_load_boot_image
-                0x0000000040078ddc       0xd7 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                0x0000000040078e28       0xd7 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
                                          0xf7 (size before relaxing)
-                0x0000000040078ddc                bootloader_utility_load_boot_image
- *fill*         0x0000000040078eb3        0x1 
+                0x0000000040078e28                bootloader_utility_load_boot_image
+ *fill*         0x0000000040078eff        0x1 
  .text.index_to_partition
-                0x0000000040078eb4       0x48 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- *fill*         0x0000000040078efc        0x0 
- *fill*         0x0000000040078efc        0x0 
- *fill*         0x0000000040078efc        0x0 
- *fill*         0x0000000040078efc        0x0 
+                0x0000000040078f00       0x48 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ *fill*         0x0000000040078f48        0x0 
+ *fill*         0x0000000040078f48        0x0 
+ *fill*         0x0000000040078f48        0x0 
+ *fill*         0x0000000040078f48        0x0 
  *libbootloader_support.a:esp_image_format.o(.literal .text .literal.* .text.*)
  .text.should_map
-                0x0000000040078efc       0x30 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x0000000040078f48       0x30 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
  .text.verify_image_header
-                0x0000000040078f2c       0x7e /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
- *fill*         0x0000000040078faa        0x2 
+                0x0000000040078f78       0x7e /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+ *fill*         0x0000000040078ff6        0x2 
  .text.verify_segment_header
-                0x0000000040078fac       0x71 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x0000000040078ff8       0x71 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
                                          0x79 (size before relaxing)
- *fill*         0x000000004007901d        0x3 
+ *fill*         0x0000000040079069        0x3 
  .text.verify_checksum
-                0x0000000040079020       0x87 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x000000004007906c       0x87 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
                                          0x8f (size before relaxing)
- *fill*         0x00000000400790a7        0x1 
+ *fill*         0x00000000400790f3        0x1 
  .text.process_segment_data
-                0x00000000400790a8       0xa4 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x00000000400790f4       0xa4 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
                                          0xb0 (size before relaxing)
  .text.verify_simple_hash
-                0x000000004007914c       0x5b /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x0000000040079198       0x5b /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
                                          0x6a (size before relaxing)
- *fill*         0x00000000400791a7        0x1 
+ *fill*         0x00000000400791f3        0x1 
  .text.should_load
-                0x00000000400791a8       0x44 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x00000000400791f4       0x44 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
                                          0x48 (size before relaxing)
  .text.process_segment
-                0x00000000400791ec      0x13a /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x0000000040079238      0x13a /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
                                         0x146 (size before relaxing)
- *fill*         0x0000000040079326        0x2 
+ *fill*         0x0000000040079372        0x2 
  .text.esp_image_load
-                0x0000000040079328      0x256 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x0000000040079374      0x256 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
                                         0x272 (size before relaxing)
-                0x0000000040079328                esp_image_load
- *fill*         0x000000004007957e        0x0 
- *fill*         0x000000004007957e        0x0 
- *fill*         0x000000004007957e        0x0 
- *fill*         0x000000004007957e        0x0 
- *fill*         0x000000004007957e        0x0 
- *fill*         0x000000004007957e        0x0 
+                0x0000000040079374                esp_image_load
+ *fill*         0x00000000400795ca        0x0 
+ *fill*         0x00000000400795ca        0x0 
+ *fill*         0x00000000400795ca        0x0 
+ *fill*         0x00000000400795ca        0x0 
+ *fill*         0x00000000400795ca        0x0 
+ *fill*         0x00000000400795ca        0x0 
  *libbootloader_support.a:bootloader_random.o(.literal .text .literal.* .text.*)
- *fill*         0x000000004007957e        0x2 
+ *fill*         0x00000000400795ca        0x2 
  .text.bootloader_fill_random
-                0x0000000040079580       0x59 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
-                0x0000000040079580                bootloader_fill_random
- *fill*         0x00000000400795d9        0x3 
+                0x00000000400795cc       0x59 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+                0x00000000400795cc                bootloader_fill_random
+ *fill*         0x0000000040079625        0x3 
  .text.bootloader_random_enable
-                0x00000000400795dc      0x1d5 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
-                0x00000000400795dc                bootloader_random_enable
- *fill*         0x00000000400797b1        0x3 
+                0x0000000040079628      0x1d5 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+                0x0000000040079628                bootloader_random_enable
+ *fill*         0x00000000400797fd        0x3 
  .text.bootloader_random_disable
-                0x00000000400797b4      0x11c /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
-                0x00000000400797b4                bootloader_random_disable
- *fill*         0x00000000400798d0        0x0 
- *fill*         0x00000000400798d0        0x0 
- *fill*         0x00000000400798d0        0x0 
+                0x0000000040079800      0x11c /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
+                0x0000000040079800                bootloader_random_disable
+ *fill*         0x000000004007991c        0x0 
+ *fill*         0x000000004007991c        0x0 
+ *fill*         0x000000004007991c        0x0 
  *libbootloader_support.a:bootloader_flash.o(.literal .text .literal.* .text.*)
  .text.spi_to_esp_err
-                0x00000000400798d0       0x22 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- *fill*         0x00000000400798f2        0x2 
+                0x000000004007991c       0x22 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ *fill*         0x000000004007993e        0x2 
  .text.bootloader_flash_read_allow_decrypt
-                0x00000000400798f4       0x97 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+                0x0000000040079940       0x97 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
                                          0x9b (size before relaxing)
- *fill*         0x000000004007998b        0x1 
+ *fill*         0x00000000400799d7        0x1 
  .text.bootloader_flash_read_no_decrypt
-                0x000000004007998c       0x32 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+                0x00000000400799d8       0x32 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
                                          0x36 (size before relaxing)
- *fill*         0x00000000400799be        0x2 
+ *fill*         0x0000000040079a0a        0x2 
  .text.bootloader_mmap
-                0x00000000400799c0       0xb1 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+                0x0000000040079a0c       0xb1 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
                                          0xb9 (size before relaxing)
-                0x00000000400799c0                bootloader_mmap
- *fill*         0x0000000040079a71        0x3 
+                0x0000000040079a0c                bootloader_mmap
+ *fill*         0x0000000040079abd        0x3 
  .text.bootloader_munmap
-                0x0000000040079a74       0x36 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
-                0x0000000040079a74                bootloader_munmap
- *fill*         0x0000000040079aaa        0x2 
+                0x0000000040079ac0       0x36 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+                0x0000000040079ac0                bootloader_munmap
+ *fill*         0x0000000040079af6        0x2 
  .text.bootloader_flash_read
-                0x0000000040079aac       0x86 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
-                0x0000000040079aac                bootloader_flash_read
- *fill*         0x0000000040079b32        0x0 
- *fill*         0x0000000040079b32        0x0 
- *fill*         0x0000000040079b32        0x0 
- *fill*         0x0000000040079b32        0x0 
- *fill*         0x0000000040079b32        0x0 
+                0x0000000040079af8       0x86 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+                0x0000000040079af8                bootloader_flash_read
+ *fill*         0x0000000040079b7e        0x0 
+ *fill*         0x0000000040079b7e        0x0 
+ *fill*         0x0000000040079b7e        0x0 
+ *fill*         0x0000000040079b7e        0x0 
+ *fill*         0x0000000040079b7e        0x0 
  *libbootloader_support.a:flash_partitions.o(.literal .text .literal.* .text.*)
- *fill*         0x0000000040079b32        0x2 
+ *fill*         0x0000000040079b7e        0x2 
  .text.esp_partition_table_basic_verify
-                0x0000000040079b34      0x143 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+                0x0000000040079b80      0x143 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
                                         0x14f (size before relaxing)
-                0x0000000040079b34                esp_partition_table_basic_verify
- *fill*         0x0000000040079c77        0x0 
+                0x0000000040079b80                esp_partition_table_basic_verify
+ *fill*         0x0000000040079cc3        0x0 
  *libbootloader_support.a:bootloader_sha.o(.literal .text .literal.* .text.*)
- *fill*         0x0000000040079c77        0x1 
+ *fill*         0x0000000040079cc3        0x1 
  .text.bootloader_sha256_start
-                0x0000000040079c78       0x12 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
-                0x0000000040079c78                bootloader_sha256_start
- *fill*         0x0000000040079c8a        0x2 
+                0x0000000040079cc4       0x12 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+                0x0000000040079cc4                bootloader_sha256_start
+ *fill*         0x0000000040079cd6        0x2 
  .text.bootloader_sha256_data
-                0x0000000040079c8c       0xa1 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+                0x0000000040079cd8       0xa1 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
                                          0xa9 (size before relaxing)
-                0x0000000040079c8c                bootloader_sha256_data
- *fill*         0x0000000040079d2d        0x3 
+                0x0000000040079cd8                bootloader_sha256_data
+ *fill*         0x0000000040079d79        0x3 
  .text.bootloader_sha256_finish
-                0x0000000040079d30       0xdc /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+                0x0000000040079d7c       0xdc /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
                                          0xf0 (size before relaxing)
-                0x0000000040079d30                bootloader_sha256_finish
- *fill*         0x0000000040079e0c        0x0 
- *fill*         0x0000000040079e0c        0x0 
- *fill*         0x0000000040079e0c        0x0 
+                0x0000000040079d7c                bootloader_sha256_finish
+ *fill*         0x0000000040079e58        0x0 
+ *fill*         0x0000000040079e58        0x0 
+ *fill*         0x0000000040079e58        0x0 
  *(.fini.literal)
  *(.fini)
  *(.gnu.version)
-                0x0000000040079e0c                _text_end = ABSOLUTE (.)
-                0x0000000040079e0c                _etext = .
+                0x0000000040079e58                _text_end = ABSOLUTE (.)
+                0x0000000040079e58                _etext = .
 
 .iram.text      0x0000000040080000     0x1cde
                 0x0000000040080000                . = ALIGN (0x10)
@@ -1055,7 +1056,7 @@ END GROUP
  *(.jcr)
                 0x000000003fff001c                _data_end = ABSOLUTE (.)
 
-.dram0.rodata   0x000000003fff001c     0x166c
+.dram0.rodata   0x000000003fff001c     0x16f4
                 0x000000003fff001c                _rodata_start = ABSOLUTE (.)
  *(.rodata)
  .rodata        0x000000003fff001c       0x14 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
@@ -1071,76 +1072,76 @@ END GROUP
  .rodata.__func__$4357
                 0x000000003fff0440       0x10 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
  .rodata.str1.4
-                0x000000003fff0450      0x5a5 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
-                                        0x5ad (size before relaxing)
- *fill*         0x000000003fff09f5        0x3 
+                0x000000003fff0450      0x62d /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                                        0x635 (size before relaxing)
+ *fill*         0x000000003fff0a7d        0x3 
  .rodata.str1.4
-                0x000000003fff09f8      0x45a /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+                0x000000003fff0a80      0x45a /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
                                         0x49a (size before relaxing)
- *fill*         0x000000003fff0e52        0x2 
+ *fill*         0x000000003fff0eda        0x2 
  .rodata.str1.4
-                0x000000003fff0e54      0x163 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
- *fill*         0x000000003fff0fb7        0x1 
+                0x000000003fff0edc      0x163 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+ *fill*         0x000000003fff103f        0x1 
  .rodata.str1.4
-                0x000000003fff0fb8      0x28e /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- *fill*         0x000000003fff1246        0x2 
+                0x000000003fff1040      0x28e /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ *fill*         0x000000003fff12ce        0x2 
  .rodata.str1.4
-                0x000000003fff1248       0xcc /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+                0x000000003fff12d0       0xcc /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
  .rodata.padding$3047
-                0x000000003fff1314       0x40 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+                0x000000003fff139c       0x40 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
  .rodata.__func__$3043
-                0x000000003fff1354       0x19 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
- *fill*         0x000000003fff136d        0x3 
+                0x000000003fff13dc       0x19 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+ *fill*         0x000000003fff13f5        0x3 
  .rodata.__func__$3023
-                0x000000003fff1370       0x17 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
- *fill*         0x000000003fff1387        0x1 
+                0x000000003fff13f8       0x17 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+ *fill*         0x000000003fff140f        0x1 
  .rodata.str1.4
-                0x000000003fff1388      0x258 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_clk.o)
+                0x000000003fff1410      0x258 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_clk.o)
                                         0x255 (size before relaxing)
  .rodata.rtc_clk_xtal_freq_estimate
-                0x000000003fff15e0       0x64 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_clk.o)
+                0x000000003fff1668       0x64 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_clk.o)
  .rodata.rtc_clk_cpu_freq_value
-                0x000000003fff1644       0x14 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_clk.o)
+                0x000000003fff16cc       0x14 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_clk.o)
  .rodata.__func__$2844
-                0x000000003fff1658       0x17 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_clk.o)
- *fill*         0x000000003fff166f        0x1 
+                0x000000003fff16e0       0x17 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_clk.o)
+ *fill*         0x000000003fff16f7        0x1 
  .rodata.__func__$2829
-                0x000000003fff1670       0x15 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_clk.o)
+                0x000000003fff16f8       0x15 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_clk.o)
  *(.gnu.linkonce.r.*)
  *(.rodata1)
-                0x000000003fff1685                __XT_EXCEPTION_TABLE_ = ABSOLUTE (.)
+                0x000000003fff170d                __XT_EXCEPTION_TABLE_ = ABSOLUTE (.)
  *(.xt_except_table)
  *(.gcc_except_table)
  *(.gnu.linkonce.e.*)
  *(.gnu.version_r)
  *(.eh_frame)
-                0x000000003fff1688                . = ((. + 0x3) & 0xfffffffffffffffc)
- *fill*         0x000000003fff1685        0x3 
-                0x000000003fff1688                __init_array_start = ABSOLUTE (.)
+                0x000000003fff1710                . = ((. + 0x3) & 0xfffffffffffffffc)
+ *fill*         0x000000003fff170d        0x3 
+                0x000000003fff1710                __init_array_start = ABSOLUTE (.)
  *crtbegin.o(.ctors)
  *(EXCLUDE_FILE(*crtend.o) .ctors)
  *(SORT(.ctors.*))
  *(.ctors)
-                0x000000003fff1688                __init_array_end = ABSOLUTE (.)
+                0x000000003fff1710                __init_array_end = ABSOLUTE (.)
  *crtbegin.o(.dtors)
  *(EXCLUDE_FILE(*crtend.o) .dtors)
  *(SORT(.dtors.*))
  *(.dtors)
-                0x000000003fff1688                __XT_EXCEPTION_DESCS_ = ABSOLUTE (.)
+                0x000000003fff1710                __XT_EXCEPTION_DESCS_ = ABSOLUTE (.)
  *(.xt_except_desc)
  *(.gnu.linkonce.h.*)
-                0x000000003fff1688                __XT_EXCEPTION_DESCS_END__ = ABSOLUTE (.)
+                0x000000003fff1710                __XT_EXCEPTION_DESCS_END__ = ABSOLUTE (.)
  *(.xt_except_desc_end)
  *(.dynamic)
  *(.gnu.version_d)
-                0x000000003fff1688                _rodata_end = ABSOLUTE (.)
-                0x000000003fff1688                _lit4_start = ABSOLUTE (.)
+                0x000000003fff1710                _rodata_end = ABSOLUTE (.)
+                0x000000003fff1710                _lit4_start = ABSOLUTE (.)
  *(*.lit4)
  *(.lit4.*)
  *(.gnu.linkonce.lit4.*)
-                0x000000003fff1688                _lit4_end = ABSOLUTE (.)
-                0x000000003fff1688                . = ALIGN (0x4)
-                0x000000003fff1688                _heap_start = ABSOLUTE (.)
+                0x000000003fff1710                _lit4_end = ABSOLUTE (.)
+                0x000000003fff1710                . = ALIGN (0x4)
+                0x000000003fff1710                _heap_start = ABSOLUTE (.)
                 [!provide]                        PROVIDE (abort, 0x4000bba4)
                 [!provide]                        PROVIDE (__absvdi2, 0x4006387c)
                 [!provide]                        PROVIDE (__absvsi2, 0x40063868)
@@ -2994,47 +2995,47 @@ OUTPUT(/Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootl
  .debug_frame   0x0000000000000d88       0x28 /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_bswapsi2.o)
  .debug_frame   0x0000000000000db0       0x28 /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_udivdi3.o)
 
-.debug_info     0x0000000000000000     0xc1a0
+.debug_info     0x0000000000000000     0xc22e
  .debug_info    0x0000000000000000      0x350 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/main/libmain.a(bootloader_start.o)
  .debug_info    0x0000000000000350     0x155a /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
  .debug_info    0x00000000000018aa      0x1fe /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
- .debug_info    0x0000000000001aa8     0x1448 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- .debug_info    0x0000000000002ef0     0x1291 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
- .debug_info    0x0000000000004181      0x526 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
- .debug_info    0x00000000000046a7     0x298f /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- .debug_info    0x0000000000007036      0x279 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
- .debug_info    0x00000000000072af      0x769 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
- .debug_info    0x0000000000007a18      0xbfa /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- .debug_info    0x0000000000008612      0x44d /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
- .debug_info    0x0000000000008a5f      0x900 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/log/liblog.a(log.o)
- .debug_info    0x000000000000935f      0xaf5 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/spi_flash/libspi_flash.a(spi_flash_rom_patch.o)
- .debug_info    0x0000000000009e54      0x118 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(cpu_util.o)
- .debug_info    0x0000000000009f6c     0x14bc /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_clk.o)
- .debug_info    0x000000000000b428      0x339 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_init.o)
- .debug_info    0x000000000000b761      0x3aa /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_time.o)
- .debug_info    0x000000000000bb0b       0xcd /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_bswapsi2.o)
- .debug_info    0x000000000000bbd8      0x5c8 /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_udivdi3.o)
+ .debug_info    0x0000000000001aa8     0x14d6 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ .debug_info    0x0000000000002f7e     0x1291 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+ .debug_info    0x000000000000420f      0x526 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+ .debug_info    0x0000000000004735     0x298f /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+ .debug_info    0x00000000000070c4      0x279 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
+ .debug_info    0x000000000000733d      0x769 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
+ .debug_info    0x0000000000007aa6      0xbfa /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ .debug_info    0x00000000000086a0      0x44d /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+ .debug_info    0x0000000000008aed      0x900 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/log/liblog.a(log.o)
+ .debug_info    0x00000000000093ed      0xaf5 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/spi_flash/libspi_flash.a(spi_flash_rom_patch.o)
+ .debug_info    0x0000000000009ee2      0x118 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(cpu_util.o)
+ .debug_info    0x0000000000009ffa     0x14bc /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_clk.o)
+ .debug_info    0x000000000000b4b6      0x339 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_init.o)
+ .debug_info    0x000000000000b7ef      0x3aa /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_time.o)
+ .debug_info    0x000000000000bb99       0xcd /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_bswapsi2.o)
+ .debug_info    0x000000000000bc66      0x5c8 /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_udivdi3.o)
 
-.debug_abbrev   0x0000000000000000     0x240e
+.debug_abbrev   0x0000000000000000     0x241f
  .debug_abbrev  0x0000000000000000      0x168 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/main/libmain.a(bootloader_start.o)
  .debug_abbrev  0x0000000000000168      0x416 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
  .debug_abbrev  0x000000000000057e      0x107 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
- .debug_abbrev  0x0000000000000685      0x37b /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- .debug_abbrev  0x0000000000000a00      0x2a4 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
- .debug_abbrev  0x0000000000000ca4      0x17b /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
- .debug_abbrev  0x0000000000000e1f      0x331 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- .debug_abbrev  0x0000000000001150      0x108 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
- .debug_abbrev  0x0000000000001258      0x18d /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
- .debug_abbrev  0x00000000000013e5      0x22f /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- .debug_abbrev  0x0000000000001614      0x17d /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
- .debug_abbrev  0x0000000000001791      0x1f3 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/log/liblog.a(log.o)
- .debug_abbrev  0x0000000000001984      0x22e /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/spi_flash/libspi_flash.a(spi_flash_rom_patch.o)
- .debug_abbrev  0x0000000000001bb2       0x96 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(cpu_util.o)
- .debug_abbrev  0x0000000000001c48      0x358 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_clk.o)
- .debug_abbrev  0x0000000000001fa0      0x135 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_init.o)
- .debug_abbrev  0x00000000000020d5      0x17a /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_time.o)
- .debug_abbrev  0x000000000000224f       0x60 /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_bswapsi2.o)
- .debug_abbrev  0x00000000000022af      0x15f /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_udivdi3.o)
+ .debug_abbrev  0x0000000000000685      0x38c /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ .debug_abbrev  0x0000000000000a11      0x2a4 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+ .debug_abbrev  0x0000000000000cb5      0x17b /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+ .debug_abbrev  0x0000000000000e30      0x331 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+ .debug_abbrev  0x0000000000001161      0x108 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
+ .debug_abbrev  0x0000000000001269      0x18d /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
+ .debug_abbrev  0x00000000000013f6      0x22f /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ .debug_abbrev  0x0000000000001625      0x17d /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+ .debug_abbrev  0x00000000000017a2      0x1f3 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/log/liblog.a(log.o)
+ .debug_abbrev  0x0000000000001995      0x22e /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/spi_flash/libspi_flash.a(spi_flash_rom_patch.o)
+ .debug_abbrev  0x0000000000001bc3       0x96 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(cpu_util.o)
+ .debug_abbrev  0x0000000000001c59      0x358 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_clk.o)
+ .debug_abbrev  0x0000000000001fb1      0x135 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_init.o)
+ .debug_abbrev  0x00000000000020e6      0x17a /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_time.o)
+ .debug_abbrev  0x0000000000002260       0x60 /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_bswapsi2.o)
+ .debug_abbrev  0x00000000000022c0      0x15f /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_udivdi3.o)
 
 .debug_loc      0x0000000000000000     0x509d
  .debug_loc     0x0000000000000000       0x79 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/main/libmain.a(bootloader_start.o)
@@ -3116,65 +3117,65 @@ OUTPUT(/Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootl
  .debug_ranges  0x0000000000000560       0x40 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_time.o)
  .debug_ranges  0x00000000000005a0       0x60 /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_udivdi3.o)
 
-.debug_line     0x0000000000000000     0x62eb
+.debug_line     0x0000000000000000     0x62fd
  .debug_line    0x0000000000000000      0x342 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/main/libmain.a(bootloader_start.o)
  .debug_line    0x0000000000000342      0x92d /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
  .debug_line    0x0000000000000c6f      0x38a /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
- .debug_line    0x0000000000000ff9      0x8dd /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
- .debug_line    0x00000000000018d6      0xa40 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
- .debug_line    0x0000000000002316      0x33c /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
- .debug_line    0x0000000000002652      0x4e0 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
- .debug_line    0x0000000000002b32      0x1da /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
- .debug_line    0x0000000000002d0c      0x549 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
- .debug_line    0x0000000000003255      0x570 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
- .debug_line    0x00000000000037c5      0x3bf /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
- .debug_line    0x0000000000003b84      0x4da /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/log/liblog.a(log.o)
- .debug_line    0x000000000000405e      0xaca /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/spi_flash/libspi_flash.a(spi_flash_rom_patch.o)
- .debug_line    0x0000000000004b28      0x18e /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(cpu_util.o)
- .debug_line    0x0000000000004cb6      0xcae /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_clk.o)
- .debug_line    0x0000000000005964      0x3ce /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_init.o)
- .debug_line    0x0000000000005d32      0x394 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_time.o)
- .debug_line    0x00000000000060c6       0x90 /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_bswapsi2.o)
- .debug_line    0x0000000000006156      0x195 /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_udivdi3.o)
+ .debug_line    0x0000000000000ff9      0x8ef /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+ .debug_line    0x00000000000018e8      0xa40 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+ .debug_line    0x0000000000002328      0x33c /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+ .debug_line    0x0000000000002664      0x4e0 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+ .debug_line    0x0000000000002b44      0x1da /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
+ .debug_line    0x0000000000002d1e      0x549 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
+ .debug_line    0x0000000000003267      0x570 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ .debug_line    0x00000000000037d7      0x3bf /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+ .debug_line    0x0000000000003b96      0x4da /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/log/liblog.a(log.o)
+ .debug_line    0x0000000000004070      0xaca /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/spi_flash/libspi_flash.a(spi_flash_rom_patch.o)
+ .debug_line    0x0000000000004b3a      0x18e /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(cpu_util.o)
+ .debug_line    0x0000000000004cc8      0xcae /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_clk.o)
+ .debug_line    0x0000000000005976      0x3ce /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_init.o)
+ .debug_line    0x0000000000005d44      0x394 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_time.o)
+ .debug_line    0x00000000000060d8       0x90 /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_bswapsi2.o)
+ .debug_line    0x0000000000006168      0x195 /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_udivdi3.o)
 
-.debug_str      0x0000000000000000     0x4221
+.debug_str      0x0000000000000000     0x4241
  .debug_str     0x0000000000000000      0x378 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/main/libmain.a(bootloader_start.o)
                                         0x3dc (size before relaxing)
  .debug_str     0x0000000000000378      0x8f4 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_init.o)
                                         0xb4a (size before relaxing)
  .debug_str     0x0000000000000c6c       0xa9 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_random.o)
                                         0x249 (size before relaxing)
- .debug_str     0x0000000000000d15      0x341 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
-                                        0x90d (size before relaxing)
- .debug_str     0x0000000000001056      0x27e /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
+ .debug_str     0x0000000000000d15      0x361 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_utility.o)
+                                        0x92d (size before relaxing)
+ .debug_str     0x0000000000001076      0x27e /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(esp_image_format.o)
                                         0xa0b (size before relaxing)
- .debug_str     0x00000000000012d4       0xaf /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
+ .debug_str     0x00000000000012f4       0xaf /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(flash_partitions.o)
                                         0x3dc (size before relaxing)
- .debug_str     0x0000000000001383     0x184b /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
+ .debug_str     0x00000000000013a3     0x184b /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(flash_qio_mode.o)
                                        0x1b8a (size before relaxing)
- .debug_str     0x0000000000002bce      0x234 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
+ .debug_str     0x0000000000002bee      0x234 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_clock.o)
                                         0x388 (size before relaxing)
- .debug_str     0x0000000000002e02      0x23f /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
+ .debug_str     0x0000000000002e22      0x23f /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_common.o)
                                         0x58d (size before relaxing)
- .debug_str     0x0000000000003041      0x219 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
+ .debug_str     0x0000000000003061      0x219 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_flash.o)
                                         0x589 (size before relaxing)
- .debug_str     0x000000000000325a       0xef /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
+ .debug_str     0x000000000000327a       0xef /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/bootloader_support/libbootloader_support.a(bootloader_sha.o)
                                         0x2b9 (size before relaxing)
- .debug_str     0x0000000000003349      0x19f /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/log/liblog.a(log.o)
+ .debug_str     0x0000000000003369      0x19f /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/log/liblog.a(log.o)
                                         0x35b (size before relaxing)
- .debug_str     0x00000000000034e8      0x369 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/spi_flash/libspi_flash.a(spi_flash_rom_patch.o)
+ .debug_str     0x0000000000003508      0x369 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/spi_flash/libspi_flash.a(spi_flash_rom_patch.o)
                                         0x74e (size before relaxing)
- .debug_str     0x0000000000003851       0x6d /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(cpu_util.o)
+ .debug_str     0x0000000000003871       0x6d /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(cpu_util.o)
                                         0x179 (size before relaxing)
- .debug_str     0x00000000000038be      0x548 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_clk.o)
+ .debug_str     0x00000000000038de      0x548 /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_clk.o)
                                         0x979 (size before relaxing)
- .debug_str     0x0000000000003e06       0xbd /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_init.o)
+ .debug_str     0x0000000000003e26       0xbd /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_init.o)
                                         0x242 (size before relaxing)
- .debug_str     0x0000000000003ec3      0x13c /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_time.o)
+ .debug_str     0x0000000000003ee3      0x13c /Users/cocout/Haiway/app/esp32-example/hello_world/build/bootloader/soc/libsoc.a(rtc_time.o)
                                         0x37e (size before relaxing)
- .debug_str     0x0000000000003fff      0x146 /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_bswapsi2.o)
+ .debug_str     0x000000000000401f      0x146 /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_bswapsi2.o)
                                         0x1ec (size before relaxing)
- .debug_str     0x0000000000004145       0xdc /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_udivdi3.o)
+ .debug_str     0x0000000000004165       0xdc /Users/cocout/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/libgcc.a(_udivdi3.o)
                                         0x266 (size before relaxing)
 
 .comment        0x0000000000000000       0x3a
