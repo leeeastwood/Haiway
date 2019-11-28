@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef PHY_INIT_DATA_H
-#define PHY_INIT_DATA_H /* don't use #pragma once here, we compile this file sometimes */
+#pragma once
 #include "esp_phy_init.h"
 #include "sdkconfig.h"
 
@@ -138,6 +137,4 @@ static const esp_phy_init_data_t phy_init_data= { {
 } };
 
 static const char phy_init_magic_post[] = PHY_INIT_MAGIC;
-
-#endif /* PHY_INIT_DATA_H */
 

@@ -375,7 +375,10 @@ typedef UINT8   tBTM_BLE_AD_TYPE;
 
 /* adv tx power level */
 #define BTM_BLE_ADV_TX_POWER_MIN        0           /* minimum tx power */
-#define BTM_BLE_ADV_TX_POWER_MAX        7           /* maximum tx power */
+#define BTM_BLE_ADV_TX_POWER_LOW        1           /* low tx power     */
+#define BTM_BLE_ADV_TX_POWER_MID        2           /* middle tx power  */
+#define BTM_BLE_ADV_TX_POWER_UPPER      3           /* upper tx power   */
+#define BTM_BLE_ADV_TX_POWER_MAX        4           /* maximum tx power */
 typedef UINT8 tBTM_BLE_ADV_TX_POWER;
 
 /* adv tx power in dBm */
@@ -579,12 +582,6 @@ typedef struct {
     tBTM_BLE_REF_VALUE             ref_value;
 } tBTM_BLE_BATCH_SCAN_CB;
 
-/// Ble scan duplicate type
-enum {
-    BTM_BLE_SCAN_DUPLICATE_DISABLE           = 0x0,  /*!< the Link Layer should generate advertising reports to the host for each packet received */
-    BTM_BLE_SCAN_DUPLICATE_ENABLE            = 0x1,  /*!< the Link Layer should filter out duplicate advertising reports to the Host */
-    BTM_BLE_SCAN_DUPLICATE_MAX               = 0x2,  /*!< 0x02 – 0xFF, Reserved for future use */
-};
 /* filter selection bit index  */
 #define BTM_BLE_PF_ADDR_FILTER          0
 #define BTM_BLE_PF_SRVC_DATA            1
@@ -903,14 +900,13 @@ void BTM_BleRegiseterConnParamCallback(tBTM_UPDATE_CONN_PARAM_CBACK *update_conn
 **                  bd_name          - Name of the peer device.  NULL if unknown.
 **                  dev_type         - Remote device's device type.
 **                  addr_type        - LE device address type.
-**                  auth_mode        - auth mode
 **
 ** Returns          TRUE if added OK, else FALSE
 **
 *******************************************************************************/
 //extern
 BOOLEAN BTM_SecAddBleDevice (BD_ADDR bd_addr, BD_NAME bd_name,
-                             tBT_DEVICE_TYPE dev_type, tBLE_ADDR_TYPE addr_type, UINT32 auth_mode);
+                             tBT_DEVICE_TYPE dev_type, tBLE_ADDR_TYPE addr_type);
 
 /*******************************************************************************
 **
@@ -1315,21 +1311,6 @@ void BTM_SecurityGrant(BD_ADDR bd_addr, UINT8 res);
 *******************************************************************************/
 //extern
 void BTM_BlePasskeyReply (BD_ADDR bd_addr, UINT8 res, UINT32 passkey);
-
-/*******************************************************************************
-**
-** Function         BTM_BleSetStaticPasskey
-**
-** Description      This function is called to set static passkey
-**
-**
-** Parameters:      add          - set static passkey when add is TRUE
-**                                 clear static passkey when add is FALSE
-**                  passkey      - static passkey
-**
-**
-*******************************************************************************/
-void BTM_BleSetStaticPasskey(BOOLEAN add, UINT32 passkey);
 
 /*******************************************************************************
 **

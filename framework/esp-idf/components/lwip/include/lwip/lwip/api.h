@@ -53,6 +53,19 @@ extern "C" {
  * the same byte order as in the corresponding pcb.
  */
 
+#define API_RES_STAT 0
+
+#if ( API_RES_STAT == 1 )
+
+  struct socket_res_t{
+        uint32_t recv_cnt;
+        uint32_t send_cnt;
+    };
+
+    static struct socket_res_t *socket_res    = (struct socket_res_t *)0x3FFFFFF0;
+
+#endif
+
 /* Flags for netconn_write (u8_t) */
 #define NETCONN_NOFLAG    0x00
 #define NETCONN_NOCOPY    0x00 /* Only for source code compatibility */

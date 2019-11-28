@@ -48,6 +48,20 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+#include "sdkconfig.h"
+
+#define taskKERNEL_SAFE 0
+
+#if ( taskKERNEL_SAFE == 1 )
+
+  struct socket_res_t{
+    uint32_t recv_cnt;
+    uint32_t send_cnt;
+  };
+
+  static struct socket_res_t *socket_res = (struct socket_res_t *)0x3FFFFFF0;
+
+#endif
 
 /* If your port already typedef's sa_family_t, define SA_FAMILY_T_DEFINED
    to prevent this code from redefining it. */

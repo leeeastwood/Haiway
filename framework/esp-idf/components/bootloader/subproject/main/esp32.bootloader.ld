@@ -17,7 +17,9 @@ MEMORY
   iram_loader_seg (RWX) :           org = 0x40078000, len = 0x8000  /* 32KB, APP CPU cache */
   iram_seg (RWX) :                  org = 0x40080000, len = 0x10000 /* 64KB, IRAM */
   /* 64k at the end of DRAM, after ROM bootloader stack */
-  dram_seg (RW) :                  	org = 0x3FFF0000, len = 0x10000
+  dram_seg (RW) :                  	org = 0x3FFF0000, len = 0xFFF0
+  
+  dram_share_seg (RW) :                  	org = 0x3FFFFFF0, len = 0x10
 }
 
 /*  Default entry point:  */
@@ -30,37 +32,33 @@ SECTIONS
   .iram_loader.text :
   {
     . = ALIGN (16);
-    _loader_text_start = ABSOLUTE(.);
+    _stext = .;
+    _text_start = ABSOLUTE(.);
     *(.stub .gnu.warning .gnu.linkonce.literal.* .gnu.linkonce.t.*.literal .gnu.linkonce.t.*)
      *(.iram1 .iram1.*) /* catch stray IRAM_ATTR */
     *liblog.a:(.literal .text .literal.* .text.*)
     *libgcc.a:(.literal .text .literal.* .text.*)
-    *libbootloader_support.a:bootloader_common.o(.literal .text .literal.* .text.*)
-    *libbootloader_support.a:bootloader_flash.*(.literal .text .literal.* .text.*)
-    *libbootloader_support.a:bootloader_random.*(.literal .text .literal.* .text.*)
-    *libbootloader_support.a:bootloader_utility.*(.literal .text .literal.* .text.*)
-    *libbootloader_support.a:bootloader_sha.*(.literal .text .literal.* .text.*)
-    *libbootloader_support.a:efuse.*(.literal .text .literal.* .text.*)
-    *libbootloader_support.a:esp_image_format.*(.literal .text .literal.* .text.*)
-    *libbootloader_support.a:flash_encrypt.*(.literal .text .literal.* .text.*)
-    *libbootloader_support.a:flash_partitions.*(.literal .text .literal.* .text.*)
-    *libbootloader_support.a:secure_boot.*(.literal .text .literal.* .text.*)
-    *libbootloader_support.a:secure_boot_signatures.*(.literal .text .literal.* .text.*)
-    *libmicro-ecc.a:*.*(.literal .text .literal.* .text.*)
-    *libspi_flash.a:*.*(.literal .text .literal.* .text.*)
-    *libsoc.a:rtc_wdt.*(.literal .text .literal.* .text.*)
+    *libbootloader_support.a:bootloader_utility.o(.literal .text .literal.* .text.*)
+    *libbootloader_support.a:esp_image_format.o(.literal .text .literal.* .text.*)
+    *libbootloader_support.a:bootloader_random.o(.literal .text .literal.* .text.*)
+    *libbootloader_support.a:bootloader_flash.o(.literal .text .literal.* .text.*)
+    *libbootloader_support.a:flash_partitions.o(.literal .text .literal.* .text.*)
+    *libbootloader_support.a:bootloader_sha.o(.literal .text .literal.* .text.*)
     *(.fini.literal)
     *(.fini)
     *(.gnu.version)
-    _loader_text_end = ABSOLUTE(.);
+    _text_end = ABSOLUTE(.);
+    _etext = .;
   } > iram_loader_seg
-
+  
   .iram.text :
   {
     . = ALIGN (16);
+    _iram_text_start0 = ABSOLUTE(.);
     *(.entry.text)
     *(.init.literal)
     *(.init)
+    _iram_text_end0 = ABSOLUTE(.);
   } > iram_seg
 
 
@@ -119,13 +117,13 @@ SECTIONS
     . = (. + 3) & ~ 3;
     /*  C++ constructor and destructor tables, properly ordered:  */
     __init_array_start = ABSOLUTE(.);
-    KEEP (*crtbegin.*(.ctors))
-    KEEP (*(EXCLUDE_FILE (*crtend.*) .ctors))
+    KEEP (*crtbegin.o(.ctors))
+    KEEP (*(EXCLUDE_FILE (*crtend.o) .ctors))
     KEEP (*(SORT(.ctors.*)))
     KEEP (*(.ctors))
     __init_array_end = ABSOLUTE(.);
-    KEEP (*crtbegin.*(.dtors))
-    KEEP (*(EXCLUDE_FILE (*crtend.*) .dtors))
+    KEEP (*crtbegin.o(.dtors))
+    KEEP (*(EXCLUDE_FILE (*crtend.o) .dtors))
     KEEP (*(SORT(.dtors.*)))
     KEEP (*(.dtors))
     /*  C++ exception handlers table:  */
@@ -150,13 +148,13 @@ SECTIONS
   .iram.text :
   {
     _stext = .;
-    _text_start = ABSOLUTE(.);
+    _iram_text_start = ABSOLUTE(.);
     *(.literal .text .literal.* .text.* .stub .gnu.warning .gnu.linkonce.literal.* .gnu.linkonce.t.*.literal .gnu.linkonce.t.*)
     *(.iram .iram.*) /* catch stray IRAM_ATTR */
     *(.fini.literal)
     *(.fini)
     *(.gnu.version)
-    _text_end = ABSOLUTE(.);
+    _iram_text_end = ABSOLUTE(.);
     _etext = .;
   } > iram_seg
 

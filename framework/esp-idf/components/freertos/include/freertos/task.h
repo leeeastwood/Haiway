@@ -425,7 +425,7 @@ is used in assert() statements. */
  * \ingroup Tasks
  */
 
-#if( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
+#if( configSUPPORT_DYNAMIC_ALLOCATION != 0 )
 
 	static inline IRAM_ATTR BaseType_t xTaskCreate(
 			TaskFunction_t pvTaskCode,
@@ -433,7 +433,7 @@ is used in assert() statements. */
 			const uint32_t usStackDepth,
 			void * const pvParameters,
 			UBaseType_t uxPriority,
-			TaskHandle_t * const pvCreatedTask)
+			TaskHandle_t * const pvCreatedTask)		
 	{
 		return xTaskCreatePinnedToCore( pvTaskCode, pcName, usStackDepth, pvParameters, uxPriority, pvCreatedTask, tskNO_AFFINITY );
 	}

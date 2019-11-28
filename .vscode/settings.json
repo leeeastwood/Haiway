@@ -1,6 +1,12 @@
 {
     "files.associations": {
         "croutine.h": "c",
-        "portmacro.h": "c"
+        "portmacro.h": "c",
+        "md5.h": "c",
+        "jstimer.h": "c",
+        "jshardware.h": "c",
+        "jsinteractive.h": "c",
+        "jsutils.h": "c",
+        "stack_macros.h": "c"
     }
 }

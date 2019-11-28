@@ -109,7 +109,6 @@ typedef struct {
     int                    tx_ba_win;              /**< WiFi Block Ack TX window size */
     int                    rx_ba_win;              /**< WiFi Block Ack RX window size */
     int                    wifi_task_core_id;      /**< WiFi Task Core ID */
-    int                    beacon_max_len;         /**< WiFi softAP maximum length of the beacon */
     int                    magic;                  /**< WiFi init magic number, it should be the last field */
 } wifi_init_config_t;
 
@@ -177,12 +176,6 @@ extern const wpa_crypto_funcs_t g_wifi_default_wpa_crypto_funcs;
 #define WIFI_TASK_CORE_ID 0
 #endif
 
-#ifdef CONFIG_ESP32_WIFI_SOFTAP_BEACON_MAX_LEN
-#define WIFI_SOFTAP_BEACON_MAX_LEN CONFIG_ESP32_WIFI_SOFTAP_BEACON_MAX_LEN
-#else
-#define WIFI_SOFTAP_BEACON_MAX_LEN 752
-#endif
-
 #define WIFI_INIT_CONFIG_DEFAULT() { \
     .event_handler = &esp_event_send, \
     .osi_funcs = &g_wifi_osi_funcs, \
@@ -200,7 +193,6 @@ extern const wpa_crypto_funcs_t g_wifi_default_wpa_crypto_funcs;
     .tx_ba_win = WIFI_DEFAULT_TX_BA_WIN,\
     .rx_ba_win = WIFI_DEFAULT_RX_BA_WIN,\
     .wifi_task_core_id = WIFI_TASK_CORE_ID,\
-    .beacon_max_len = WIFI_SOFTAP_BEACON_MAX_LEN, \
     .magic = WIFI_INIT_CONFIG_MAGIC\
 };
 
@@ -231,9 +223,7 @@ esp_err_t esp_wifi_init(const wifi_init_config_t *config);
   *
   * @attention 1. This API should be called if you want to remove WiFi driver from the system
   *
-  * @return 
-  *    - ESP_OK: succeed
-  *    - ESP_ERR_WIFI_NOT_INIT: WiFi is not initialized by esp_wifi_init
+  * @return ESP_OK: succeed
   */
 esp_err_t esp_wifi_deinit(void);
 
@@ -313,13 +303,7 @@ esp_err_t esp_wifi_restore(void);
   *
   * @attention 1. This API only impact WIFI_MODE_STA or WIFI_MODE_APSTA mode
   * @attention 2. If the ESP32 is connected to an AP, call esp_wifi_disconnect to disconnect.
-  * @attention 3. The scanning triggered by esp_wifi_start_scan() will not be effective until connection between ESP32 and the AP is established.
-  *               If ESP32 is scanning and connecting at the same time, ESP32 will abort scanning and return a warning message and error
-  *               number ESP_ERR_WIFI_STATE.
-  *               If you want to do reconnection after ESP32 received disconnect event, remember to add the maximum retry time, otherwise the called	
-  *               scan will not work. This is especially true when the AP doesn't exist, and you still try reconnection after ESP32 received disconnect
-  *               event with the reason code WIFI_REASON_NO_AP_FOUND.
-  *   
+  *
   * @return 
   *    - ESP_OK: succeed
   *    - ESP_ERR_WIFI_NOT_INIT: WiFi is not initialized by esp_wifi_init
@@ -382,7 +366,6 @@ esp_err_t esp_wifi_deauth_sta(uint16_t aid);
   *    - ESP_ERR_WIFI_NOT_INIT: WiFi is not initialized by esp_wifi_init
   *    - ESP_ERR_WIFI_NOT_STARTED: WiFi was not started by esp_wifi_start
   *    - ESP_ERR_WIFI_TIMEOUT: blocking scan is timeout
-  *    - ESP_ERR_WIFI_STATE: wifi still connecting when invoke esp_wifi_scan_start
   *    - others: refer to error code in esp_err.h
   */
 esp_err_t esp_wifi_scan_start(const wifi_scan_config_t *config, bool block);

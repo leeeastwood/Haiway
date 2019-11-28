@@ -58,7 +58,6 @@ typedef enum{
     MODEM_WIFI_STATION_MODULE,     //!< Wi-Fi Station used
     MODEM_WIFI_SOFTAP_MODULE,      //!< Wi-Fi SoftAP used
     MODEM_WIFI_SNIFFER_MODULE,     //!< Wi-Fi Sniffer used
-    MODEM_WIFI_NULL_MODULE,        //!< Wi-Fi Null mode used
     MODEM_USER_MODULE,             //!< User used
     MODEM_MODULE_COUNT             //!< Number of items
 }modem_sleep_module_t;
@@ -74,8 +73,7 @@ typedef enum{
  */
 #define MODEM_WIFI_MASK ((1<<MODEM_WIFI_STATION_MODULE) |   \
                          (1<<MODEM_WIFI_SOFTAP_MODULE)  |   \
-                         (1<<MODEM_WIFI_SNIFFER_MODULE) |   \
-                         (1<<MODEM_WIFI_NULL_MODULE))
+                         (1<<MODEM_WIFI_SNIFFER_MODULE))
 
 /**
  * @brief Modules needing to call phy_rf_init
@@ -202,10 +200,6 @@ esp_err_t esp_modem_sleep_exit(modem_sleep_module_t module);
 
 /**
  * @brief Register module to make it be able to require to enter/exit modem sleep
- *        Although the module has no sleep function, as long as the module use RF,
- *        it must call esp_modem_sleep_regsiter. Otherwise, other modules with sleep
- *        function will disable RF without checking the module which doesn't call
- *        esp_modem_sleep_regsiter.
  */
 esp_err_t esp_modem_sleep_register(modem_sleep_module_t module);
 
@@ -214,12 +208,6 @@ esp_err_t esp_modem_sleep_register(modem_sleep_module_t module);
  */
 esp_err_t esp_modem_sleep_deregister(modem_sleep_module_t module);
 
-/**
- * @brief            Get the time stamp when PHY/RF was switched on
- * @return           return 0 if PHY/RF is never switched on. Otherwise return time in
- *                   microsecond since boot when phy/rf was last switched on
-*/
-int64_t esp_phy_rf_get_on_ts(void);
 #ifdef __cplusplus
 }
 #endif
