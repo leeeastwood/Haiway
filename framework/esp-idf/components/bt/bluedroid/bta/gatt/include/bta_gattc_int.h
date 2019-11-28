@@ -300,7 +300,7 @@ typedef struct {
     UINT16              attr_index;     /* cahce NV saving/loading attribute index */
 
     UINT16              mtu;
-    bool                update_incl_srvc;
+    bool                update_sec_sev;
 } tBTA_GATTC_SERV;
 
 #ifndef BTA_GATTC_NOTIF_REG_MAX
@@ -365,8 +365,7 @@ typedef struct {
 typedef struct {
     BOOLEAN             in_use;
     BD_ADDR             remote_bda;
-    UINT16              svc_change_descr_handle;
-    BOOLEAN             write_remote_svc_change_ccc_done;
+    UINT16              svc_change_descr_handle; 
 } tBTA_GATTC_CONN;
 
 enum {

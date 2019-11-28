@@ -69,16 +69,11 @@
 #endif
 
 /**
- * LWIP_TIMERS==0: Drop support for sys_timeout and lwip-internal cyclic timers.
- * (the array of lwip-internal cyclic timers is still provided)
- * (check NO_SYS_NO_TIMERS for compatibility to old versions)
+ * NO_SYS_NO_TIMERS==1: Drop support for sys_timeout when NO_SYS==1
+ * Mainly for compatibility to old versions.
  */
-#if !defined LWIP_TIMERS || defined __DOXYGEN__
-#ifdef NO_SYS_NO_TIMERS
-#define LWIP_TIMERS                     (!NO_SYS || (NO_SYS && !NO_SYS_NO_TIMERS))
-#else
-#define LWIP_TIMERS                     1
-#endif
+#ifndef NO_SYS_NO_TIMERS
+#define NO_SYS_NO_TIMERS                0
 #endif
 
 /**
@@ -318,11 +313,7 @@
  * The formula expects settings to be either '0' or '1'.
  */
 #ifndef MEMP_NUM_SYS_TIMEOUT
-#if ESP_LWIP
-#define MEMP_NUM_SYS_TIMEOUT            (LWIP_TCP + IP_REASSEMBLY + (LWIP_ARP + (ESP_GRATUITOUS_ARP ? 1 : 0)) + (2*LWIP_DHCP + (ESP_DHCPS_TIMER ? 1 : 0)) + LWIP_AUTOIP + LWIP_IGMP + LWIP_DNS + (PPP_SUPPORT*6*MEMP_NUM_PPP_PCB) + (LWIP_IPV6 ? (1 + LWIP_IPV6_REASS + LWIP_IPV6_MLD) : 0))
-#else
 #define MEMP_NUM_SYS_TIMEOUT            (LWIP_TCP + IP_REASSEMBLY + LWIP_ARP + (2*LWIP_DHCP) + LWIP_AUTOIP + LWIP_IGMP + LWIP_DNS + (PPP_SUPPORT*6*MEMP_NUM_PPP_PCB) + (LWIP_IPV6 ? (1 + LWIP_IPV6_REASS + LWIP_IPV6_MLD) : 0))
-#endif
 #endif
 
 /**
@@ -1578,7 +1569,7 @@
  * names (read, write & close). (only used if you use sockets.c)
  */
 #ifndef LWIP_POSIX_SOCKETS_IO_NAMES
-#define LWIP_POSIX_SOCKETS_IO_NAMES     1
+#define      1
 #endif
 
 /**

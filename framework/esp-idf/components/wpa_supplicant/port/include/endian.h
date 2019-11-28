@@ -29,7 +29,6 @@
 #ifndef _ENDIAN_H_
 #define _ENDIAN_H_
 
-#include <stdint.h>
 #include "byteswap.h"
 
 #ifndef BIG_ENDIAN

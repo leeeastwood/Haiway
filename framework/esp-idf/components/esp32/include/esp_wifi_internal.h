@@ -150,17 +150,6 @@ esp_err_t esp_wifi_internal_osi_funcs_md5_check(const char *md5);
 esp_err_t esp_wifi_internal_crypto_funcs_md5_check(const char *md5);
 
 /**
-  * @brief     Check the git commit id of WiFi library
-  *
-  * @attention 1. It is used for internal CI WiFi library check
-  *
-  * @return
-  *     - ESP_OK : succeed
-  *     - ESP_FAIL : fail
-  */
-esp_err_t esp_wifi_internal_git_commit_id_check(void);
-
-/**
   * @brief     Allocate a chunk of memory for WiFi driver
   *
   * @attention This API is not used for DMA memory allocation.
@@ -194,15 +183,6 @@ void *wifi_realloc( void *ptr, size_t size );
   * @return    A pointer to the memory allocated on success, NULL on failure
   */
 void *wifi_calloc( size_t n, size_t size );
-
-/**
-  * @brief     Update WiFi MAC time
-  *
-  * @param     uint32_t time_delta : time duration since the WiFi/BT common clock is disabled
-  *
-  * @return    Always returns ESP_OK
-  */
-esp_err_t esp_wifi_internal_update_mac_time( uint32_t time_delta );
 
 #ifdef __cplusplus
 }

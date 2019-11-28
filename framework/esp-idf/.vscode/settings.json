@@ -1,0 +1,25 @@
+{
+    "files.associations": {
+        "spi_flash.h": "c",
+        "esp_spi_flash.h": "c",
+        "bootloader_flash.h": "c",
+        "esp_wifi.h": "c",
+        "sockets.h": "c",
+        "api_msg.h": "c",
+        "tcp_priv.h": "c",
+        "tcpip_priv.h": "c",
+        "select.h": "c",
+        "socket.h": "c",
+        "ip.h": "c",
+        "pbuf.h": "c",
+        "opt.h": "c",
+        "transport.h": "c",
+        "netdb.h": "c",
+        "http_utils.h": "c",
+        "lwipopts.h": "c",
+        "typeinfo": "c",
+        "api.h": "c",
+        "event_groups.h": "c",
+        "md5.h": "c"
+    }
+}

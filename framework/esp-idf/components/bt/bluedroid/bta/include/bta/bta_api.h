@@ -631,11 +631,10 @@ typedef UINT8 tBTA_SIG_STRENGTH_MASK;
 #define BTA_DM_SP_RMT_OOB_EXT_EVT       23      /* Simple Pairing Remote OOB Extended Data request. */
 #define BTA_DM_BLE_AUTH_CMPL_EVT        24      /* BLE Auth complete */
 // btla-specific --
-#define BTA_DM_DEV_UNPAIRED_EVT         25      /* BT unpair event */
+#define BTA_DM_DEV_UNPAIRED_EVT         25
 #define BTA_DM_HW_ERROR_EVT             26      /* BT Chip H/W error */
 #define BTA_DM_LE_FEATURES_READ         27      /* Cotroller specific LE features are read */
 #define BTA_DM_ENER_INFO_READ           28      /* Energy info read */
-#define BTA_DM_BLE_DEV_UNPAIRED_EVT     29      /* BLE unpair event */
 typedef UINT8 tBTA_DM_SEC_EVT;
 
 /* Structure associated with BTA_DM_ENABLE_EVT */
@@ -763,7 +762,6 @@ typedef struct {
     UINT8           fail_reason;        /* The HCI reason/error code for when success=FALSE */
     tBLE_ADDR_TYPE  addr_type;          /* Peer device address type */
     tBT_DEVICE_TYPE dev_type;
-    UINT8           auth_mode;
 } tBTA_DM_AUTH_CMPL;
 
 
@@ -1430,7 +1428,7 @@ extern void BTA_DmUpdateWhiteList(BOOLEAN add_remove,  BD_ADDR remote_addr, tBTA
 
 extern void BTA_DmBleReadAdvTxPower(tBTA_CMPL_CB *cmpl_cb);
 
-extern void BTA_DmBleReadRSSI(BD_ADDR remote_addr, tBTA_TRANSPORT transport, tBTA_CMPL_CB *cmpl_cb);
+extern void BTA_DmBleReadRSSI(BD_ADDR remote_addr, tBTA_CMPL_CB *cmpl_cb);
 
 /*******************************************************************************
 **
@@ -1563,18 +1561,6 @@ extern void BTA_DmBondCancel(BD_ADDR bd_addr);
 
 /*******************************************************************************
 **
-** Function         BTA_DMSetPinType
-**
-** Description      This function sets pin type as BTM_PIN_TYPE_FIXED or BTM_PIN_TYPE_VARIABLE
-**
-**
-** Returns          void
-**
-*******************************************************************************/
-extern void BTA_DMSetPinType (UINT8 pin_type, UINT8 *pin_code, UINT8 pin_code_len);
-
-/*******************************************************************************
-**
 ** Function         BTA_DmPinReply
 **
 ** Description      This function provides a PIN when one is requested by DM
@@ -1646,7 +1632,7 @@ extern void BTA_DmAddDevice(BD_ADDR bd_addr, DEV_CLASS dev_class,
 **                  BTA_FAIL if operation failed.
 **
 *******************************************************************************/
-extern tBTA_STATUS BTA_DmRemoveDevice(BD_ADDR bd_addr, tBT_TRANSPORT transport);
+extern tBTA_STATUS BTA_DmRemoveDevice(BD_ADDR bd_addr);
 
 /*******************************************************************************
 **
@@ -1805,22 +1791,6 @@ extern void BTA_DmBlePasskeyReply(BD_ADDR bd_addr, BOOLEAN accept, UINT32 passke
 
 /*******************************************************************************
 **
-** Function         BTA_DmBleSetStaticPasskey
-**
-** Description      Set BLE SMP static passkey.
-**
-** Parameters:      add              - add static passkey when add is true
-**                                     clear static passkey when add is false
-**                  passkey          - static passkey value
-**
-**
-** Returns          void
-**
-*******************************************************************************/
-extern void BTA_DmBleSetStaticPasskey(bool add, uint32_t passkey);
-
-/*******************************************************************************
-**
 ** Function         BTA_DmBleConfirmReply
 **
 ** Description      Send BLE SMP SC user confirmation reply.
@@ -1843,13 +1813,12 @@ extern void BTA_DmBleConfirmReply(BD_ADDR bd_addr, BOOLEAN accept);
 **
 ** Parameters:      bd_addr          - BD address of the peer
 **                  dev_type         - Remote device's device type.
-**                  auth_mode        - auth mode
 **                  addr_type        - LE device address type.
 **
 ** Returns          void
 **
 *******************************************************************************/
-extern void BTA_DmAddBleDevice(BD_ADDR bd_addr, tBLE_ADDR_TYPE addr_type, int auth_mode,
+extern void BTA_DmAddBleDevice(BD_ADDR bd_addr, tBLE_ADDR_TYPE addr_type,
                                tBT_DEVICE_TYPE dev_type);
 
 

@@ -127,7 +127,7 @@
 #else
 #define SMP_INCLUDED              FALSE
 #define BLE_PRIVACY_SPT           FALSE
-#endif  /* CONFIG_SMP_ENABLE */
+#endif  /* CONFIG_GATTC_ENABLE */
 
 #if (CONFIG_BT_ACL_CONNECTIONS)
 #define MAX_ACL_CONNECTIONS  CONFIG_BT_ACL_CONNECTIONS
@@ -305,22 +305,6 @@
 
 #ifndef BTA_AV_CO_CP_SCMS_T
 #define BTA_AV_CO_CP_SCMS_T  FALSE//FALSE
-#endif
-
-#ifndef QUEUE_CONGEST_SIZE
-#define  QUEUE_CONGEST_SIZE    40
-#endif
-
-#ifndef CONFIG_BLE_HOST_QUEUE_CONGESTION_CHECK
-#define SCAN_QUEUE_CONGEST_CHECK  FALSE
-#else
-#define SCAN_QUEUE_CONGEST_CHECK  CONFIG_BLE_HOST_QUEUE_CONGESTION_CHECK
-#endif
-
-#ifndef CONFIG_BLE_ACTIVE_SCAN_REPORT_ADV_SCAN_RSP_INDIVIDUALLY
-#define BTM_BLE_ACTIVE_SCAN_REPORT_ADV_SCAN_RSP_INDIVIDUALLY    FALSE
-#else
-#define BTM_BLE_ACTIVE_SCAN_REPORT_ADV_SCAN_RSP_INDIVIDUALLY    CONFIG_BLE_ACTIVE_SCAN_REPORT_ADV_SCAN_RSP_INDIVIDUALLY
 #endif
 
 /* This feature is used to eanble interleaved scan*/
@@ -597,7 +581,7 @@
 #define BTM_DEFAULT_DISC_INTERVAL   0x0800
 #endif
 
-/*
+/* 
 * {SERVICE_CLASS, MAJOR_CLASS, MINOR_CLASS}
 *
 * SERVICE_CLASS:0x5A (Bit17 -Networking,Bit19 - Capturing,Bit20 -Object Transfer,Bit22 -Telephony)
@@ -769,14 +753,6 @@
 #ifndef BTM_BLE_CONFORMANCE_TESTING
 #define BTM_BLE_CONFORMANCE_TESTING           FALSE
 #endif
-
-/******************************************************************************
-**
-** CONTROLLER TO HOST FLOW CONTROL
-**
-******************************************************************************/
-
-#define C2H_FLOW_CONTROL_INCLUDED TRUE
 
 /******************************************************************************
 **
@@ -997,7 +973,7 @@
 #endif
 
 #ifndef BTM_BLE_ADV_TX_POWER
-#define BTM_BLE_ADV_TX_POWER {-12, -9, -6, -3, 0, 3, 6, 9}
+#define BTM_BLE_ADV_TX_POWER {-21, -15, -7, 1, 9}
 #endif
 
 
