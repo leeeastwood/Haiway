@@ -21,12 +21,14 @@ typedef struct {
 
 typedef struct {
   int daysSinceEpoch;
-  int day;  // 1..31
-  int month; // 0..11
-  int year; // eg. 2017
-  int dow; // 0..6, Sunday is 0
+  int day;  ///< 1..31
+  int month; ///< 0..11
+  int year; ///< eg. 2017
+  int dow; ///< 0..6, Sunday is 0
 } CalendarDate;
 
+/// return time zone in minutes
+int jsdGetTimeZone();
 TimeInDay getTimeFromMilliSeconds(JsVarFloat ms_in, bool forceGMT);
 JsVarFloat fromTimeInDay(TimeInDay *td);
 CalendarDate getCalendarDate(int d);

@@ -17,6 +17,8 @@
 # make flash         # Try and flash using the platform's normal flash tool
 # make serialflash   # flash over USB serial bootloader (STM32)
 # make lst           # Make listing files
+# make boardjson     # JSON file for a board
+# make docs          # Reference HTML for a board
 #
 # Also:
 #
@@ -64,6 +66,8 @@ INCLUDE?=-I$(ROOT) -I$(ROOT)/targets -I$(ROOT)/src -I$(GENDIR)
 LIBS?=
 DEFINES?=
 CFLAGS?=-Wall -Wextra -Wconversion -Werror=implicit-function-declaration -fno-strict-aliasing -g
+CFLAGS+=-Wno-expansion-to-defined # remove warnings created by Nordic's libs
+CCFLAGS?= # specific flags when compiling cc files
 LDFLAGS?=-Winline -g
 OPTIMIZEFLAGS?=
 #-fdiagnostics-show-option - shows which flags can be used with -Werror
@@ -144,7 +148,7 @@ ifeq ($(BOARD),)
 endif
 
 ifeq ($(BOARD),RASPBERRYPI)
- ifneq ("$(wildcard /usr/local/include/wiringPi.h)","")
+ ifneq ("$(wildcard /usr/include/wiringPi.h)","")
  USE_WIRINGPI=1
  else
  DEFINES+=-DSYSFS_GPIO_DIR="\"/sys/class/gpio\""
@@ -271,6 +275,7 @@ src/jsspi.c \
 src/jshardware_common.c \
 $(WRAPPERFILE)
 CPPSOURCES =
+CCSOURCES =
 
 ifdef CFILE
 WRAPPERSOURCES += $(CFILE)
@@ -363,6 +368,7 @@ INCLUDE += -I$(ROOT)/libs/graphics
 WRAPPERSOURCES += libs/graphics/jswrap_graphics.c
 SOURCES += \
 libs/graphics/bitmap_font_4x6.c \
+libs/graphics/bitmap_font_6x8.c \
 libs/graphics/graphics.c \
 libs/graphics/lcd_arraybuffer.c \
 libs/graphics/lcd_js.c
@@ -377,6 +383,16 @@ endif
 ifdef USE_LCD_FSMC
   DEFINES += -DUSE_LCD_FSMC
   SOURCES += libs/graphics/lcd_fsmc.c
+endif
+
+ifdef USE_LCD_SPI
+  DEFINES += -DUSE_LCD_SPI
+  SOURCES += libs/graphics/lcd_spilcd.c
+endif
+
+ifdef USE_LCD_ST7789_8BIT
+  DEFINES += -DUSE_LCD_ST7789_8BIT
+  SOURCES += libs/graphics/lcd_st7789_8bit.c
 endif
 
 
@@ -533,7 +549,6 @@ endif
 ifeq ($(USE_WIRINGPI),1)
   DEFINES += -DUSE_WIRINGPI
   LIBS += -lwiringPi
-  INCLUDE += -I/usr/local/include -L/usr/local/lib
 endif
 
 ifeq ($(USE_BLUETOOTH),1)
@@ -564,10 +579,28 @@ ifeq ($(USE_NFC),1)
   INCLUDE          += -I$(NRF5X_SDK_PATH)/components/nfc/ndef/uri
   INCLUDE          += -I$(NRF5X_SDK_PATH)/components/nfc/ndef/generic/message
   INCLUDE          += -I$(NRF5X_SDK_PATH)/components/nfc/ndef/generic/record
+  INCLUDE          += -I$(NRF5X_SDK_PATH)/components/nfc/ndef/connection_handover/ble_pair_msg
+  INCLUDE          += -I$(NRF5X_SDK_PATH)/components/nfc/ndef/connection_handover/hs_rec
+  INCLUDE          += -I$(NRF5X_SDK_PATH)/components/nfc/ndef/connection_handover/ac_rec
+  INCLUDE          += -I$(NRF5X_SDK_PATH)/components/nfc/ndef/connection_handover/le_oob_rec
+  INCLUDE          += -I$(NRF5X_SDK_PATH)/components/nfc/ndef/connection_handover/ble_oob_advdata
+  INCLUDE          += -I$(NRF5X_SDK_PATH)/components/nfc/ndef/connection_handover/ep_oob_rec
+  INCLUDE          += -I$(NRF5X_SDK_PATH)/components/nfc/ndef/connection_handover/common
+  INCLUDE          += -I$(NRF5X_SDK_PATH)/components/nfc/ndef/launchapp
   TARGETSOURCES    += $(NRF5X_SDK_PATH)/components/nfc/ndef/uri/nfc_uri_msg.c
   TARGETSOURCES    += $(NRF5X_SDK_PATH)/components/nfc/ndef/uri/nfc_uri_rec.c
   TARGETSOURCES    += $(NRF5X_SDK_PATH)/components/nfc/ndef/generic/message/nfc_ndef_msg.c
   TARGETSOURCES    += $(NRF5X_SDK_PATH)/components/nfc/ndef/generic/record/nfc_ndef_record.c
+  TARGETSOURCES    += $(NRF5X_SDK_PATH)/components/nfc/ndef/connection_handover/ble_pair_msg/nfc_ble_pair_msg.c
+  TARGETSOURCES    += $(NRF5X_SDK_PATH)/components/nfc/ndef/connection_handover/hs_rec/nfc_hs_rec.c
+  TARGETSOURCES    += $(NRF5X_SDK_PATH)/components/nfc/ndef/connection_handover/le_oob_rec/nfc_le_oob_rec.c
+  TARGETSOURCES    += $(NRF5X_SDK_PATH)/components/nfc/ndef/connection_handover/ep_oob_rec/nfc_ep_oob_rec.c
+  TARGETSOURCES    += $(NRF5X_SDK_PATH)/components/nfc/ndef/connection_handover/ac_rec/nfc_ac_rec.c
+  TARGETSOURCES    += $(NRF5X_SDK_PATH)/components/nfc/ndef/connection_handover/hs_rec/nfc_hs_rec.c
+  TARGETSOURCES    += $(NRF5X_SDK_PATH)/components/nfc/ndef/connection_handover/ble_oob_advdata/nfc_ble_oob_advdata.c
+  TARGETSOURCES    += $(NRF5X_SDK_PATH)/components/nfc/ndef/connection_handover/common/nfc_ble_pair_common.c
+  TARGETSOURCES    += $(NRF5X_SDK_PATH)/components/nfc/ndef/launchapp/nfc_launchapp_msg.c
+  TARGETSOURCES    += $(NRF5X_SDK_PATH)/components/nfc/ndef/launchapp/nfc_launchapp_rec.c
   TARGETSOURCES    += $(NRF5X_SDK_PATH)/components/nfc/t2t_lib/hal_t2t/hal_nfc_t2t.c
 endif
 
@@ -575,6 +608,10 @@ ifeq ($(USE_WIO_LTE),1)
   INCLUDE += -I$(ROOT)/libs/wio_lte
   WRAPPERSOURCES += libs/wio_lte/jswrap_wio_lte.c
   SOURCES += targets/stm32/stm32_ws2812b_driver.c
+endif
+
+ifeq ($(USE_TENSORFLOW),1) 
+include make/misc/tensorflow.make
 endif
 
 
@@ -592,6 +629,7 @@ include make/family/$(FAMILY).make
 endif
 # =========================================================================
 
+
 ifdef USB
 DEFINES += -DUSB
 endif
@@ -600,8 +638,8 @@ PININFOFILE=$(GENDIR)/jspininfo
 SOURCES += $(PININFOFILE).c
 
 SOURCES += $(WRAPPERSOURCES) $(TARGETSOURCES)
-SOURCEOBJS = $(SOURCES:.c=.o) $(CPPSOURCES:.cpp=.o)
-OBJS = $(SOURCEOBJS) $(PRECOMPILED_OBJS)
+SOURCEOBJS = $(SOURCES:.c=.o) $(CPPSOURCES:.cpp=.o) $(CCSOURCES:.cc=.o)
+OBJS = $(PRECOMPILED_OBJS) $(SOURCEOBJS)
 
 
 # -ffreestanding -nodefaultlibs -nostdlib -fno-common
@@ -674,6 +712,11 @@ else
 	$(Q)python scripts/build_board_json.py $(WRAPPERSOURCES) $(DEFINES) -B$(BOARD)
 endif
 
+docs:
+	@echo Generating Board docs
+	$(Q)python scripts/build_docs.py $(WRAPPERSOURCES) $(DEFINES) -B$(BOARD)
+	@echo functions.html created
+
 $(WRAPPERFILE): scripts/build_jswrapper.py $(WRAPPERSOURCES)
 	@echo Generating JS wrappers
 	$(Q)echo WRAPPERSOURCES = $(WRAPPERSOURCES)
@@ -719,6 +762,10 @@ quiet_obj_to_bin= GEN $(PROJ_NAME).$2
 	@echo $($(quiet_)compile)
 	@$(call compile)
 
+.cc.o: %.cc $(PLATFORM_CONFIG_FILE) $(PININFOFILE).h
+	@echo $($(quiet_)compile)
+	@$(CC) $(CCFLAGS) $(CFLAGS) $< -o $@
+
 .cpp.o: $(PLATFORM_CONFIG_FILE) $(PININFOFILE).h
 	@echo $($(quiet_)compile)
 	@$(call compile)
@@ -734,6 +781,8 @@ quiet_obj_to_bin= GEN $(PROJ_NAME).$2
 
 ifdef LINUX # ---------------------------------------------------
 include make/targets/LINUX.make
+else ifdef EMSCRIPTEN
+include make/targets/EMSCRIPTEN.make
 else ifdef ESP32
 include make/targets/ESP32.make
 else ifdef ESP8266

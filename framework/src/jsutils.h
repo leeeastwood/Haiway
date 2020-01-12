@@ -26,9 +26,9 @@
 #include <math.h>
 
 #ifndef BUILDNUMBER
-#define JS_VERSION "2v01"
+#define JS_VERSION "2v04"
 #else
-#define JS_VERSION "2v01." BUILDNUMBER
+#define JS_VERSION "2v04." BUILDNUMBER
 #endif
 /*
   In code:
@@ -101,6 +101,16 @@ int flash_strcmp(const char *mem, const char *flash);
 /** FLASH_STRCMP is simply strcmp, it's only special on ESP8266 */
 #define FLASH_STRCMP strcmp
 
+#endif
+
+#ifdef FLASH_64BITS_ALIGNMENT
+typedef uint64_t JsfWord;
+#define JSF_ALIGNMENT 8
+#define JSF_WORD_UNSET 0xFFFFFFFFFFFFFFFFULL
+#else
+typedef uint32_t JsfWord;
+#define JSF_ALIGNMENT 4
+#define JSF_WORD_UNSET 0xFFFFFFFF
 #endif
 
 
@@ -367,6 +377,8 @@ const char *escapeCharacter(char ch);
 int getRadix(const char **s, int forceRadix, bool *hasError);
 /// Convert a character to the hexadecimal equivalent (or -1)
 int chtod(char ch);
+/// Convert 2 characters to the hexadecimal equivalent (or -1)
+int hexToByte(char hi, char lo);
 /* convert a number in the given radix to an int */
 long long stringToIntWithRadix(const char *s,
                int forceRadix, //!< if radix=0, autodetect

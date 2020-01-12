@@ -16,17 +16,24 @@
 # Needs:
 #    pip install markdown
 #    pip install markdown-urlize
+#
+# See common.py -> get_jsondata for command line options
 
 import subprocess;
 import re;
 import json;
 import sys;
 import os;
-sys.path.append(".");
 import common
 import urllib2
 import markdown
 import htmlentitydefs
+
+sys.path.append(".");
+scriptdir = os.path.dirname(os.path.realpath(__file__))
+basedir = scriptdir+"/../"
+sys.path.append(basedir+"scripts");
+sys.path.append(basedir+"boards");
 
 # Scans files for comments of the form /*JSON......*/ and then writes out an HTML file describing
 # all the functions
@@ -125,7 +132,9 @@ def get_surround(jsondata):
   s = common.get_prefix_name(jsondata)
   if s!="": s = s + " "
   if jsondata["type"]!="constructor":
-    if "class" in jsondata: s=s+jsondata["class"]+"."
+    if "class" in jsondata: 
+      if jsondata["class"] in libraries: s=s+"require(\""+jsondata["class"]+"\")."
+      else: s=s+jsondata["class"]+"."
   s=s+jsondata["name"]
   if jsondata["type"]!="object":
     s=s+get_arguments(jsondata)

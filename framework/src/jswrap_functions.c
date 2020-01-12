@@ -47,14 +47,15 @@ Normal JavaScript interpreters would return `0` in the above case.
 extern JsExecInfo execInfo;
 JsVar *jswrap_arguments() {
   JsVar *scope = 0;
-  if (execInfo.scopeCount>0)
-    scope = execInfo.scopes[execInfo.scopeCount-1];
+  if (execInfo.scopesVar)
+    scope = jsvGetLastArrayItem(execInfo.scopesVar);
   if (!jsvIsFunction(scope)) {
     jsExceptionHere(JSET_ERROR, "Can only use 'arguments' variable inside a function");
     return 0;
   }
-
-  return jsvGetFunctionArgumentLength(scope);
+  JsVar *result = jsvGetFunctionArgumentLength(scope);
+  jsvUnLock(scope);
+  return result;
 }
 
 
@@ -455,14 +456,15 @@ JsVar *jswrap_decodeURIComponent(JsVar *arg) {
         jsvStringIteratorAppend(&dst, ch);
       } else {
         jsvStringIteratorNext(&it);
-        int hi = chtod(jsvStringIteratorGetChar(&it));
+        int hi = jsvStringIteratorGetChar(&it);
         jsvStringIteratorNext(&it);
-        int lo = chtod(jsvStringIteratorGetChar(&it));
-        ch = (char)((hi<<4)|lo);
-        if (hi<0 || lo<0 || ch>>7) {
+        int lo = jsvStringIteratorGetChar(&it);
+        int v = (char)hexToByte(hi,lo);
+        if (v<0) {
           jsExceptionHere(JSET_ERROR, "Invalid URI\n");
           break;
         }
+        ch = (char)v;
         jsvStringIteratorAppend(&dst, ch);
       }
       jsvStringIteratorNext(&it);

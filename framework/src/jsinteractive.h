@@ -59,6 +59,8 @@ bool jsiExecuteEventCallback(JsVar *thisVar, JsVar *callbackVar, unsigned int ar
 /// Same as above, but with a JsVarArray (this calls jsiExecuteEventCallback, so use jsiExecuteEventCallback where possible)
 bool jsiExecuteEventCallbackArgsArray(JsVar *thisVar, JsVar *callbackVar, JsVar *argsArray);
 
+/// Create a timeout in JS to execute the given native function (outside of an IRQ). Returns the index
+JsVar *jsiSetTimeout(void (*functionPtr)(void), JsVarFloat milliseconds);
 
 IOEventFlags jsiGetDeviceFromClass(JsVar *deviceClass);
 JsVar *jsiGetClassNameFromDevice(IOEventFlags device);
@@ -149,7 +151,8 @@ typedef enum {
   JSIS_COMPLETELY_RESET   = 1<<11, ///< Has the board powered on, having not loaded anything from flash
 
   JSIS_ECHO_OFF_MASK = JSIS_ECHO_OFF|JSIS_ECHO_OFF_FOR_LINE,
-  JSIS_SOFTINIT_MASK = JSIS_PASSWORD_PROTECTED // stuff that DOESN'T get reset on softinit
+  JSIS_SOFTINIT_MASK = JSIS_PASSWORD_PROTECTED|JSIS_WATCHDOG_AUTO // stuff that DOESN'T get reset on softinit
+    // watchdog can't be reset without a reboot so if it's set to auto we must keep it as auto
 } PACKED_FLAGS JsiStatus;
 
 extern JsiStatus jsiStatus;

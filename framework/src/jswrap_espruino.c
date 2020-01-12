@@ -109,7 +109,7 @@ int nativeCallGetCType() {
   }
   if (lex->tk == LEX_ID) {
     int t = -1;
-    char *name = jslGetTokenValueAsString(lex);
+    char *name = jslGetTokenValueAsString();
     if (strcmp(name,"int")==0) t=JSWAT_INT32;
     if (strcmp(name,"double")==0) t=JSWAT_JSVARFLOAT;
     if (strcmp(name,"bool")==0) t=JSWAT_BOOL;
@@ -433,13 +433,15 @@ space to include the 32 bit maths routines (2x more RAM is required).
  */
 void _jswrap_espruino_FFT_getData(FFTDATATYPE *dst, JsVar *src, size_t length) {
   JsvIterator it;
-  jsvIteratorNew(&it, src, JSIF_EVERY_ARRAY_ELEMENT);
   size_t i=0;
-  while (i<length && jsvIteratorHasElement(&it)) {
-    dst[i++] = (FFTDATATYPE)jsvIteratorGetFloatValue(&it);
-    jsvIteratorNext(&it);
+  if (jsvIsIterable(src)) {
+    jsvIteratorNew(&it, src, JSIF_EVERY_ARRAY_ELEMENT);
+    while (i<length && jsvIteratorHasElement(&it)) {
+      dst[i++] = (FFTDATATYPE)jsvIteratorGetFloatValue(&it);
+      jsvIteratorNext(&it);
+    }
+    jsvIteratorFree(&it);
   }
-  jsvIteratorFree(&it);
   while (i<length)
     dst[i++]=0;
 }
@@ -621,10 +623,9 @@ setInterval(function() {
 
 **NOTE:** This is only implemented on STM32 and nRF5x devices (all official Espruino boards).
 
-**NOTE:** On STM32 (Pico, WiFi, Original) with `setDeepSleep(1)`, or nRF52 (Puck, Pixl, MDBT42) you need to
+**NOTE:** On STM32 (Pico, WiFi, Original) with `setDeepSleep(1)` you need to
 explicitly wake Espruino up with an interval of less than the watchdog timeout or the watchdog will fire and
-the board will reboot.
-
+the board will reboot. You can do this with `setInterval("", time_in_milliseconds)`.
  */
 void jswrap_espruino_enableWatchdog(JsVarFloat time, JsVar *isAuto) {
   if (time<0 || isnan(time)) time=1;
@@ -1091,14 +1092,17 @@ void jswrap_espruino_dumpFreeList() {
 
 /*JSON{
   "type" : "staticmethod",
-  "ifndef" : "RELEASE",
   "class" : "E",
   "name" : "dumpFragmentation",
   "generate" : "jswrap_e_dumpFragmentation"
 }
-Show fragmentation
+Show fragmentation.
+
+* ` ` is free space
+* `#` is a normal variable
+* `L` is a locked variable (address used, cannopt be moved)
+* `=` represents data in a Flat String (must be contiguous)
  */
-#ifndef RELEASE
 void jswrap_e_dumpFragmentation() {
   int l = 0;
   for (int i=0;i<jsvGetMemoryTotal();i++) {
@@ -1107,12 +1111,14 @@ void jswrap_e_dumpFragmentation() {
       jsiConsolePrint(" ");
       if (l++>80) { jsiConsolePrint("\n");l=0; }
     } else {
-      jsiConsolePrint("#");
+      if (jsvGetLocks(v)) jsiConsolePrint("L");
+      else jsiConsolePrint("#");
       if (l++>80) { jsiConsolePrint("\n");l=0; }
       if (jsvIsFlatString(v)) {
         int b = jsvGetFlatStringBlocks(v);
+        i += b; // skip forward
         while (b--) {
-          jsiConsolePrint("-");
+          jsiConsolePrint("=");
           if (l++>80) { jsiConsolePrint("\n");l=0; }
         }
       }
@@ -1120,7 +1126,67 @@ void jswrap_e_dumpFragmentation() {
   }
   jsiConsolePrint("\n");
 }
-#endif
+
+/*JSON{
+  "type" : "staticmethod",
+  "ifndef" : "SAVE_ON_FLASH",
+  "class" : "E",
+  "name" : "dumpVariables",
+  "generate" : "jswrap_e_dumpVariables"
+}
+Dumps a comma-separated list of all allocated variables
+along with the variables they link to. Can be used
+to visualise where memory is used.
+ */
+void jswrap_e_dumpVariables() {
+  int l = 0;
+  jsiConsolePrintf("ref,size,name,links...\n");
+  for (int i=0;i<jsvGetMemoryTotal();i++) {
+    JsVarRef ref = i+1;
+    JsVar *v = _jsvGetAddressOf(ref);
+    if ((v->flags&JSV_VARTYPEMASK)==JSV_UNUSED) continue;
+    if (jsvIsStringExt(v)) continue;
+    int size = 1;
+    if (jsvIsFlatString(v)) {
+      int b = jsvGetFlatStringBlocks(v);
+      i += b; // skip forward
+      size += b;
+    } else if (jsvHasCharacterData(v)) {
+      JsVarRef childref = jsvGetLastChild(v);
+      while (childref) {
+        JsVar *child = jsvLock(childref);
+        size++;
+        childref = jsvGetLastChild(child);
+        jsvUnLock(child);
+      }
+    }
+    jsiConsolePrintf("%d,%d,",ref,size);
+    if (jsvIsName(v)) jsiConsolePrintf("%q,",v);
+    else jsiConsolePrintf(",",v);
+
+    if (jsvHasSingleChild(v) || jsvHasChildren(v)) {
+      JsVarRef childref = jsvGetFirstChild(v);
+      while (childref) {
+        JsVar *child = jsvLock(childref);
+        jsiConsolePrintf("%d,",childref);
+        if (jsvHasChildren(v)) childref = jsvGetNextSibling(child);
+        else childref = 0;
+        jsvUnLock(child);
+      }
+    }
+    jsiConsolePrint("\n");
+  }
+}
+
+/*JSON{
+  "type" : "staticmethod",
+  "ifndef" : "SAVE_ON_FLASH",
+  "class" : "E",
+  "name" : "defrag",
+  "generate" : "jsvDefragment"
+}
+BETA: defragment memory!
+ */
 
 /*JSON{
   "type" : "staticmethod",
@@ -1232,12 +1298,12 @@ JsVarInt jswrap_espruino_getAddressOf(JsVar *v, bool flatAddress) {
   "params" : [
     ["from","JsVar","An ArrayBuffer to read elements from"],
     ["to","JsVar","An ArrayBuffer to write elements too"],
-    ["map","JsVar","An array or function to use to map one element to another, or undefined to provide no mapping"],
+    ["map","JsVar","An array or `function(value,index)` to use to map one element to another, or `undefined` to provide no mapping"],
     ["bits","int","If specified, the number of bits per element (MSB first) - otherwise use a 1:1 mapping. If negative, use LSB first."]
   ]
 }
-Take each element of the `from` array, look it up in `map` (or call the
-function with it as a first argument), and write it into the corresponding
+Take each element of the `from` array, look it up in `map` (or call `map(value,index)` 
+if it is a function), and write it into the corresponding
 element in the `to` array.
 
 You can use an array to map:
@@ -1256,6 +1322,8 @@ var a = new Uint8Array([0x12,0x34,0x56,0x78]);
 var b = new Uint8Array(8);
 E.mapInPlace(a, b, undefined); // straight through
 // b = [0x12,0x34,0x56,0x78,0,0,0,0]
+E.mapInPlace(a, b, (value,index)=>index); // write the index in the first 4 (because a.length==4)
+// b = [0,1,2,3,4,0,0,0]
 E.mapInPlace(a, b, undefined, 4); // 4 bits from 8 bit input -> 2x as many outputs, msb-first
 // b = [1, 2, 3, 4, 5, 6, 7, 8]
  E.mapInPlace(a, b, undefined, -4); // 4 bits from 8 bit input -> 2x as many outputs, lsb-first
@@ -1296,6 +1364,7 @@ void jswrap_espruino_mapInPlace(JsVar *from, JsVar *to, JsVar *map, JsVarInt bit
   while ((jsvArrayBufferIteratorHasElement(&itFrom) || b>=bits) &&
          jsvArrayBufferIteratorHasElement(&itTo)) {
 
+    JsVar *index = isFn?jsvArrayBufferIteratorGetIndex(&itFrom):0;
     while (b < bits) {
       if (msbFirst) el = (el<<bitsFrom) | jsvArrayBufferIteratorGetIntegerValue(&itFrom);
       else el |= jsvArrayBufferIteratorGetIntegerValue(&itFrom) << b;
@@ -1318,9 +1387,9 @@ void jswrap_espruino_mapInPlace(JsVar *from, JsVar *to, JsVar *map, JsVarInt bit
       if (isFn) {
         JsVar *args[2];
         args[0] = jsvNewFromInteger(v);
-        args[1] = jsvArrayBufferIteratorGetIndex(&itFrom); // child is a variable name, create a new variable for the index
+        args[1] = index; // child is a variable name, create a new variable for the index
         v2 = jspeFunctionCall(map, 0, 0, false, 2, args);
-        jsvUnLockMany(2,args);
+        jsvUnLock(args[0]);
       } else if (jsvIsArray(map)) {
         v2 = jsvGetArrayItem(map, v);
       } else {
@@ -1332,6 +1401,7 @@ void jswrap_espruino_mapInPlace(JsVar *from, JsVar *to, JsVar *map, JsVarInt bit
     } else { // no map - push right through
       jsvArrayBufferIteratorSetIntegerValue(&itTo, v);
     }
+    jsvUnLock(index);
     jsvArrayBufferIteratorNext(&itTo);
   }
   jsvArrayBufferIteratorFree(&itFrom);
@@ -1551,6 +1621,45 @@ void jswrap_espruino_setTimeZone(JsVarFloat zone) {
   "type" : "staticmethod",
   "ifndef" : "SAVE_ON_FLASH",
   "class" : "E",
+  "name" : "memoryMap",
+  "generate" : "jswrap_espruino_memoryMap",
+  "params" : [
+    ["baseAddress","JsVar","The base address (added to every address in `registers`)"],
+    ["registers","JsVar","An object containing `{name:address}`"]
+  ],
+  "return" : ["JsVar","An object where each field is memory-mapped to a register."]
+}
+Create an object where every field accesses a specific 32 bit address in the microcontroller's memory. This
+is perfect for accessing on-chip peripherals.
+
+```
+// for NRF52 based chips
+var GPIO = E.memoryMap(0x50000000,{OUT:0x504, OUTSET:0x508, OUTCLR:0x50C, IN:0x510, DIR:0x514, DIRSET:0x518, DIRCLR:0x51C});
+GPIO.DIRSET = 1; // set GPIO0 to output
+GPIO.OUT ^= 1; // toggle the output state of GPIO0
+```
+*/
+JsVar *jswrap_espruino_memoryMap(JsVar *baseAddress, JsVar *registers) {
+  /* Do this in JS - it's safer and more readable, and doesn't
+   * have to be super fast. */
+  JsVar *args[2] = {baseAddress, registers};
+  return jspExecuteJSFunction("(function(base,j) {"
+    "var o={},addr;"
+    "for (var reg in j) {"
+      "addr=base+j[reg];"
+      "Object.defineProperty(o,reg,{"
+        "get:peek32.bind(undefined,addr),"
+        "set:poke32.bind(undefined,addr)"
+      "});"
+    "}"
+    "return o;"
+  "})",0,2,args);
+}
+
+/*JSON{
+  "type" : "staticmethod",
+  "ifndef" : "SAVE_ON_FLASH",
+  "class" : "E",
   "name" : "asm",
   "generate" : "jswrap_espruino_asm",
   "params" : [
@@ -1681,7 +1790,7 @@ bool jswrap_espruino_sendUSBHID(JsVar *arr) {
 
 /*JSON{
   "type" : "staticmethod",
-  "#if" : "defined(PUCKJS) || defined(PIXLJS)",
+  "#if" : "defined(PUCKJS) || defined(PIXLJS) || defined(BANGLEJS)",
   "class" : "E",
   "name" : "getBattery",
   "generate" : "jswrap_espruino_getBattery",
@@ -1696,12 +1805,9 @@ from it at the time `E.getBattery` is called) will affect the
 readings.
 */
 JsVarInt jswrap_espruino_getBattery() {
-#if defined(PUCKJS) || defined(PIXLJS)
-  JsVarFloat v = jshReadVRef();
-  int pc = (v-2.2)*100/0.6;
-  if (pc>100) pc=100;
-  if (pc<0) pc=0;
-  return pc;
+#if defined(CUSTOM_GETBATTERY)
+  JsVarInt CUSTOM_GETBATTERY();
+  return CUSTOM_GETBATTERY();
 #else
   return 0;
 #endif

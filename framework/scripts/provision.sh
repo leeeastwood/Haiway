@@ -8,7 +8,7 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-# 
+#
 # -----------------------------------------------------------------------------
 # Setup toolchain and libraries for build targets, installs if missing
 # set env vars for builds
@@ -37,6 +37,7 @@ if [ "$BOARDNAME" = "ALL" ]; then
   PROVISION_LINUX=1
   PROVISION_NRF52=1
   PROVISION_NRF51=1
+  PROVISION_NRF_SDK15=1
   PROVISION_STM32F1=1
   PROVISION_STM32F4=1
   PROVISION_STM32L4=1 
@@ -49,11 +50,16 @@ else
   fi  
   export PROVISION_$FAMILY=1
   export PROVISION_$BOARDNAME=1
+  if python scripts/get_makefile_decls.py $BOARDNAME | grep NRF_SDK15; then
+    PROVISION_NRF_SDK15=1
+  fi
 fi
 echo Provision BOARDNAME = $BOARDNAME
 echo Provision FAMILY = $FAMILY
 
-if [ "$PROVISION_ESP32" = "1" ]; then
+# 该段脚本被Haiway/scripts/setup.sh 替代
+#if [ "$PROVISION_ESP32" = "1" ]; then
+if [ "$PROVISION_ESP32_x" = "1" ]; then
     echo ===== ESP32
     # needed for esptool for merging binaries
     if pip --version 2>/dev/null; then 
@@ -131,16 +137,38 @@ fi
 #--------------------------------------------------------------------------------
 if [ "$PROVISION_NRF52" = "1" ]; then
     echo ===== NRF52
+    if ! type pip 2> /dev/null > /dev/null; then
+      echo Installing python and pip
+      sudo DEBIAN_FRONTEND=noninteractive apt-get install -qq -y python python-pip
+    fi
     if ! type nrfutil 2> /dev/null > /dev/null; then
       echo Installing nrfutil
-      sudo DEBIAN_FRONTEND=noninteractive apt-get install -qq -y python python-pip
-      sudo pip -q install nrfutil
+      sudo pip install --ignore-installed nrfutil
+      # --ignore-installed is used because pip 10 fails because PyYAML was already installed by the system
+      # -q can be used to silence the above
     fi
     ARM=1
+
 fi
 #--------------------------------------------------------------------------------
 if [ "$PROVISION_NRF51" = "1" ]; then
     ARM=1
+fi
+if [ "$PROVISION_NRF_SDK15" = "1" ]; then
+    if [ ! -d "targetlibs/nrf5x_15/components" ]; then
+        echo Installing NRF SDK 15.0 to targetlibs/nrf5x_15/components
+        curl https://developer.nordicsemi.com/nRF5_SDK/nRF5_SDK_v15.x.x/nRF5_SDK_15.0.0_a53641a.zip -o nRF5_SDK_15.0.0_a53641a.zip
+        unzip -o nRF5_SDK_15.0.0_a53641a.zip
+        mv nRF5_SDK_15.0.0_a53641a/* targetlibs/nrf5x_15
+        rm -rf nRF5_SDK_15.0.0_a53641a.zip nRF5_SDK_15.0.0_a53641a
+        dos2unix targetlibs/nrf5x_15/components/nfc/t2t_lib/hal_t2t/hal_nfc_t2t.h
+        dos2unix targetlibs/nrf5x_15/components/nfc/t2t_lib/hal_t2t/hal_nfc_t2t.c
+        dos2unix targetlibs/nrf5x_15/modules/nrfx/mdk/nrf.h
+        echo ======================================================
+        echo "FIXME - SDK15 NFC patches don't apply cleanly"
+        echo ======================================================
+        cat targetlibs/nrf5x_15/patches/* | patch -p1
+    fi
 fi
 #--------------------------------------------------------------------------------
 if [ "$PROVISION_STM32F1" = "1" ]; then
@@ -180,11 +208,11 @@ if [ "$ARM" = "1" ]; then
         #sudo apt-get update
         #sudo DEBIAN_FRONTEND=noninteractive apt-get --force-yes --yes install libsdl1.2-dev gcc-arm-embedded
         # Unpack - newer, and much faster
-        if [ ! -d "gcc-arm-none-eabi-6-2017-q1-update" ]; then
-          curl -Ls https://github.com/espruino/EspruinoBuildTools/raw/master/arm/gcc-arm-none-eabi-6-2017-q1-update-linux.tar.bz2 | tar xfj - --no-same-owner
+        if [ ! -d "gcc-arm-none-eabi-8-2018-q4-major" ]; then
+          curl -Ls https://github.com/espruino/EspruinoBuildTools/raw/master/arm/gcc-arm-none-eabi-8-2018-q4-major-linux.tar.bz2 | tar xfj - --no-same-owner
         else
             echo "Folder found"
         fi
-	export PATH=$PATH:`pwd`/gcc-arm-none-eabi-6-2017-q1-update/bin
+	export PATH=$PATH:`pwd`/gcc-arm-none-eabi-8-2018-q4-major/bin
     fi
 fi

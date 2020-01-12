@@ -476,7 +476,7 @@ JsVar *jsvNewWithFlags(JsVarFlags flags) {
   jshInterruptOff(); // to allow this to be used from an IRQ
   if (jsVarFirstEmpty!=0) {
     v = jsvGetAddressOf(jsVarFirstEmpty); // jsvResetVariable will lock
-    jsVarFirstEmpty = jsvGetNextSibling(v); // move our reference to the next in the fr
+    jsVarFirstEmpty = jsvGetNextSibling(v); // move our reference to the next in the free list
     touchedFreeList = true;
   }
   jshInterruptOn();
@@ -578,12 +578,32 @@ ALWAYS_INLINE void jsvFreePtr(JsVar *var) {
       // in which case we need to free all the blocks.
       size_t count = jsvGetFlatStringBlocks(var);
       JsVarRef i = (JsVarRef)(jsvGetRef(var)+count);
-      // do it in reverse, so the free list ends up in kind of the right order
+      // Because this is a whole bunch of blocks, try
+      // and insert it in the right place in the free list
+      // So, iterate along free list to figure out where we
+      // need to insert the free items
+      jshInterruptOff(); // to allow this to be used from an IRQ
+      JsVarRef insertBefore = jsVarFirstEmpty;
+      JsVarRef insertAfter = 0;
+      while (insertBefore && insertBefore<i) {
+        insertAfter = insertBefore;
+        insertBefore = jsvGetNextSibling(jsvGetAddressOf(insertBefore));
+      }
+      // free in reverse, so the free list ends up in kind of the right order
       while (count--) {
         JsVar *p = jsvGetAddressOf(i--);
         p->flags = JSV_UNUSED; // set locks to 0 so the assert in jsvFreePtrInternal doesn't get fed up
-        jsvFreePtrInternal(p);
+        // add this to our free list
+        jsvSetNextSibling(p, insertBefore);
+        insertBefore = jsvGetRef(p);
       }
+      // patch up jsVarFirstEmpty/rejoin the list
+      if (insertAfter)
+        jsvSetNextSibling(jsvGetAddressOf(insertAfter), insertBefore);
+      else
+        jsVarFirstEmpty = insertBefore;
+      touchedFreeList = true;
+      jshInterruptOn();
     } else if (jsvIsBasicString(var)) {
 #ifdef CLEAR_MEMORY_ON_FREE
       jsvSetFirstChild(var, 0); // firstchild could have had string data in
@@ -1501,6 +1521,11 @@ char *jsvGetDataPointer(JsVar *v, size_t *len) {
     *len = jsvGetStringLength(v);
     return jsvGetFlatStringPointer(v);
   }
+  if (jsvIsString(v) && !jsvGetLastChild(v)) {
+    // It's a normal string but is small enough to have all the data in
+    *len = jsvGetCharactersInVar(v);
+    return (char*)v->varData.str;
+  }
   return 0;
 }
 
@@ -1853,6 +1878,8 @@ void jsvSetInteger(JsVar *v, JsVarInt value) {
 bool jsvGetBool(const JsVar *v) {
   if (jsvIsString(v))
     return jsvGetStringLength((JsVar*)v)!=0;
+  if (jsvIsPin(v))
+    return jshIsPinValid(jshGetPinFromVar((JsVar*)v));
   if (jsvIsFunction(v) || jsvIsArray(v) || jsvIsObject(v) || jsvIsArrayBuffer(v))
     return true;
   if (jsvIsFloat(v)) {
@@ -2402,8 +2429,12 @@ JsVar *jsvCopy(JsVar *src, bool copyChildren) {
   JsVar *dst = jsvNewWithFlags(src->flags & JSV_VARIABLEINFOMASK);
   if (!dst) return 0; // out of memory
   if (!jsvIsStringExt(src)) {
-      memcpy(&dst->varData, &src->varData, (jsvIsBasicString(src)||jsvIsNativeString(src)) ? JSVAR_DATA_STRING_LEN : JSVAR_DATA_STRING_NAME_LEN);
-      if (!(jsvIsBasicString(src)||jsvIsNativeString(src))) {
+      bool refsAsData = jsvIsBasicString(src)||jsvIsNativeString(src)||jsvIsNativeFunction(src);
+      memcpy(&dst->varData, &src->varData, refsAsData ? JSVAR_DATA_STRING_LEN : JSVAR_DATA_STRING_NAME_LEN);
+      if (jsvIsNativeFunction(src)) {
+        jsvSetFirstChild(dst,0);
+      }
+      if (!refsAsData) {
         assert(jsvGetPrevSibling(dst) == 0);
         assert(jsvGetNextSibling(dst) == 0);
         assert(jsvGetFirstChild(dst) == 0);
@@ -3024,13 +3055,20 @@ JsVar *jsvGetArrayItem(const JsVar *arr, JsVarInt index) {
   return jsvSkipNameAndUnLock(jsvGetArrayIndex(arr,index));
 }
 
+JsVar *jsvGetLastArrayItem(const JsVar *arr) {
+  JsVarRef childref = jsvGetLastChild(arr);
+  if (!childref) return 0;
+  return jsvSkipNameAndUnLock(jsvLock(childref));
+}
+
 void jsvSetArrayItem(JsVar *arr, JsVarInt index, JsVar *item) {
   JsVar *indexVar = jsvGetArrayIndex(arr, index);
   if (indexVar) {
     jsvSetValueOfName(indexVar, item);
   } else {
     indexVar = jsvMakeIntoVariableName(jsvNewFromInteger(index), item);
-    jsvAddName(arr, indexVar);
+    if (indexVar) // could be out of memory
+      jsvAddName(arr, indexVar);
   }
   jsvUnLock(indexVar);
 }
@@ -3579,7 +3617,7 @@ void _jsvTrace(JsVar *var, int indent, JsVar *baseVar, int level) {
   else if (jsvIsFloat(var)) jsiConsolePrintf("Double %f", jsvGetFloat(var));
   else if (jsvIsFunctionParameter(var)) jsiConsolePrintf("Param %q ", var);
   else if (jsvIsArrayBufferName(var)) jsiConsolePrintf("ArrayBufferName[%d] ", jsvGetInteger(var));
-  else if (jsvIsArrayBuffer(var)) jsiConsolePrintf("%s ", jswGetBasicObjectName(var)?jswGetBasicObjectName(var):"unknown ArrayBuffer"); // way to get nice name
+  else if (jsvIsArrayBuffer(var)) jsiConsolePrintf("%s (offs %d, len %d)", jswGetBasicObjectName(var)?jswGetBasicObjectName(var):"unknown ArrayBuffer", var->varData.arraybuffer.byteOffset, var->varData.arraybuffer.length); // way to get nice name
   else if (jsvIsString(var)) {
     size_t blocks = 1;
     if (jsvGetLastChild(var)) {
@@ -3785,7 +3823,84 @@ int jsvGarbageCollect() {
   return (int)freedCount;
 }
 
-#ifndef RELEASE
+void jsvDefragment() {
+  // garbage collect - removes cruft
+  // also puts free list in order
+  jsvGarbageCollect();
+  // Fill defragVars with defraggable variables
+  jshInterruptOff();
+  const int DEFRAGVARS = 256; // POWER OF 2
+  JsVarRef defragVars[DEFRAGVARS];
+  memset(defragVars, 0, sizeof(defragVars));
+  int defragVarIdx = 0;
+  for (int i=0;i<jsvGetMemoryTotal();i++) {
+    JsVarRef vr = i+1;
+    JsVar *v = _jsvGetAddressOf(vr);
+    if ((v->flags&JSV_VARTYPEMASK)!=JSV_UNUSED) {
+      if (jsvIsFlatString(v)) {
+        i += jsvGetFlatStringBlocks(v); // skip forward
+      } else if (jsvGetLocks(v)==0) {
+        defragVars[defragVarIdx] = vr;
+        defragVarIdx = (defragVarIdx+1) & (DEFRAGVARS-1);
+      }
+    }
+  }
+  // Now go through defragVars defragging them
+  defragVarIdx--;
+  if (defragVarIdx<0) defragVarIdx+=DEFRAGVARS;
+  while (defragVars[defragVarIdx]) {
+    JsVarRef defragFromRef = defragVars[defragVarIdx];
+    JsVarRef defragToRef = jsVarFirstEmpty;
+    if (!defragToRef || defragFromRef<defragToRef) {
+      // we're done!
+      break;
+    }
+    // relocate!
+    JsVar *defragFrom = _jsvGetAddressOf(defragFromRef);
+    JsVar *defragTo = _jsvGetAddressOf(defragToRef);
+    jsVarFirstEmpty = jsvGetNextSibling(defragTo); // move our reference to the next in the free list
+    // copy data
+    *defragTo = *defragFrom;
+    defragFrom->flags = JSV_UNUSED;
+    // find references!
+    for (int i=0;i<jsvGetMemoryTotal();i++) {
+      JsVarRef vr = i+1;
+      JsVar *v = _jsvGetAddressOf(vr);
+      if ((v->flags&JSV_VARTYPEMASK)!=JSV_UNUSED) {
+        if (jsvIsFlatString(v)) {
+          i += jsvGetFlatStringBlocks(v); // skip forward
+        } else {
+          if (jsvHasSingleChild(v))
+            if (jsvGetFirstChild(v)==defragFromRef)
+              jsvSetFirstChild(v,defragToRef);
+          if (jsvHasStringExt(v))
+            if (jsvGetLastChild(v)==defragFromRef)
+              jsvSetLastChild(v,defragToRef);
+          if (jsvHasChildren(v)) {
+            if (jsvGetFirstChild(v)==defragFromRef)
+              jsvSetFirstChild(v,defragToRef);
+            if (jsvGetLastChild(v)==defragFromRef)
+              jsvSetLastChild(v,defragToRef);
+          }
+          if (jsvIsName(v)) {
+            if (jsvGetNextSibling(v)==defragFromRef)
+              jsvSetNextSibling(v,defragToRef);
+            if (jsvGetPrevSibling(v)==defragFromRef)
+              jsvSetPrevSibling(v,defragToRef);
+          }
+        }
+      }
+    }
+    // zero element and move to next...
+    defragVars[defragVarIdx] = 0;
+    defragVarIdx--;
+    if (defragVarIdx<0) defragVarIdx+=DEFRAGVARS;
+  }
+  // rebuild free var list
+  jsvCreateEmptyVarList();
+  jshInterruptOn();
+}
+
 // Dump any locked variables that aren't referenced from `global` - for debugging memory leaks
 void jsvDumpLockedVars() {
   jsvGarbageCollect();
@@ -3832,7 +3947,6 @@ void jsvDumpFreeList() {
   }
   jsiConsolePrintf("\n");
 }
-#endif
 
 
 /** Remove whitespace to the right of a string - on MULTIPLE LINES */

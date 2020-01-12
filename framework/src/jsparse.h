@@ -26,6 +26,8 @@ void jspSoftKill(); ///< used when recovering from or saving to flash
 /** Returns true if the constructor function given is the same as that
  * of the object with the given name. */
 bool jspIsConstructor(JsVar *constructor, const char *constructorName);
+/** Get the prototype of the given object, or return 0 if not found, or not an object */
+JsVar *jspGetPrototype(JsVar *object);
 /** Get the constructor of the given object, or return 0 if ot found, or not a function */
 JsVar *jspGetConstructor(JsVar *object);
 
@@ -132,9 +134,8 @@ typedef struct {
   JsVar  *root;       //!< root of symbol table
   JsVar  *hiddenRoot; //!< root of the symbol table that's hidden
 
-  // TODO: could store scopes as JsVar array for speed
-  JsVar *scopes[JSPARSE_MAX_SCOPES];
-  int scopeCount;
+  /// JsVar array of scopes
+  JsVar *scopesVar;
   /// Value of 'this' reserved word
   JsVar *thisVar;
 
@@ -198,5 +199,8 @@ JsVar *jspCallNamedFunction(JsVar *object, char* name, int argCount, JsVar **arg
 
 // These are exported for the Web IDE's compiler. See exportPtrs in jswrap_process.c
 JsVar *jspeiFindInScopes(const char *name);
+
+/// Return the topmost scope (and lock it)
+JsVar *jspeiGetTopScope();
 
 #endif /* JSPARSE_H_ */

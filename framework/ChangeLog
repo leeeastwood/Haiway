@@ -1,4 +1,96 @@
-            Fix string index calculation when using some regexes (fix #1602)
+            Add Array.includes
+            Fix (Number.toFixed) rounding, eg (1234.505).toFixed(2)
+            nRF52: If a central is connected to Espruino but isn't reading from UART, don't block waiting to send data
+            ESP8266: reverse fix #1679
+            Added Graphics.getFont/setFont/getFonts
+            Added Graphics.getFontHeight
+            Added option to compile in 6x8 fixed-width fonts
+            Fix issue where Util Timer timers could break after a call to setTime
+            nRF52: Enable DMA for SPI send
+            Added option to build in TensorFlow Lite for AI
+            Documentation for modules now includes require('...') in the call type to be less confusing
+            ESP8266: warning: Empty loadable segment detected (fix #1690) 
+            nRF52: Add NRF.nfcPair(...) and OOB pairing to allow tap to pair over BLE
+            nRF52: Add NRF.nfcAndroidApp(...) to launch an Android app on touch
+            Pixl.js remove SHA512 to make room for new NFC functionality
+            Graphics.setFont("4x6",2) will now double the size of a bitmap font
+            Graphics.drawImage can now take a String of data for an image (eg. direct from Storage)
+            nRF5x: Support connection to devices with RANDOM_PRIVATE_RESOLVABLE and RANDOM_PRIVATE_NON_RESOLVABLE addresses
+            Pixl.js: Move SCK pin used during Neopixel writes to ensure it doesn't interfere with BTN3
+            nRF52: Fix alignment issue with Nordic's SDK12 code that stopped passkey pairing from working sometimes
+            Storage lib now doesn't bother reading to end of flash to ensure pages are clear
+            Allow heatshrink compress/decompress to work even if flat buffers can't be allocated
+            require("Flash").write operations no longer need to be aligned
+            require("Storage").open added - for appendable files
+            Pixl.js: Removed AES functionality - unfortunately we're running low on space for it
+            Original Espruino Board: Removed Vector font and don't add rotated drawImage to save flash
+            nRF5x: Add NRF.filterDevices to allow scanned devices to be easily filtered after scanning
+            nRF52: Fix 'BLE task completed that wasn't scheduled' warning regression (peripheral disconnect)
+            Can now get a data pointer even from a single JsVar string (it doesn't have to be flat)
+            Add option to specify a palette when drawing images with drawImage
+            Add XON/XOFF flow control to Bluetooth LE UART (on by default)
+            Lower thresholds for XON/XOFF to give more headroom with devices that are slow to respond
+            Add a fast path for non-rotated non-scaled Graphics.drawImage
+            Add argument check for heatshrink compress/decompress
+            nRF5x: Ensure gatt.connect silently succeeds if we're already connected to the device
+            Add E.showMenu, deprecate Pixl.menu - use a common function to ease porting between devices
+            Added E.showPrompt, E.showAlert for Bangle.js
+            Pixl.js - check '.splash' file at startup and use it for splash screen if it's there
+            Improve free list ordering when Flat Strings are freed
+            Added E.defrag to perform defragmentation - still beta!
+            nRF52: fix issue where restarting the softdevice would reset the RTC
+              - fixes Bangle.js watchdog reset
+            nRF52: fix issue where advertising flags could get out of sync after SD restart
+            Bangle.js: fix units for GPS speed (was knots, now km/h)
+            Bangle.js: Add Bangle.setLCDBrightness
+            nRF52: Fix passkey pairing if setSecurity is after setServices
+            Bangle.js: EVents for 'swipe' and 'touch' on the touchscreen
+            Added ability to compile Espruino to JavaScript with Emscripten
+            Allow g.setColor/setBgColor to take hex Strings of the form `'#00ff00'`
+            Bangle.js: Added heart rate autocorrelation, setHRMPower and 'HRM' event
+            Bangle.js: New 120x120 and 80x80 high speed buffered modes
+            Fixed REPL to allow chars with char code >=128
+            Fixed lex tokenToString for 'break'
+            Bangle.js: add fake LED/LED1/LED2 as @allObjects suggested
+            Add Graphics.toColor, and allow 4 bit Mac palette to be mapped to 8 bit web palette
+            Add Graphics.setClipRect to allow draw ops to be restricted to a certain area
+            Bangle.js: add 'null' LCD mode to stop apps from drawing
+            Bangle.js: add Bangle.getLCDMode
+            Bangle.js: skip firmware version checks to save some bytes in bootloader
+            Graphics: new g.fillPoly to handle irregular polygons
+
+     2v04 : Allow \1..\9 escape codes in RegExp
+            ESP8266: reading storage is not working for boot from user2 (fix #1507)
+            Fix Array.fill crash if used to fill up all available memory (fix #1668)
+            Fix NRF.requestDevice regression (clearInterval error) (fix #1669)
+            Smartibot devices now advertise on BLE as 'Smartibot abcd'
+            nRF5x: Leave digital input disconnected for analog read (saves power)
+            nRF5x: Return 'analog' as pin mode for any pin where input is disconnected
+            If watchdog is on and automatic, ensure that `reset()` keeps the automatic kicking going
+            Ensure that a console stays locked even after 
+            Ensure interpreter flags (eg echo) are cleared after a `reset()`
+            nRF5x: When watchdog is on and automatic, automatically wake up often enough to service it
+            Fix Graphics.setFontBitmap on builds with no vector font (fix #1671)
+            Graphics.asBMP now takes account of bitmap rotation (fix #1672)
+            Raspberry pi pin numbering the same if using wiringPi or filesystem GPIO (fix #1673)
+            nRF52: Peer manager init errors from Nordic libs now not fatal 
+            SDK15: Writing to flash now works
+            nRF52840: USB Serial works even for big sends, and device swaps to USB automatically
+            nRF52840: Allow Serial2 to be used
+            ESP8266: optimize rename-section for ESP8266_4MB board, freeHeap +2064 byte (fix #1679)
+            Fix corruption if Function.replaceWith called manually on something not a function (fix #1684)
+            Fix bug where '.clone' on a native function didn't copy arguments (fix #1685)
+            nRF52840: Fix input/pullup/pulldown pin modes on IO bank 2
+            Added `E.memoryMap` to allow on-chip registers to be mapped direct to variables (fix #1500)
+
+     2v03 : nRF5x: Fix issue when calling NRF.setAdvertising while connected via BLE (fix #1659)
+            nRF5x: 'dump()' not outputs `NRF.setSecurity` line if it has been called.
+            Ensure that converting a valid pin to a boolean always returns true
+            clearInterval/clearTimeout/clearWatch(undefined) now throw an error asking for just clearX()
+              - this stops code accidentally clearing all timers/etc if it uses a variable that is undefined
+            Allow NRF.setAddress to work even with services defined and a connection in progress
+
+     2v02 : Fix string index calculation when using some regexes (fix #1602)
             Ensure Function.replaceWith puts scope after parameters (fix #1601)
             Ensure Graphics.* return the Graphics instance, to allow call chaining (fix #1580)
             Ensure DataView.byteOffset/byteLength is always set even if not specified (fix #1567)
@@ -22,6 +114,34 @@
             nRF52: Fix setScanResponse regression from 2v00
             nRF5x: Execute SWI1_IRQHandler when radio turns off instead of on+off. More efficient, fixed multiple advertising.
             Smartibot build added
+            ESP8266: add CFLAGs to shrink build size (fix #1622)
+            ESP32: update EspruinoBuildTools to esp-idf V3.1.3
+            nRF52: Add FAT Filesystem support to MDBT42Q module
+            Now save file modification time with FAT
+            Fix segfault if `.clone` is called with `this==undefined` (fix #1628)
+            Fix issue outputting char codes <8 after outputting hex char codes
+            nRF52: Don't allow NRF.updateServices while a BLE restart for setServices is queued
+            nRF5x: Don't sleep if we received any events since last sleep (fix #1572)
+            Remove limit on the number of scopes that can be searched (fix #948)
+            String.split - improve docs, split with RegExp now inserts the text after the final match
+            RegExp: Add '|' operator (fix #1503)
+            Switch ARM toolchain to gcc-arm-none-eabi-8-2018-q4-major
+            Improve handling of timeouts for RAK8212 GPS
+            nRF52: Now create exception if advertising calls fail (but ignore when in IRQ)
+            nRF52: Add setAdvertising({},{scannable:false}) for disabling scan response
+            nRF52: Add note about connectable:false requiring >=100ms intervals
+            STM32: Fix issue where occasionally STM32 would be ~0.2s late waking from light sleep
+            ESP8266: add Wifi.connect options channel and bssid for faster AP connects (fix #1595, #1640)
+            Fix index in E.mapInPlace and improve docs
+            nRF52: Add NRF.getSecurityStatus to allow devices to detect the current state of the connection
+            STM32F4: Add Filesystem module
+            STM32F3: Fix broken build
+            nRF52: Fix nRF52840 advertising and remove duplicated advertising code
+            Fix Software Serial receive when the frame has to be decoded inside the IRQ (fix #1654)
+            Raise software serial receive buffer to 64 bytes (from 7)
+            nRF5x: Add security options to NRF.setSecurity (courtesy of @vkolotov)
+            nRF5x: Allow Serial1.setup(...) with only TX or RX pins
+            Vector font removed from Espruino Original WIZnet build due to lack of spare flash
 
      2v01 : ESP32: update to esp-idf V3.1
             Fix issues with Class Extends
