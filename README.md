@@ -17,7 +17,9 @@ build: source scripts/esp32/esp32_build.sh
 flash: source scripts/esp32/esp32_flash.sh  
 monitor: source scripts/esp32/esp32_monitor.sh  
 
+## Steps
 
+Details steps
 
 
 
