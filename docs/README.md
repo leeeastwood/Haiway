@@ -1,3 +1,3 @@
 haiwei rtos docs
 
-Founder: Dong Li, ICT CAS
+Founder: Dong Li, ICT CAS, China
