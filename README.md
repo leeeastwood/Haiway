@@ -1,7 +1,7 @@
 # Haiway 
-A draft version for haiway rtos!
+A draft version for haiwayEdge OS
 
-TODO: Add introduction to Haiway RTOS.
+TODO: Add introduction to Haiway Edge computing OS
 
 ## On Linux
 ### For ESP32
