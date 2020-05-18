@@ -6,7 +6,9 @@ Contributor: Yufeng Li, ICT CAS, China
 
 Contributor: Kai Gao, DLUT, China
 
-Contributor:cong xc, EVERCREATIVE, China
+Contributor:xuanwa xian, ICT CAS,China
+
+Contributor: cong xc, EVERCREATIVE, China
 
 Contributor: zyh, China
 
