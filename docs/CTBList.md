@@ -6,15 +6,17 @@ Contributor: Yufeng Li, ICT CAS, China
 
 Contributor: Kai Gao, DLUT, China
 
+Contributor: DongMei, DLUT, China
+
 Contributor: Shilong Zhang, USTB, China
 
-Contributor: Dawn, EVERCREATIVE, China
+Contributor: Dawn, China
 
 Contributor: Zijian Yu, USTB, China
 
 Contributor: Liang He, DLUT, UESTC
 
-Contributor: Xiaotian Su ,USTB,China
+Contributor: Xiaotian Su, USTB,China
 
 Contributor: Peining Wang, China
 
