@@ -10,7 +10,7 @@ Contributor: Feng Gao, USTB, China
 
 Contributor: bo gong, DLUT, China
 
-Contributor:xuanwa xian, ICT CAS,China
+Contributor: xuanwa xian, ICT CAS,China
 
 Contributor: cong xc, EVERCREATIVE, China
 
@@ -20,7 +20,7 @@ Contributor: Run Liang, Evercreative, China
 
 Contributor: Dengke Fang, China
 
-Contributor:Dong Yuan,China
+Contributor: Dong Yuan,China
 
 Contributor: Sijun Liao, ChengDu, China
 
@@ -54,5 +54,6 @@ Contributor: KRecluseGLee DSF China
 
 Contributor: Recluse Lee, SF, China
 
-在这里写一行信息，建议留下您的信息，最好是英文
+Contributor: Bo Liu ,USTB,China
 
+在这里写一行信息，建议留下您的信息，最好是英文
