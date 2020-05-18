@@ -1,3 +1,5 @@
+# utf-8
+
 haiwei rtos docs
 
 Founder: Dong Li, ICT CAS, China
