@@ -6,11 +6,35 @@ Contributor: Yufeng Li, ICT CAS, China
 
 Contributor: Kai Gao, DLUT, China
 
-Contributor: Dawn, EVERCREATIVE, China
+Contributor: Feng Gao, USTB, China
+
+Contributor: bo gong, DLUT, China
+
+Contributor: xuanwa xian, ICT CAS,China
+
+Contributor: cong xc, EVERCREATIVE, China
+
+Contributor: zyh, China
+
+Contributor: Run Liang, Evercreative, China
+
+Contributor: Dengke Fang, China
+
+Contributor: Dong Yuan,China
+
+Contributor: Sijun Liao, ChengDu, China
+
+Contributor: Zhang Yuchuan, EVERCREATIVE, China
+
+Contributor: lpgu,SSPU,China1
+
+Contributor: liang sun
 
 Contributor: DongMei, DLUT, China
 
 Contributor: Shilong Zhang, USTB, China
+
+Contributor: Dawn, EVERCREATIVE, China
 
 Contributor: Zijian Yu, USTB, China
 
