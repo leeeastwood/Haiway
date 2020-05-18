@@ -6,6 +6,8 @@ Contributor: Yufeng Li, ICT CAS, China
 
 Contributor: Kai Gao, DLUT, China
 
+Contributor: liang sun
+
 Contributor: DongMei, DLUT, China
 
 Contributor: Shilong Zhang, USTB, China
