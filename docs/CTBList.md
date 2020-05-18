@@ -8,11 +8,15 @@ Contributor: Kai Gao, DLUT, China
 
 Contributor: Dawn, EVERCREATIVE, China
 
+Contributor: DongMei, DLUT, China
+
+Contributor: Shilong Zhang, USTB, China
+
 Contributor: Zijian Yu, USTB, China
 
 Contributor: Liang He, DLUT, UESTC
 
-Contributor: Xiaotian Su ,USTB,China
+Contributor: Xiaotian Su, USTB,China
 
 Contributor: Peining Wang, China
 
