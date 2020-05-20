@@ -28,7 +28,7 @@ Contributor: Sijun Liao, ChengDu, China
 
 Contributor: Zhang Yuchuan, EVERCREATIVE, China
 
-Contributor: lpgu,SSPU,China1
+Contributor: lpgu,SSPU,China
 
 Contributor: liang sun
 
@@ -103,3 +103,21 @@ Contributor: Li Liang ,China
 Contributor: Sen Zhong ,China
 
 Contributor: shouwu Zhang ,China在这里写一行信息，建议留下您的信息，最好是英文
+
+Contributor: Junfeng Zheng ,China
+
+Contributor: Yadong Wang, USTB, China
+
+Contributor: Peng Chen ,China
+
+Contributor: JiaXuan Yan ,China
+
+Contributor: Ningxi Liu, USTB, China
+
+Contributor: Hongsen Ji, China
+
+Contributor: Yongfeng Feng, USTB, China
+
+Contributor: Liang Yongyu ,China
+
+在这里写一行信息，建议留下您的信息，最好是英文
