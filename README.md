@@ -33,4 +33,6 @@ We will have various README files in the Documents subdirectory. Please refer Do
 
 Blockly Components Documents:
 
-2. [Low-Code Development Platform Fucnction List](http://39.105.15.119:8072/dist/block.html)
+2.1 [Low-Code Development Platform Fucnction List](http://39.105.15.119:8072/dist/block.html)
+
+2.2 [SCADA Template List](http://39.105.15.119:8072/dist/scada.html)
