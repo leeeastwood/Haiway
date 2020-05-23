@@ -28,7 +28,7 @@ Contributor: Sijun Liao, ChengDu, China
 
 Contributor: Zhang Yuchuan, EVERCREATIVE, China
 
-Contributor: lpgu,SSPU,China1
+Contributor: lpgu,SSPU,China
 
 Contributor: liang sun
 
@@ -104,4 +104,57 @@ Contributor: Sen Zhong ,China
 
 Contributor: Peng Yao ,China
 
+Wenxuan Wang , USTB , China
+
+Contributor: QL, China
+
+Contributor: Wei Quan ,USTB,China
+
+Contributor: Jiayi Li ,China
+
+Contributor: Yuan Jiang ,USTB,China
+
+Contributor: shouwu Zhang ,China
+
+Contributor: Junfeng Zheng ,China
+
+Contributor: Yadong Wang, USTB, China
+
+Contributor: Peng Chen ,China
+
+Contributor: JiaXuan Yan ,China
+
+Contributor: Ningxi Liu, USTB, China
+
+Contributor: Hongsen Ji, China
+
+Contributor: Yongfeng Feng, USTB, China
+
+Contributor: Liang Yongyu ,China
+
+Contributor: Dong Wei ,China
+
+Contributor: Lingwei Zhang, USTB, China
+
+Contributor: Wenwen Song, China
+
+Contributor: Yang Zhifang, Email:hnezzsf@163.com, USTB 
+
+Contributor: Jian Gao, USTB, China
+
+Contributor: Jiazhi Li,USTB,China
+
+Contributor: Meiyu Zhu, China
+
+Contributor: Jiayi Li, China
+
+Contributor: Shuo Liu, USTB, China
+
+Contributor: Ling Guo , USTB, China
+
+Contributor: Yusong Zhang ,USTB,China
+
+Contributor: Young Li ,USTB,China
+
 在这里写一行信息，建议留下您的信息，最好是英文
+
